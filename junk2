@@ -1,0 +1,1862 @@
+  0.000000	pkt 0 arrives at core 2 and inserted into queue
+  0.000000	scheduled wake up time for core 2 is 292.500000
+  6.735722	pkt 5 arrives at core 2 and inserted into queue
+  6.735722	scheduled wake up time for core 2 is 288.367861
+  6.784084	pkt 6 arrives at core 2 and inserted into queue
+  6.784084	scheduled wake up time for core 2 is 282.006602
+  7.078683	pkt 8 arrives at core 2 and inserted into queue
+  7.078683	scheduled wake up time for core 2 is 275.149622
+ 27.493859	pkt 25 arrives at core 2 and inserted into queue
+ 27.493859	scheduled wake up time for core 2 is 272.118470
+ 33.144378	pkt 29 arrives at core 2 and inserted into queue
+ 33.144378	scheduled wake up time for core 2 is 268.539454
+ 40.373662	pkt 36 arrives at core 2 and inserted into queue
+ 40.373662	scheduled wake up time for core 2 is 264.872913
+ 90.148564	pkt 70 arrives at core 2 and inserted into queue
+ 90.148564	scheduled wake up time for core 2 is 266.469869
+100.009178	pkt 78 arrives at core 2 and inserted into queue
+100.009178	scheduled wake up time for core 2 is 267.140903
+117.953719	pkt 90 arrives at core 2 and inserted into queue
+117.953719	scheduled wake up time for core 2 is 267.972185
+133.180917	pkt 102 arrives at core 2 and inserted into queue
+133.180917	scheduled wake up time for core 2 is 268.672979
+144.644296	pkt 119 arrives at core 2 and inserted into queue
+144.644296	scheduled wake up time for core 2 is 268.962255
+176.880309	pkt 144 arrives at core 2 and inserted into queue
+176.880309	scheduled wake up time for core 2 is 270.532875
+187.278270	pkt 154 arrives at core 2 and inserted into queue
+187.278270	scheduled wake up time for core 2 is 271.550403
+191.331076	pkt 161 arrives at core 2 and inserted into queue
+191.331076	scheduled wake up time for core 2 is 271.702448
+203.069546	pkt 168 arrives at core 2 and inserted into queue
+203.069546	scheduled wake up time for core 2 is 271.631641
+203.668225	pkt 169 arrives at core 2 and inserted into queue
+203.668225	scheduled wake up time for core 2 is 270.722029
+203.825303	pkt 170 arrives at core 2 and inserted into queue
+203.825303	scheduled wake up time for core 2 is 269.088877
+212.208009	pkt 182 arrives at core 2 and inserted into queue
+212.208009	scheduled wake up time for core 2 is 267.279358
+224.459929	pkt 187 arrives at core 2 and inserted into queue
+224.459929	scheduled wake up time for core 2 is 265.513386
+233.942710	pkt 195 arrives at core 2 and inserted into queue
+233.942710	scheduled wake up time for core 2 is 263.652878
+248.418179	pkt 209 arrives at core 2 and inserted into queue
+248.418179	scheduled wake up time for core 2 is 261.937664
+277.183908	pkt 231 arrives at core 2 and inserted into queue
+277.183908	scheduled wake up time for core 2 is 260.970110
+283.536310	pkt 235 arrives at core 2 and inserted into queue
+283.536310	scheduled wake up time for core 2 is 259.722868
+297.643154	pkt 254 arrives at core 2 and inserted into queue
+297.643154	scheduled wake up time for core 2 is 258.539680
+314.491338	pkt 273 arrives at core 2 and inserted into queue
+314.491338	scheduled wake up time for core 2 is 257.518590
+317.989655	pkt 278 arrives at core 2 and inserted into queue
+317.989655	scheduled wake up time for core 2 is 256.147147
+339.016587	pkt 299 arrives at core 2 and inserted into queue
+339.016587	scheduled wake up time for core 2 is 255.088913
+350.671863	pkt 305 arrives at core 2 and inserted into queue
+350.671863	scheduled wake up time for core 2 is 253.988325
+357.030996	pkt 312 arrives at core 2 and inserted into queue
+357.030996	scheduled wake up time for core 2 is 252.673081
+360.880454	pkt 318 arrives at core 2 and inserted into queue
+360.880454	scheduled wake up time for core 2 is 251.082996
+369.723548	pkt 331 arrives at core 2 and inserted into queue
+369.723548	scheduled wake up time for core 2 is 249.399888
+377.174030	pkt 339 arrives at core 2 and inserted into queue
+377.174030	scheduled wake up time for core 2 is 247.590014
+388.655258	pkt 350 arrives at core 2 and inserted into queue
+388.655258	scheduled wake up time for core 2 is 245.783109
+394.043847	pkt 357 arrives at core 2 and inserted into queue
+394.043847	scheduled wake up time for core 2 is 243.804845
+398.266304	pkt 367 arrives at core 2 and inserted into queue
+398.266304	scheduled wake up time for core 2 is 241.637107
+411.450790	pkt 383 arrives at core 2 and inserted into queue
+411.450790	scheduled wake up time for core 2 is 239.537477
+419.392029	pkt 387 arrives at core 2 and inserted into queue
+419.392029	scheduled wake up time for core 2 is 237.362597
+422.801220	pkt 389 arrives at core 2 and inserted into queue
+422.801220	scheduled wake up time for core 2 is 235.002049
+444.002358	pkt 403 arrives at core 2 and inserted into queue
+444.002358	scheduled wake up time for core 2 is 232.914557
+446.769493	pkt 405 arrives at core 2 and inserted into queue
+446.769493	scheduled wake up time for core 2 is 230.630531
+459.827208	pkt 419 arrives at core 2 and inserted into queue
+459.827208	scheduled wake up time for core 2 is 228.409023
+496.064585	pkt 442 arrives at core 2 and inserted into queue
+496.064585	scheduled wake up time for core 2 is 226.784734
+496.436680	pkt 443 arrives at core 2 and inserted into queue
+496.436680	scheduled wake up time for core 2 is 224.901823
+537.147576	pkt 469 arrives at core 2 and inserted into queue
+537.147576	scheduled wake up time for core 2 is 223.673951
+544.497404	pkt 476 arrives at core 2 and inserted into queue
+544.497404	scheduled wake up time for core 2 is 222.333157
+554.324958	pkt 484 arrives at core 2 and inserted into queue
+554.324958	scheduled wake up time for core 2 is 220.939365
+559.942347	pkt 489 arrives at core 2 and inserted into queue
+559.942347	scheduled wake up time for core 2 is 219.408177
+565.579995	pkt 493 arrives at core 2 and inserted into queue
+565.579995	scheduled wake up time for core 2 is 217.748419
+585.325949	pkt 506 arrives at core 2 and inserted into queue
+585.325949	scheduled wake up time for core 2 is 216.249969
+588.720015	pkt 512 arrives at core 2 and inserted into queue
+588.720015	scheduled wake up time for core 2 is 214.582715
+608.818416	pkt 523 arrives at core 2 and inserted into queue
+608.818416	scheduled wake up time for core 2 is 213.077633
+611.723218	pkt 530 arrives at core 2 and inserted into queue
+611.723218	scheduled wake up time for core 2 is 211.401134
+630.528733	pkt 546 arrives at core 2 and inserted into queue
+630.528733	scheduled wake up time for core 2 is 209.857201
+630.829297	pkt 547 arrives at core 2 and inserted into queue
+630.829297	scheduled wake up time for core 2 is 208.102148
+678.680304	pkt 593 arrives at core 2 and inserted into queue
+678.680304	scheduled wake up time for core 2 is 206.996401
+692.976522	pkt 599 arrives at core 2 and inserted into queue
+692.976522	scheduled wake up time for core 2 is 205.917105
+698.005897	pkt 608 arrives at core 2 and inserted into queue
+698.005897	scheduled wake up time for core 2 is 204.703118
+738.148610	pkt 647 arrives at core 2 and inserted into queue
+738.148610	scheduled wake up time for core 2 is 203.956432
+775.439669	pkt 673 arrives at core 2 and inserted into queue
+775.439669	scheduled wake up time for core 2 is 203.606152
+776.703378	pkt 675 arrives at core 2 and inserted into queue
+776.703378	scheduled wake up time for core 2 is 203.042172
+821.500329	pkt 698 arrives at core 2 and inserted into queue
+821.500329	scheduled wake up time for core 2 is 202.976981
+829.387664	pkt 704 arrives at core 2 and inserted into queue
+829.387664	scheduled wake up time for core 2 is 202.800961
+830.361167	pkt 706 arrives at core 2 and inserted into queue
+830.361167	scheduled wake up time for core 2 is 202.411276
+846.220787	pkt 717 arrives at core 2 and inserted into queue
+846.220787	scheduled wake up time for core 2 is 202.046807
+897.312878	pkt 746 arrives at core 2 and inserted into queue
+897.312878	scheduled wake up time for core 2 is 202.240232
+899.648276	pkt 748 arrives at core 2 and inserted into queue
+899.648276	scheduled wake up time for core 2 is 202.238860
+910.190089	pkt 757 arrives at core 2 and inserted into queue
+910.190089	scheduled wake up time for core 2 is 202.171966
+933.659394	pkt 780 arrives at core 2 and inserted into queue
+933.659394	scheduled wake up time for core 2 is 202.229755
+937.710611	pkt 785 arrives at core 2 and inserted into queue
+937.710611	scheduled wake up time for core 2 is 202.129482
+945.190972	pkt 791 arrives at core 2 and inserted into queue
+945.190972	scheduled wake up time for core 2 is 201.926122
+951.312739	pkt 794 arrives at core 2 and inserted into queue
+951.312739	scheduled wake up time for core 2 is 201.605103
+956.515147	pkt 804 arrives at core 2 and inserted into queue
+956.515147	scheduled wake up time for core 2 is 201.158665
+1036.937784	pkt 861 arrives at core 2 and inserted into queue
+1036.937784	scheduled wake up time for core 2 is 201.608383
+1119.509809	pkt 923 arrives at core 2 and inserted into queue
+1119.509809	scheduled wake up time for core 2 is 202.947069
+1122.763058	pkt 927 arrives at core 2 and inserted into queue
+1122.763058	scheduled wake up time for core 2 is 204.095963
+1136.303916	pkt 941 arrives at core 2 and inserted into queue
+1136.303916	scheduled wake up time for core 2 is 205.196067
+1138.657845	pkt 944 arrives at core 2 and inserted into queue
+1138.657845	scheduled wake up time for core 2 is 206.105833
+1138.949073	pkt 945 arrives at core 2 and inserted into queue
+1138.949073	scheduled wake up time for core 2 is 206.806380
+1152.909110	pkt 959 arrives at core 2 and inserted into queue
+1152.909110	scheduled wake up time for core 2 is 207.476415
+1228.302293	pkt 1014 arrives at core 2 and inserted into queue
+1228.302293	scheduled wake up time for core 2 is 208.875499
+1236.729868	pkt 1024 arrives at core 2 and inserted into queue
+1236.729868	scheduled wake up time for core 2 is 210.160309
+1254.815237	pkt 1032 arrives at core 2 and inserted into queue
+1254.815237	scheduled wake up time for core 2 is 211.451332
+1267.084786	pkt 1042 arrives at core 2 and inserted into queue
+1267.084786	scheduled wake up time for core 2 is 212.679111
+1272.024996	pkt 1049 arrives at core 2 and inserted into queue
+1272.024996	scheduled wake up time for core 2 is 213.759651
+1293.974318	pkt 1065 arrives at core 2 and inserted into queue
+1293.974318	scheduled wake up time for core 2 is 214.895868
+1321.465017	pkt 1089 arrives at core 2 and inserted into queue
+1321.465017	scheduled wake up time for core 2 is 216.149537
+1338.718037	pkt 1099 arrives at core 2 and inserted into queue
+1338.718037	scheduled wake up time for core 2 is 217.400315
+1350.361697	pkt 1108 arrives at core 2 and inserted into queue
+1350.361697	scheduled wake up time for core 2 is 218.585274
+1360.128848	pkt 1119 arrives at core 2 and inserted into queue
+1360.128848	scheduled wake up time for core 2 is 219.685758
+1363.579007	pkt 1121 arrives at core 2 and inserted into queue
+1363.579007	scheduled wake up time for core 2 is 220.635135
+1413.577656	pkt 1160 arrives at core 2 and inserted into queue
+1413.577656	scheduled wake up time for core 2 is 221.944293
+1418.752338	pkt 1168 arrives at core 2 and inserted into queue
+1418.752338	scheduled wake up time for core 2 is 223.119648
+1425.552425	pkt 1175 arrives at core 2 and inserted into queue
+1425.552425	scheduled wake up time for core 2 is 224.182763
+1428.940806	pkt 1178 arrives at core 2 and inserted into queue
+1428.940806	scheduled wake up time for core 2 is 225.101268
+1440.652644	pkt 1187 arrives at core 2 and inserted into queue
+1440.652644	scheduled wake up time for core 2 is 225.966387
+1462.670922	pkt 1197 arrives at core 2 and inserted into queue
+1462.670922	scheduled wake up time for core 2 is 226.886021
+1476.065034	pkt 1203 arrives at core 2 and inserted into queue
+1476.065034	scheduled wake up time for core 2 is 227.770501
+1498.581702	pkt 1222 arrives at core 2 and inserted into queue
+1498.581702	scheduled wake up time for core 2 is 228.713038
+1505.036255	pkt 1226 arrives at core 2 and inserted into queue
+1505.036255	scheduled wake up time for core 2 is 229.551271
+1514.650277	pkt 1230 arrives at core 2 and inserted into queue
+1514.650277	scheduled wake up time for core 2 is 230.319578
+1542.004802	pkt 1249 arrives at core 2 and inserted into queue
+1542.004802	scheduled wake up time for core 2 is 231.193942
+1546.500195	pkt 1252 arrives at core 2 and inserted into queue
+1546.500195	scheduled wake up time for core 2 is 231.949343
+1549.850172	pkt 1256 arrives at core 2 and inserted into queue
+1549.850172	scheduled wake up time for core 2 is 232.578197
+1569.193013	pkt 1273 arrives at core 2 and inserted into queue
+1569.193013	scheduled wake up time for core 2 is 233.236433
+1607.407027	pkt 1301 arrives at core 2 and inserted into queue
+1607.407027	scheduled wake up time for core 2 is 234.101250
+1653.439947	pkt 1341 arrives at core 2 and inserted into queue
+1653.439947	scheduled wake up time for core 2 is 235.239930
+1657.768561	pkt 1344 arrives at core 2 and inserted into queue
+1657.768561	scheduled wake up time for core 2 is 236.258713
+1670.832116	pkt 1352 arrives at core 2 and inserted into queue
+1670.832116	scheduled wake up time for core 2 is 237.241038
+1685.691585	pkt 1366 arrives at core 2 and inserted into queue
+1685.691585	scheduled wake up time for core 2 is 238.204225
+1704.691219	pkt 1388 arrives at core 2 and inserted into queue
+1704.691219	scheduled wake up time for core 2 is 239.186090
+1710.433015	pkt 1392 arrives at core 2 and inserted into queue
+1710.433015	scheduled wake up time for core 2 is 240.067759
+1730.317018	pkt 1399 arrives at core 2 and inserted into queue
+1730.317018	scheduled wake up time for core 2 is 240.977044
+1750.768711	pkt 1414 arrives at core 2 and inserted into queue
+1750.768711	scheduled wake up time for core 2 is 241.918199
+1750.925245	pkt 1415 arrives at core 2 and inserted into queue
+1750.925245	scheduled wake up time for core 2 is 242.713913
+1768.744890	pkt 1429 arrives at core 2 and inserted into queue
+1768.744890	scheduled wake up time for core 2 is 243.520214
+1835.582220	pkt 1489 arrives at core 2 and inserted into queue
+1835.582220	scheduled wake up time for core 2 is 244.755787
+1836.457601	pkt 1491 arrives at core 2 and inserted into queue
+1836.457601	scheduled wake up time for core 2 is 245.850718
+1872.927771	pkt 1519 arrives at core 2 and inserted into queue
+1872.927771	scheduled wake up time for core 2 is 247.107668
+1886.181599	pkt 1534 arrives at core 2 and inserted into queue
+1886.181599	scheduled wake up time for core 2 is 248.329117
+1906.923885	pkt 1546 arrives at core 2 and inserted into queue
+1906.923885	scheduled wake up time for core 2 is 249.577834
+1945.020122	pkt 1576 arrives at core 2 and inserted into queue
+1945.020122	scheduled wake up time for core 2 is 250.995394
+1947.736359	pkt 1580 arrives at core 2 and inserted into queue
+1947.736359	scheduled wake up time for core 2 is 252.290036
+1976.285236	pkt 1604 arrives at core 2 and inserted into queue
+1976.285236	scheduled wake up time for core 2 is 253.673062
+1991.454267	pkt 1616 arrives at core 2 and inserted into queue
+1991.454267	scheduled wake up time for core 2 is 255.035311
+1994.889332	pkt 1621 arrives at core 2 and inserted into queue
+1994.889332	scheduled wake up time for core 2 is 256.284153
+2009.167837	pkt 1633 arrives at core 2 and inserted into queue
+2009.167837	scheduled wake up time for core 2 is 257.507646
+2011.831695	pkt 1636 arrives at core 2 and inserted into queue
+2011.831695	scheduled wake up time for core 2 is 258.615647
+2025.681711	pkt 1646 arrives at core 2 and inserted into queue
+2025.681711	scheduled wake up time for core 2 is 259.697554
+2057.303942	pkt 1664 arrives at core 2 and inserted into queue
+2057.303942	scheduled wake up time for core 2 is 260.890680
+2058.150759	pkt 1665 arrives at core 2 and inserted into queue
+2058.150759	scheduled wake up time for core 2 is 261.957551
+2071.201754	pkt 1682 arrives at core 2 and inserted into queue
+2071.201754	scheduled wake up time for core 2 is 262.993492
+2090.129924	pkt 1696 arrives at core 2 and inserted into queue
+2090.129924	scheduled wake up time for core 2 is 264.043390
+2115.053280	pkt 1717 arrives at core 2 and inserted into queue
+2115.053280	scheduled wake up time for core 2 is 265.151673
+2116.728192	pkt 1718 arrives at core 2 and inserted into queue
+2116.728192	scheduled wake up time for core 2 is 266.144832
+2120.582099	pkt 1720 arrives at core 2 and inserted into queue
+2120.582099	scheduled wake up time for core 2 is 267.041430
+2124.224205	pkt 1724 arrives at core 2 and inserted into queue
+2124.224205	scheduled wake up time for core 2 is 267.842034
+2161.020357	pkt 1747 arrives at core 2 and inserted into queue
+2161.020357	scheduled wake up time for core 2 is 268.788978
+2168.110700	pkt 1751 arrives at core 2 and inserted into queue
+2168.110700	scheduled wake up time for core 2 is 269.665393
+2173.342921	pkt 1757 arrives at core 2 and inserted into queue
+2173.342921	scheduled wake up time for core 2 is 270.459519
+2177.450524	pkt 1761 arrives at core 2 and inserted into queue
+2177.450524	scheduled wake up time for core 2 is 271.165129
+2192.153978	pkt 1774 arrives at core 2 and inserted into queue
+2192.153978	scheduled wake up time for core 2 is 271.858712
+2199.575485	pkt 1783 arrives at core 2 and inserted into queue
+2199.575485	scheduled wake up time for core 2 is 272.489599
+2203.475918	pkt 1787 arrives at core 2 and inserted into queue
+2203.475918	scheduled wake up time for core 2 is 273.034642
+2214.374579	pkt 1796 arrives at core 2 and inserted into queue
+2214.374579	scheduled wake up time for core 2 is 273.543883
+2250.949355	pkt 1831 arrives at core 2 and inserted into queue
+2250.949355	scheduled wake up time for core 2 is 274.193921
+2259.500140	pkt 1839 arrives at core 2 and inserted into queue
+2259.500140	scheduled wake up time for core 2 is 274.791242
+2329.943683	pkt 1891 arrives at core 2 and inserted into queue
+2329.943683	scheduled wake up time for core 2 is 275.755110
+2335.689853	pkt 1896 arrives at core 2 and inserted into queue
+2335.689853	scheduled wake up time for core 2 is 276.643934
+2359.260790	pkt 1914 arrives at core 2 and inserted into queue
+2359.260790	scheduled wake up time for core 2 is 277.578046
+2359.628645	pkt 1915 arrives at core 2 and inserted into queue
+2359.628645	scheduled wake up time for core 2 is 278.402885
+2369.266666	pkt 1918 arrives at core 2 and inserted into queue
+2369.266666	scheduled wake up time for core 2 is 279.181594
+2377.027912	pkt 1927 arrives at core 2 and inserted into queue
+2377.027912	scheduled wake up time for core 2 is 279.902811
+2379.738435	pkt 1929 arrives at core 2 and inserted into queue
+2379.738435	scheduled wake up time for core 2 is 280.534861
+2396.530477	pkt 1942 arrives at core 2 and inserted into queue
+2396.530477	scheduled wake up time for core 2 is 281.170316
+2397.701989	pkt 1944 arrives at core 2 and inserted into queue
+2397.701989	scheduled wake up time for core 2 is 281.708981
+2406.273551	pkt 1952 arrives at core 2 and inserted into queue
+2406.273551	scheduled wake up time for core 2 is 282.199838
+2419.089348	pkt 1963 arrives at core 2 and inserted into queue
+2419.089348	scheduled wake up time for core 2 is 282.670658
+2425.466540	pkt 1966 arrives at core 2 and inserted into queue
+2425.466540	scheduled wake up time for core 2 is 283.081324
+2433.117160	pkt 1976 arrives at core 2 and inserted into queue
+2433.117160	scheduled wake up time for core 2 is 283.440923
+2443.643840	pkt 1987 arrives at core 2 and inserted into queue
+2443.643840	scheduled wake up time for core 2 is 283.768270
+2462.320034	pkt 2005 arrives at core 2 and inserted into queue
+2462.320034	scheduled wake up time for core 2 is 284.114269
+2471.503533	pkt 2015 arrives at core 2 and inserted into queue
+2471.503533	scheduled wake up time for core 2 is 284.420338
+2501.711657	pkt 2034 arrives at core 2 and inserted into queue
+2501.711657	scheduled wake up time for core 2 is 284.815407
+2551.256752	pkt 2068 arrives at core 2 and inserted into queue
+2551.256752	scheduled wake up time for core 2 is 285.415051
+2563.857821	pkt 2080 arrives at core 2 and inserted into queue
+2563.857821	scheduled wake up time for core 2 is 285.993020
+2569.486466	pkt 2085 arrives at core 2 and inserted into queue
+2569.486466	scheduled wake up time for core 2 is 286.507951
+2574.019653	pkt 2093 arrives at core 2 and inserted into queue
+2574.019653	scheduled wake up time for core 2 is 286.954449
+2580.626066	pkt 2101 arrives at core 2 and inserted into queue
+2580.626066	scheduled wake up time for core 2 is 287.345997
+2584.513302	pkt 2104 arrives at core 2 and inserted into queue
+2584.513302	scheduled wake up time for core 2 is 287.667569
+2585.287897	pkt 2105 arrives at core 2 and inserted into queue
+2585.287897	scheduled wake up time for core 2 is 287.902191
+2600.974780	pkt 2115 arrives at core 2 and inserted into queue
+2600.974780	scheduled wake up time for core 2 is 288.138078
+2608.374880	pkt 2120 arrives at core 2 and inserted into queue
+2608.374880	scheduled wake up time for core 2 is 288.327308
+2624.491305	pkt 2132 arrives at core 2 and inserted into queue
+2624.491305	scheduled wake up time for core 2 is 288.520779
+2663.054092	pkt 2157 arrives at core 2 and inserted into queue
+2663.054092	scheduled wake up time for core 2 is 288.846684
+2668.012725	pkt 2161 arrives at core 2 and inserted into queue
+2668.012725	scheduled wake up time for core 2 is 289.111832
+2680.862005	pkt 2168 arrives at core 2 and inserted into queue
+2680.862005	scheduled wake up time for core 2 is 289.361833
+2738.013334	pkt 2203 arrives at core 2 and inserted into queue
+2738.013334	scheduled wake up time for core 2 is 289.845830
+2739.338148	pkt 2204 arrives at core 2 and inserted into queue
+2739.338148	scheduled wake up time for core 2 is 290.248022
+2748.760444	pkt 2213 arrives at core 2 and inserted into queue
+2748.760444	scheduled wake up time for core 2 is 290.614758
+2787.684408	pkt 2240 arrives at core 2 and inserted into queue
+2787.684408	scheduled wake up time for core 2 is 291.109618
+2789.124063	pkt 2244 arrives at core 2 and inserted into queue
+2789.124063	scheduled wake up time for core 2 is 291.524532
+2813.532715	pkt 2262 arrives at core 2 and inserted into queue
+2813.532715	scheduled wake up time for core 2 is 291.986325
+2815.084127	pkt 2265 arrives at core 2 and inserted into queue
+2815.084127	scheduled wake up time for core 2 is 292.370009
+2832.665387	pkt 2274 arrives at core 2 and inserted into queue
+2832.665387	scheduled wake up time for core 2 is 292.763498
+2841.032491	pkt 2279 arrives at core 2 and inserted into queue
+2841.032491	scheduled wake up time for core 2 is 293.117094
+2843.616483	pkt 2281 arrives at core 2 and inserted into queue
+2843.616483	scheduled wake up time for core 2 is 293.400514
+2849.281903	pkt 2289 arrives at core 2 and inserted into queue
+2849.281903	scheduled wake up time for core 2 is 293.631266
+2853.804177	pkt 2291 arrives at core 2 and inserted into queue
+2853.804177	scheduled wake up time for core 2 is 293.804138
+2867.249001	pkt 2301 arrives at core 2 and inserted into queue
+2867.249001	scheduled wake up time for core 2 is 293.967006
+2867.740432	pkt 2302 arrives at core 2 and inserted into queue
+2867.740432	scheduled wake up time for core 2 is 294.052207
+2876.755034	pkt 2308 arrives at core 2 and inserted into queue
+2876.755034	scheduled wake up time for core 2 is 294.105347
+2906.732067	pkt 2337 arrives at core 2 and inserted into queue
+2906.732067	scheduled wake up time for core 2 is 294.235537
+2907.806176	pkt 2339 arrives at core 2 and inserted into queue
+2907.806176	scheduled wake up time for core 2 is 294.292602
+2908.888883	pkt 2340 arrives at core 2 and inserted into queue
+2908.888883	scheduled wake up time for core 2 is 294.277711
+2919.778204	pkt 2344 arrives at core 2 and inserted into queue
+2919.778204	scheduled wake up time for core 2 is 294.242000
+2949.288816	pkt 2374 arrives at core 2 and inserted into queue
+2949.288816	scheduled wake up time for core 2 is 294.280308
+2978.506111	pkt 2400 arrives at core 2 and inserted into queue
+2978.506111	scheduled wake up time for core 2 is 294.390035
+3005.940972	pkt 2424 arrives at core 2 and inserted into queue
+3005.940972	scheduled wake up time for core 2 is 294.561145
+3008.294940	pkt 2427 arrives at core 2 and inserted into queue
+3008.294940	scheduled wake up time for core 2 is 294.667314
+3012.540325	pkt 2433 arrives at core 2 and inserted into queue
+3012.540325	scheduled wake up time for core 2 is 294.718921
+3077.559415	pkt 2481 arrives at core 2 and inserted into queue
+3077.559415	scheduled wake up time for core 2 is 295.017636
+3097.322180	pkt 2497 arrives at core 2 and inserted into queue
+3097.322180	scheduled wake up time for core 2 is 295.336870
+3100.886398	pkt 2499 arrives at core 2 and inserted into queue
+3100.886398	scheduled wake up time for core 2 is 295.596917
+3103.888038	pkt 2501 arrives at core 2 and inserted into queue
+3103.888038	scheduled wake up time for core 2 is 295.795898
+3111.829047	pkt 2508 arrives at core 2 and inserted into queue
+3111.829047	scheduled wake up time for core 2 is 295.958680
+3115.609897	pkt 2515 arrives at core 2 and inserted into queue
+3115.609897	scheduled wake up time for core 2 is 296.065691
+3115.634923	pkt 2516 arrives at core 2 and inserted into queue
+3115.634923	scheduled wake up time for core 2 is 296.099678
+3118.013203	pkt 2519 arrives at core 2 and inserted into queue
+3118.013203	scheduled wake up time for core 2 is 296.072948
+3131.352002	pkt 2526 arrives at core 2 and inserted into queue
+3131.352002	scheduled wake up time for core 2 is 296.038563
+3132.410902	pkt 2528 arrives at core 2 and inserted into queue
+3132.410902	scheduled wake up time for core 2 is 295.938432
+3134.518902	pkt 2530 arrives at core 2 and inserted into queue
+3134.518902	scheduled wake up time for core 2 is 295.778434
+3184.822490	pkt 2570 arrives at core 2 and inserted into queue
+3184.822490	scheduled wake up time for core 2 is 295.785683
+3197.076511	pkt 2577 arrives at core 2 and inserted into queue
+3197.076511	scheduled wake up time for core 2 is 295.780033
+3210.959253	pkt 2586 arrives at core 2 and inserted into queue
+3210.959253	scheduled wake up time for core 2 is 295.769238
+3238.154926	pkt 2603 arrives at core 2 and inserted into queue
+3238.154926	scheduled wake up time for core 2 is 295.815005
+3245.333124	pkt 2608 arrives at core 2 and inserted into queue
+3245.333124	scheduled wake up time for core 2 is 295.824306
+3253.463306	pkt 2616 arrives at core 2 and inserted into queue
+3253.463306	scheduled wake up time for core 2 is 295.802007
+3278.318670	pkt 2632 arrives at core 2 and inserted into queue
+3278.318670	scheduled wake up time for core 2 is 295.824915
+3285.815069	pkt 2638 arrives at core 2 and inserted into queue
+3285.815069	scheduled wake up time for core 2 is 295.813506
+3322.410548	pkt 2673 arrives at core 2 and inserted into queue
+3322.410548	scheduled wake up time for core 2 is 295.899918
+3328.060239	pkt 2677 arrives at core 2 and inserted into queue
+3328.060239	scheduled wake up time for core 2 is 295.943433
+3330.624769	pkt 2679 arrives at core 2 and inserted into queue
+3330.624769	scheduled wake up time for core 2 is 295.930793
+3343.365423	pkt 2691 arrives at core 2 and inserted into queue
+3343.365423	scheduled wake up time for core 2 is 295.908180
+3347.988979	pkt 2695 arrives at core 2 and inserted into queue
+3347.988979	scheduled wake up time for core 2 is 295.839650
+3394.039017	pkt 2750 arrives at core 2 and inserted into queue
+3394.039017	scheduled wake up time for core 2 is 295.909116
+3403.542591	pkt 2759 arrives at core 2 and inserted into queue
+3403.542591	scheduled wake up time for core 2 is 295.953757
+3405.580336	pkt 2762 arrives at core 2 and inserted into queue
+3405.580336	scheduled wake up time for core 2 is 295.941155
+3405.749695	pkt 2763 arrives at core 2 and inserted into queue
+3405.749695	scheduled wake up time for core 2 is 295.863899
+3406.287245	pkt 2764 arrives at core 2 and inserted into queue
+3406.287245	scheduled wake up time for core 2 is 295.724436
+3419.878094	pkt 2772 arrives at core 2 and inserted into queue
+3419.878094	scheduled wake up time for core 2 is 295.580079
+3443.459442	pkt 2798 arrives at core 2 and inserted into queue
+3443.459442	scheduled wake up time for core 2 is 295.473956
+3456.762773	pkt 2806 arrives at core 2 and inserted into queue
+3456.762773	scheduled wake up time for core 2 is 295.361461
+3459.103437	pkt 2811 arrives at core 2 and inserted into queue
+3459.103437	scheduled wake up time for core 2 is 295.195829
+3461.232044	pkt 2819 arrives at core 2 and inserted into queue
+3461.232044	scheduled wake up time for core 2 is 294.976834
+3479.288376	pkt 2836 arrives at core 2 and inserted into queue
+3479.288376	scheduled wake up time for core 2 is 294.772646
+3486.087555	pkt 2843 arrives at core 2 and inserted into queue
+3486.087555	scheduled wake up time for core 2 is 294.535578
+3506.320402	pkt 2867 arrives at core 2 and inserted into queue
+3506.320402	scheduled wake up time for core 2 is 294.322489
+3521.059838	pkt 2879 arrives at core 2 and inserted into queue
+3521.059838	scheduled wake up time for core 2 is 294.110093
+3536.708913	pkt 2885 arrives at core 2 and inserted into queue
+3536.708913	scheduled wake up time for core 2 is 293.902171
+3537.882235	pkt 2886 arrives at core 2 and inserted into queue
+3537.882235	scheduled wake up time for core 2 is 293.638603
+3548.257040	pkt 2897 arrives at core 2 and inserted into queue
+3548.257040	scheduled wake up time for core 2 is 293.358101
+3550.068469	pkt 2898 arrives at core 2 and inserted into queue
+3550.068469	scheduled wake up time for core 2 is 293.025633
+3586.154465	pkt 2930 arrives at core 2 and inserted into queue
+3586.154465	scheduled wake up time for core 2 is 292.782309
+3611.415225	pkt 2951 arrives at core 2 and inserted into queue
+3611.415225	scheduled wake up time for core 2 is 292.582851
+3625.139285	pkt 2958 arrives at core 2 and inserted into queue
+3625.139285	scheduled wake up time for core 2 is 292.379828
+3631.657651	pkt 2964 arrives at core 2 and inserted into queue
+3631.657651	scheduled wake up time for core 2 is 292.144111
+3661.514561	pkt 2986 arrives at core 2 and inserted into queue
+3661.514561	scheduled wake up time for core 2 is 291.970202
+3662.997132	pkt 2987 arrives at core 2 and inserted into queue
+3662.997132	scheduled wake up time for core 2 is 291.743402
+3674.560249	pkt 2997 arrives at core 2 and inserted into queue
+3674.560249	scheduled wake up time for core 2 is 291.504670
+3675.542042	pkt 3000 arrives at core 2 and inserted into queue
+3675.542042	scheduled wake up time for core 2 is 291.211990
+3699.756872	pkt 3020 arrives at core 2 and inserted into queue
+3699.756872	scheduled wake up time for core 2 is 290.958200
+3712.161952	pkt 3030 arrives at core 2 and inserted into queue
+3712.161952	scheduled wake up time for core 2 is 290.696159
+3716.631387	pkt 3034 arrives at core 2 and inserted into queue
+3716.631387	scheduled wake up time for core 2 is 290.394723
+3726.431909	pkt 3041 arrives at core 2 and inserted into queue
+3726.431909	scheduled wake up time for core 2 is 290.075261
+3731.896457	pkt 3046 arrives at core 2 and inserted into queue
+3731.896457	scheduled wake up time for core 2 is 289.721047
+3739.398172	pkt 3050 arrives at core 2 and inserted into queue
+3739.398172	scheduled wake up time for core 2 is 289.340413
+3742.242169	pkt 3051 arrives at core 2 and inserted into queue
+3742.242169	scheduled wake up time for core 2 is 288.915614
+3752.447868	pkt 3061 arrives at core 2 and inserted into queue
+3752.447868	scheduled wake up time for core 2 is 288.475584
+3769.579688	pkt 3081 arrives at core 2 and inserted into queue
+3769.579688	scheduled wake up time for core 2 is 288.047138
+3783.478126	pkt 3090 arrives at core 2 and inserted into queue
+3783.478126	scheduled wake up time for core 2 is 287.617755
+3805.407146	pkt 3106 arrives at core 2 and inserted into queue
+3805.407146	scheduled wake up time for core 2 is 287.218096
+3814.144729	pkt 3112 arrives at core 2 and inserted into queue
+3814.144729	scheduled wake up time for core 2 is 286.797665
+3822.406205	pkt 3123 arrives at core 2 and inserted into queue
+3822.406205	scheduled wake up time for core 2 is 286.354894
+3847.533871	pkt 3142 arrives at core 2 and inserted into queue
+3847.533871	scheduled wake up time for core 2 is 285.953683
+3851.574248	pkt 3145 arrives at core 2 and inserted into queue
+3851.574248	scheduled wake up time for core 2 is 285.514287
+3868.829568	pkt 3162 arrives at core 2 and inserted into queue
+3868.829568	scheduled wake up time for core 2 is 285.086628
+3882.323598	pkt 3174 arrives at core 2 and inserted into queue
+3882.323598	scheduled wake up time for core 2 is 284.656542
+3914.536345	pkt 3199 arrives at core 2 and inserted into queue
+3914.536345	scheduled wake up time for core 2 is 284.293642
+3940.295690	pkt 3219 arrives at core 2 and inserted into queue
+3940.295690	scheduled wake up time for core 2 is 283.973279
+3974.117167	pkt 3248 arrives at core 2 and inserted into queue
+3974.117167	scheduled wake up time for core 2 is 283.724733
+3974.535163	pkt 3249 arrives at core 2 and inserted into queue
+3974.535163	scheduled wake up time for core 2 is 283.424403
+3997.161982	pkt 3272 arrives at core 2 and inserted into queue
+3997.161982	scheduled wake up time for core 2 is 283.154211
+4011.409458	pkt 3279 arrives at core 2 and inserted into queue
+4011.409458	scheduled wake up time for core 2 is 282.883245
+4015.718031	pkt 3282 arrives at core 2 and inserted into queue
+4015.718031	scheduled wake up time for core 2 is 282.575372
+4020.806445	pkt 3283 arrives at core 2 and inserted into queue
+4020.806445	scheduled wake up time for core 2 is 282.233818
+4033.623371	pkt 3292 arrives at core 2 and inserted into queue
+4033.623371	scheduled wake up time for core 2 is 281.886848
+4037.005093	pkt 3296 arrives at core 2 and inserted into queue
+4037.005093	scheduled wake up time for core 2 is 281.500583
+4041.505024	pkt 3300 arrives at core 2 and inserted into queue
+4041.505024	scheduled wake up time for core 2 is 281.079452
+4065.610075	pkt 3320 arrives at core 2 and inserted into queue
+4065.610075	scheduled wake up time for core 2 is 280.693847
+4080.947331	pkt 3336 arrives at core 2 and inserted into queue
+4080.947331	scheduled wake up time for core 2 is 280.312187
+4119.457365	pkt 3371 arrives at core 2 and inserted into queue
+4119.457365	scheduled wake up time for core 2 is 280.016603
+4120.928009	pkt 3372 arrives at core 2 and inserted into queue
+4120.928009	scheduled wake up time for core 2 is 279.675300
+4135.728427	pkt 3386 arrives at core 2 and inserted into queue
+4135.728427	scheduled wake up time for core 2 is 279.335698
+4145.549367	pkt 3398 arrives at core 2 and inserted into queue
+4145.549367	scheduled wake up time for core 2 is 278.980308
+4146.903256	pkt 3400 arrives at core 2 and inserted into queue
+4146.903256	scheduled wake up time for core 2 is 278.579689
+4151.574464	pkt 3405 arrives at core 2 and inserted into queue
+4151.574464	scheduled wake up time for core 2 is 278.145873
+4172.652457	pkt 3421 arrives at core 2 and inserted into queue
+4172.652457	scheduled wake up time for core 2 is 277.736173
+4175.976439	pkt 3424 arrives at core 2 and inserted into queue
+4175.976439	scheduled wake up time for core 2 is 277.288908
+4184.853677	pkt 3435 arrives at core 2 and inserted into queue
+4184.853677	scheduled wake up time for core 2 is 276.823614
+4199.511380	pkt 3450 arrives at core 2 and inserted into queue
+4199.511380	scheduled wake up time for core 2 is 276.360342
+4200.519231	pkt 3452 arrives at core 2 and inserted into queue
+4200.519231	scheduled wake up time for core 2 is 275.852324
+4219.158891	pkt 3465 arrives at core 2 and inserted into queue
+4219.158891	scheduled wake up time for core 2 is 275.360196
+4235.260756	pkt 3478 arrives at core 2 and inserted into queue
+4235.260756	scheduled wake up time for core 2 is 274.875164
+4237.107649	pkt 3479 arrives at core 2 and inserted into queue
+4237.107649	scheduled wake up time for core 2 is 274.348834
+4252.180918	pkt 3491 arrives at core 2 and inserted into queue
+4252.180918	scheduled wake up time for core 2 is 273.826307
+4255.505241	pkt 3493 arrives at core 2 and inserted into queue
+4255.505241	scheduled wake up time for core 2 is 273.267987
+4277.258216	pkt 3513 arrives at core 2 and inserted into queue
+4277.258216	scheduled wake up time for core 2 is 272.736075
+4282.095243	pkt 3515 arrives at core 2 and inserted into queue
+4282.095243	scheduled wake up time for core 2 is 272.173731
+4295.233264	pkt 3526 arrives at core 2 and inserted into queue
+4295.233264	scheduled wake up time for core 2 is 271.608929
+4304.979907	pkt 3538 arrives at core 2 and inserted into queue
+4304.979907	scheduled wake up time for core 2 is 271.030428
+4315.379992	pkt 3547 arrives at core 2 and inserted into queue
+4315.379992	scheduled wake up time for core 2 is 270.440526
+4351.600530	pkt 3578 arrives at core 2 and inserted into queue
+4351.600530	scheduled wake up time for core 2 is 269.924552
+4353.456520	pkt 3580 arrives at core 2 and inserted into queue
+4353.456520	scheduled wake up time for core 2 is 269.368736
+4358.178027	pkt 3588 arrives at core 2 and inserted into queue
+4358.178027	scheduled wake up time for core 2 is 268.782865
+4386.898487	pkt 3613 arrives at core 2 and inserted into queue
+4386.898487	scheduled wake up time for core 2 is 268.245661
+4395.143876	pkt 3619 arrives at core 2 and inserted into queue
+4395.143876	scheduled wake up time for core 2 is 267.689955
+4413.620347	pkt 3638 arrives at core 2 and inserted into queue
+4413.620347	scheduled wake up time for core 2 is 267.149144
+4426.595162	pkt 3648 arrives at core 2 and inserted into queue
+4426.595162	scheduled wake up time for core 2 is 266.605280
+4456.640114	pkt 3667 arrives at core 2 and inserted into queue
+4456.640114	scheduled wake up time for core 2 is 266.113457
+4462.007154	pkt 3672 arrives at core 2 and inserted into queue
+4462.007154	scheduled wake up time for core 2 is 265.593823
+4467.202799	pkt 3678 arrives at core 2 and inserted into queue
+4467.202799	scheduled wake up time for core 2 is 265.046095
+4467.723376	pkt 3680 arrives at core 2 and inserted into queue
+4467.723376	scheduled wake up time for core 2 is 264.455607
+4476.483101	pkt 3687 arrives at core 2 and inserted into queue
+4476.483101	scheduled wake up time for core 2 is 263.849007
+4506.579839	pkt 3716 arrives at core 2 and inserted into queue
+4506.579839	scheduled wake up time for core 2 is 263.294184
+4510.056516	pkt 3722 arrives at core 2 and inserted into queue
+4510.056516	scheduled wake up time for core 2 is 262.706407
+4526.466055	pkt 3739 arrives at core 2 and inserted into queue
+4526.466055	scheduled wake up time for core 2 is 262.126784
+4528.153886	pkt 3741 arrives at core 2 and inserted into queue
+4528.153886	scheduled wake up time for core 2 is 261.508945
+4530.696089	pkt 3744 arrives at core 2 and inserted into queue
+4530.696089	scheduled wake up time for core 2 is 260.855927
+4534.336878	pkt 3745 arrives at core 2 and inserted into queue
+4534.336878	scheduled wake up time for core 2 is 260.171492
+4551.516327	pkt 3757 arrives at core 2 and inserted into queue
+4551.516327	scheduled wake up time for core 2 is 259.498111
+4562.208635	pkt 3768 arrives at core 2 and inserted into queue
+4562.208635	scheduled wake up time for core 2 is 258.815535
+4572.958267	pkt 3777 arrives at core 2 and inserted into queue
+4572.958267	scheduled wake up time for core 2 is 258.124027
+4574.307234	pkt 3778 arrives at core 2 and inserted into queue
+4574.307234	scheduled wake up time for core 2 is 257.394654
+4580.529761	pkt 3788 arrives at core 2 and inserted into queue
+4580.529761	scheduled wake up time for core 2 is 256.642762
+4594.205558	pkt 3801 arrives at core 2 and inserted into queue
+4594.205558	scheduled wake up time for core 2 is 255.891421
+4614.521863	pkt 3822 arrives at core 2 and inserted into queue
+4614.521863	scheduled wake up time for core 2 is 255.160933
+4672.130360	pkt 3866 arrives at core 2 and inserted into queue
+4672.130360	scheduled wake up time for core 2 is 254.564803
+4678.319010	pkt 3871 arrives at core 2 and inserted into queue
+4678.319010	scheduled wake up time for core 2 is 253.945515
+4678.886017	pkt 3872 arrives at core 2 and inserted into queue
+4678.886017	scheduled wake up time for core 2 is 253.286244
+4699.116051	pkt 3884 arrives at core 2 and inserted into queue
+4699.116051	scheduled wake up time for core 2 is 252.646757
+4752.586831	pkt 3921 arrives at core 2 and inserted into queue
+4752.586831	scheduled wake up time for core 2 is 252.126998
+4754.267412	pkt 3922 arrives at core 2 and inserted into queue
+4754.267412	scheduled wake up time for core 2 is 251.570363
+4754.669198	pkt 3923 arrives at core 2 and inserted into queue
+4754.669198	scheduled wake up time for core 2 is 250.973353
+4760.138741	pkt 3927 arrives at core 2 and inserted into queue
+4760.138741	scheduled wake up time for core 2 is 250.351459
+4764.138905	pkt 3931 arrives at core 2 and inserted into queue
+4764.138905	scheduled wake up time for core 2 is 249.700529
+4796.116018	pkt 3950 arrives at core 2 and inserted into queue
+4796.116018	scheduled wake up time for core 2 is 249.103839
+4808.229505	pkt 3964 arrives at core 2 and inserted into queue
+4808.229505	scheduled wake up time for core 2 is 248.502140
+4820.518986	pkt 3974 arrives at core 2 and inserted into queue
+4820.518986	scheduled wake up time for core 2 is 247.895995
+4823.457083	pkt 3976 arrives at core 2 and inserted into queue
+4823.457083	scheduled wake up time for core 2 is 247.257939
+4828.531496	pkt 3978 arrives at core 2 and inserted into queue
+4828.531496	scheduled wake up time for core 2 is 246.594518
+4852.318807	pkt 3992 arrives at core 2 and inserted into queue
+4852.318807	scheduled wake up time for core 2 is 245.960671
+4853.738285	pkt 3993 arrives at core 2 and inserted into queue
+4853.738285	scheduled wake up time for core 2 is 245.290927
+4875.535299	pkt 4012 arrives at core 2 and inserted into queue
+4875.535299	scheduled wake up time for core 2 is 244.644835
+4877.211498	pkt 4013 arrives at core 2 and inserted into queue
+4877.211498	scheduled wake up time for core 2 is 243.963868
+4906.192253	pkt 4038 arrives at core 2 and inserted into queue
+4906.192253	scheduled wake up time for core 2 is 243.327245
+4914.615044	pkt 4043 arrives at core 2 and inserted into queue
+4914.615044	scheduled wake up time for core 2 is 242.675337
+4924.138255	pkt 4050 arrives at core 2 and inserted into queue
+4924.138255	scheduled wake up time for core 2 is 242.011437
+4924.332741	pkt 4051 arrives at core 2 and inserted into queue
+4924.332741	scheduled wake up time for core 2 is 241.308919
+4962.492209	pkt 4082 arrives at core 2 and inserted into queue
+4962.492209	scheduled wake up time for core 2 is 240.676586
+4965.143021	pkt 4087 arrives at core 2 and inserted into queue
+4965.143021	scheduled wake up time for core 2 is 240.012673
+4974.078240	pkt 4097 arrives at core 2 and inserted into queue
+4974.078240	scheduled wake up time for core 2 is 239.335302
+4984.488369	pkt 4103 arrives at core 2 and inserted into queue
+4984.488369	scheduled wake up time for core 2 is 238.648767
+4996.826908	pkt 4118 arrives at core 2 and inserted into queue
+4996.826908	scheduled wake up time for core 2 is 237.958592
+4997.607512	pkt 4120 arrives at core 2 and inserted into queue
+4997.607512	scheduled wake up time for core 2 is 237.232251
+5048.126647	pkt 4168 arrives at core 2 and inserted into queue
+5048.126647	scheduled wake up time for core 2 is 236.609764
+5054.199482	pkt 4173 arrives at core 2 and inserted into queue
+5054.199482	scheduled wake up time for core 2 is 235.965757
+5108.045840	pkt 4210 arrives at core 2 and inserted into queue
+5108.045840	scheduled wake up time for core 2 is 235.433858
+5115.280334	pkt 4215 arrives at core 2 and inserted into queue
+5115.280334	scheduled wake up time for core 2 is 234.883291
+5140.730467	pkt 4237 arrives at core 2 and inserted into queue
+5140.730467	scheduled wake up time for core 2 is 234.364811
+5141.959181	pkt 4239 arrives at core 2 and inserted into queue
+5141.959181	scheduled wake up time for core 2 is 233.811056
+5164.308295	pkt 4250 arrives at core 2 and inserted into queue
+5164.308295	scheduled wake up time for core 2 is 233.280661
+5181.723343	pkt 4258 arrives at core 2 and inserted into queue
+5181.723343	scheduled wake up time for core 2 is 232.759842
+5182.167791	pkt 4260 arrives at core 2 and inserted into queue
+5182.167791	scheduled wake up time for core 2 is 232.201897
+5199.504858	pkt 4274 arrives at core 2 and inserted into queue
+5199.504858	scheduled wake up time for core 2 is 231.653412
+5216.753958	pkt 4284 arrives at core 2 and inserted into queue
+5216.753958	scheduled wake up time for core 2 is 231.114069
+5219.256286	pkt 4288 arrives at core 2 and inserted into queue
+5219.256286	scheduled wake up time for core 2 is 230.543612
+5223.148120	pkt 4294 arrives at core 2 and inserted into queue
+5223.148120	scheduled wake up time for core 2 is 229.946070
+5254.325888	pkt 4316 arrives at core 2 and inserted into queue
+5254.325888	scheduled wake up time for core 2 is 229.395609
+5264.075147	pkt 4324 arrives at core 2 and inserted into queue
+5264.075147	scheduled wake up time for core 2 is 228.833932
+5277.483681	pkt 4338 arrives at core 2 and inserted into queue
+5277.483681	scheduled wake up time for core 2 is 228.270993
+5307.726896	pkt 4355 arrives at core 2 and inserted into queue
+5307.726896	scheduled wake up time for core 2 is 227.752057
+5325.604317	pkt 4368 arrives at core 2 and inserted into queue
+5325.604317	scheduled wake up time for core 2 is 227.243618
+5327.337470	pkt 4369 arrives at core 2 and inserted into queue
+5327.337470	scheduled wake up time for core 2 is 226.702426
+5334.912885	pkt 4376 arrives at core 2 and inserted into queue
+5334.912885	scheduled wake up time for core 2 is 226.144320
+5334.996172	pkt 4377 arrives at core 2 and inserted into queue
+5334.996172	scheduled wake up time for core 2 is 225.549511
+5337.160780	pkt 4379 arrives at core 2 and inserted into queue
+5337.160780	scheduled wake up time for core 2 is 224.923812
+5352.988866	pkt 4390 arrives at core 2 and inserted into queue
+5352.988866	scheduled wake up time for core 2 is 224.303613
+5374.516320	pkt 4412 arrives at core 2 and inserted into queue
+5374.516320	scheduled wake up time for core 2 is 223.703911
+5402.932864	pkt 4435 arrives at core 2 and inserted into queue
+5402.932864	scheduled wake up time for core 2 is 223.142671
+5413.002991	pkt 4445 arrives at core 2 and inserted into queue
+5413.002991	scheduled wake up time for core 2 is 222.571438
+5419.510005	pkt 4448 arrives at core 2 and inserted into queue
+5419.510005	scheduled wake up time for core 2 is 221.980963
+5423.423273	pkt 4452 arrives at core 2 and inserted into queue
+5423.423273	scheduled wake up time for core 2 is 221.364625
+5432.178338	pkt 4459 arrives at core 2 and inserted into queue
+5432.178338	scheduled wake up time for core 2 is 220.735233
+5435.860467	pkt 4463 arrives at core 2 and inserted into queue
+5435.860467	scheduled wake up time for core 2 is 220.079715
+5448.556773	pkt 4472 arrives at core 2 and inserted into queue
+5448.556773	scheduled wake up time for core 2 is 219.421624
+5454.797967	pkt 4475 arrives at core 2 and inserted into queue
+5454.797967	scheduled wake up time for core 2 is 218.744302
+5458.733619	pkt 4480 arrives at core 2 and inserted into queue
+5458.733619	scheduled wake up time for core 2 is 218.041955
+5460.028115	pkt 4485 arrives at core 2 and inserted into queue
+5460.028115	scheduled wake up time for core 2 is 217.307986
+5462.746316	pkt 4488 arrives at core 2 and inserted into queue
+5462.746316	scheduled wake up time for core 2 is 216.546290
+5466.246635	pkt 4493 arrives at core 2 and inserted into queue
+5466.246635	scheduled wake up time for core 2 is 215.759078
+5509.257385	pkt 4522 arrives at core 2 and inserted into queue
+5509.257385	scheduled wake up time for core 2 is 215.047339
+5531.311624	pkt 4533 arrives at core 2 and inserted into queue
+5531.311624	scheduled wake up time for core 2 is 214.357172
+5559.403799	pkt 4556 arrives at core 2 and inserted into queue
+5559.403799	scheduled wake up time for core 2 is 213.703737
+5572.041705	pkt 4569 arrives at core 2 and inserted into queue
+5572.041705	scheduled wake up time for core 2 is 213.047631
+5593.689307	pkt 4585 arrives at core 2 and inserted into queue
+5593.689307	scheduled wake up time for core 2 is 212.411625
+5604.162391	pkt 4590 arrives at core 2 and inserted into queue
+5604.162391	scheduled wake up time for core 2 is 211.767420
+5604.684127	pkt 4591 arrives at core 2 and inserted into queue
+5604.684127	scheduled wake up time for core 2 is 211.090075
+5640.546765	pkt 4627 arrives at core 2 and inserted into queue
+5640.546765	scheduled wake up time for core 2 is 210.468413
+5658.207343	pkt 4641 arrives at core 2 and inserted into queue
+5658.207343	scheduled wake up time for core 2 is 209.856510
+5662.798773	pkt 4648 arrives at core 2 and inserted into queue
+5662.798773	scheduled wake up time for core 2 is 209.221703
+5676.016209	pkt 4654 arrives at core 2 and inserted into queue
+5676.016209	scheduled wake up time for core 2 is 208.585619
+5680.022252	pkt 4659 arrives at core 2 and inserted into queue
+5680.022252	scheduled wake up time for core 2 is 207.925412
+5696.511168	pkt 4670 arrives at core 2 and inserted into queue
+5696.511168	scheduled wake up time for core 2 is 207.272159
+5699.634093	pkt 4674 arrives at core 2 and inserted into queue
+5699.634093	scheduled wake up time for core 2 is 206.592806
+5711.244386	pkt 4689 arrives at core 2 and inserted into queue
+5711.244386	scheduled wake up time for core 2 is 205.908450
+5729.338698	pkt 4699 arrives at core 2 and inserted into queue
+5729.338698	scheduled wake up time for core 2 is 205.235060
+5755.030455	pkt 4720 arrives at core 2 and inserted into queue
+5755.030455	scheduled wake up time for core 2 is 204.591177
+5756.226016	pkt 4721 arrives at core 2 and inserted into queue
+5756.226016	scheduled wake up time for core 2 is 203.916690
+5758.595703	pkt 4724 arrives at core 2 and inserted into queue
+5758.595703	scheduled wake up time for core 2 is 203.214687
+5772.335560	pkt 4735 arrives at core 2 and inserted into queue
+5772.335560	scheduled wake up time for core 2 is 202.513035
+5783.611271	pkt 4742 arrives at core 2 and inserted into queue
+5783.611271	scheduled wake up time for core 2 is 201.805749
+5787.435738	pkt 4744 arrives at core 2 and inserted into queue
+5787.435738	scheduled wake up time for core 2 is 201.074829
+5799.304395	pkt 4752 arrives at core 2 and inserted into queue
+5799.304395	scheduled wake up time for core 2 is 200.339876
+5799.851805	pkt 4753 arrives at core 2 and inserted into queue
+5799.851805	scheduled wake up time for core 2 is 199.573640
+5800.411878	pkt 4754 arrives at core 2 and inserted into queue
+5800.411878	scheduled wake up time for core 2 is 198.776376
+5805.121654	pkt 4759 arrives at core 2 and inserted into queue
+5805.121654	scheduled wake up time for core 2 is 197.958259
+5819.263769	pkt 4772 arrives at core 2 and inserted into queue
+5819.263769	scheduled wake up time for core 2 is 197.142004
+5819.564711	pkt 4773 arrives at core 2 and inserted into queue
+5819.564711	scheduled wake up time for core 2 is 196.294565
+5847.054922	pkt 4795 arrives at core 2 and inserted into queue
+5847.054922	scheduled wake up time for core 2 is 195.480899
+5847.519590	pkt 4796 arrives at core 2 and inserted into queue
+5847.519590	scheduled wake up time for core 2 is 194.636573
+5928.680299	pkt 4859 arrives at core 2 and inserted into queue
+5928.680299	scheduled wake up time for core 2 is 193.953027
+5948.250843	pkt 4875 arrives at core 2 and inserted into queue
+5948.250843	scheduled wake up time for core 2 is 193.283518
+5984.050711	pkt 4909 arrives at core 2 and inserted into queue
+5984.050711	scheduled wake up time for core 2 is 192.666224
+5995.080304	pkt 4912 arrives at core 2 and inserted into queue
+5995.080304	scheduled wake up time for core 2 is 192.042492
+6006.155500	pkt 4917 arrives at core 2 and inserted into queue
+6006.155500	scheduled wake up time for core 2 is 191.412476
+6008.619504	pkt 4921 arrives at core 2 and inserted into queue
+6008.619504	scheduled wake up time for core 2 is 190.756052
+6058.537981	pkt 4961 arrives at core 2 and inserted into queue
+6058.537981	scheduled wake up time for core 2 is 190.184281
+6075.513972	pkt 4983 arrives at core 2 and inserted into queue
+6075.513972	scheduled wake up time for core 2 is 189.619781
+6090.119735	pkt 4998 arrives at core 2 and inserted into queue
+6090.119735	scheduled wake up time for core 2 is 189.056990
+6096.505401	pkt 5002 arrives at core 2 and inserted into queue
+6096.505401	scheduled wake up time for core 2 is 188.476824
+6108.325300	pkt 5016 arrives at core 2 and inserted into queue
+6108.325300	scheduled wake up time for core 2 is 187.891983
+6112.164672	pkt 5019 arrives at core 2 and inserted into queue
+6112.164672	scheduled wake up time for core 2 is 187.284068
+6156.322270	pkt 5041 arrives at core 2 and inserted into queue
+6156.322270	scheduled wake up time for core 2 is 186.746137
+6199.087325	pkt 5077 arrives at core 2 and inserted into queue
+6199.087325	scheduled wake up time for core 2 is 186.274508
+6200.830652	pkt 5082 arrives at core 2 and inserted into queue
+6200.830652	scheduled wake up time for core 2 is 185.774636
+6230.613019	pkt 5108 arrives at core 2 and inserted into queue
+6230.613019	scheduled wake up time for core 2 is 185.310880
+6273.655046	pkt 5146 arrives at core 2 and inserted into queue
+6273.655046	scheduled wake up time for core 2 is 184.913264
+6283.749798	pkt 5155 arrives at core 2 and inserted into queue
+6283.749798	scheduled wake up time for core 2 is 184.506286
+6313.847185	pkt 5186 arrives at core 2 and inserted into queue
+6313.847185	scheduled wake up time for core 2 is 184.135469
+6322.115130	pkt 5199 arrives at core 2 and inserted into queue
+6322.115130	scheduled wake up time for core 2 is 183.751070
+6324.678891	pkt 5203 arrives at core 2 and inserted into queue
+6324.678891	scheduled wake up time for core 2 is 183.340273
+6358.962743	pkt 5234 arrives at core 2 and inserted into queue
+6358.962743	scheduled wake up time for core 2 is 182.974861
+6384.636640	pkt 5258 arrives at core 2 and inserted into queue
+6384.636640	scheduled wake up time for core 2 is 182.635135
+6397.143749	pkt 5267 arrives at core 2 and inserted into queue
+6397.143749	scheduled wake up time for core 2 is 182.291334
+6426.565580	pkt 5288 arrives at core 2 and inserted into queue
+6426.565580	scheduled wake up time for core 2 is 181.981411
+6427.071483	pkt 5292 arrives at core 2 and inserted into queue
+6427.071483	scheduled wake up time for core 2 is 181.640449
+6440.051279	pkt 5305 arrives at core 2 and inserted into queue
+6440.051279	scheduled wake up time for core 2 is 181.296500
+6478.859175	pkt 5328 arrives at core 2 and inserted into queue
+6478.859175	scheduled wake up time for core 2 is 181.007107
+6479.684030	pkt 5330 arrives at core 2 and inserted into queue
+6479.684030	scheduled wake up time for core 2 is 180.687501
+6487.430276	pkt 5337 arrives at core 2 and inserted into queue
+6487.430276	scheduled wake up time for core 2 is 180.353227
+6489.550612	pkt 5340 arrives at core 2 and inserted into queue
+6489.550612	scheduled wake up time for core 2 is 179.991938
+6498.208822	pkt 5345 arrives at core 2 and inserted into queue
+6498.208822	scheduled wake up time for core 2 is 179.618245
+6502.715285	pkt 5348 arrives at core 2 and inserted into queue
+6502.715285	scheduled wake up time for core 2 is 179.223084
+6522.708145	pkt 5367 arrives at core 2 and inserted into queue
+6522.708145	scheduled wake up time for core 2 is 178.840634
+6530.570603	pkt 5372 arrives at core 2 and inserted into queue
+6530.570603	scheduled wake up time for core 2 is 178.444208
+6531.548881	pkt 5373 arrives at core 2 and inserted into queue
+6531.548881	scheduled wake up time for core 2 is 178.018836
+6533.524142	pkt 5377 arrives at core 2 and inserted into queue
+6533.524142	scheduled wake up time for core 2 is 177.566882
+6534.586779	pkt 5379 arrives at core 2 and inserted into queue
+6534.586779	scheduled wake up time for core 2 is 177.086533
+6553.542552	pkt 5396 arrives at core 2 and inserted into queue
+6553.542552	scheduled wake up time for core 2 is 176.616873
+6561.564155	pkt 5407 arrives at core 2 and inserted into queue
+6561.564155	scheduled wake up time for core 2 is 176.134112
+6565.338430	pkt 5413 arrives at core 2 and inserted into queue
+6565.338430	scheduled wake up time for core 2 is 175.629143
+6580.150723	pkt 5428 arrives at core 2 and inserted into queue
+6580.150723	scheduled wake up time for core 2 is 175.125950
+6580.769396	pkt 5431 arrives at core 2 and inserted into queue
+6580.769396	scheduled wake up time for core 2 is 174.593931
+6669.769396	core 2 woken up
+6673.929486	pkt 5492 arrives at core 2 and inserted into queue
+6681.345192	pkt 5499 arrives at core 2 and inserted into queue
+6681.411840	pkt 5500 arrives at core 2 and inserted into queue
+6683.769396	pkt 0 depart from core 2
+6692.769396	pkt 5 depart from core 2
+6693.843224	pkt 5506 arrives at core 2 and inserted into queue
+6698.062900	pkt 5509 arrives at core 2 and inserted into queue
+6702.769396	pkt 6 depart from core 2
+6712.769396	pkt 8 depart from core 2
+6714.214883	pkt 5522 arrives at core 2 and inserted into queue
+6724.769396	pkt 25 depart from core 2
+6738.769396	pkt 29 depart from core 2
+6746.769396	pkt 36 depart from core 2
+6755.769396	pkt 70 depart from core 2
+6756.214900	pkt 5554 arrives at core 2 and inserted into queue
+6768.769396	pkt 78 depart from core 2
+6774.278572	pkt 5568 arrives at core 2 and inserted into queue
+6778.769396	pkt 90 depart from core 2
+6787.769396	pkt 102 depart from core 2
+6796.769396	pkt 119 depart from core 2
+6806.769396	pkt 144 depart from core 2
+6816.769396	pkt 154 depart from core 2
+6817.724732	pkt 5598 arrives at core 2 and inserted into queue
+6824.769396	pkt 161 depart from core 2
+6825.711330	pkt 5607 arrives at core 2 and inserted into queue
+6833.769396	pkt 168 depart from core 2
+6842.769396	pkt 169 depart from core 2
+6845.441564	pkt 5618 arrives at core 2 and inserted into queue
+6850.900408	pkt 5626 arrives at core 2 and inserted into queue
+6851.769396	pkt 170 depart from core 2
+6856.501684	pkt 5629 arrives at core 2 and inserted into queue
+6861.507421	pkt 5635 arrives at core 2 and inserted into queue
+6862.769396	pkt 182 depart from core 2
+6864.952197	pkt 5639 arrives at core 2 and inserted into queue
+6871.769396	pkt 187 depart from core 2
+6880.769396	pkt 195 depart from core 2
+6894.769396	pkt 209 depart from core 2
+6899.020439	pkt 5675 arrives at core 2 and inserted into queue
+6902.769396	pkt 231 depart from core 2
+6910.769396	pkt 235 depart from core 2
+6915.051232	pkt 5694 arrives at core 2 and inserted into queue
+6919.769396	pkt 254 depart from core 2
+6931.769396	pkt 273 depart from core 2
+6932.678528	pkt 5708 arrives at core 2 and inserted into queue
+6940.769396	pkt 278 depart from core 2
+6949.366847	pkt 5726 arrives at core 2 and inserted into queue
+6949.769396	pkt 299 depart from core 2
+6957.769396	pkt 305 depart from core 2
+6958.305347	pkt 5733 arrives at core 2 and inserted into queue
+6959.288796	pkt 5734 arrives at core 2 and inserted into queue
+6962.181417	pkt 5740 arrives at core 2 and inserted into queue
+6966.769396	pkt 312 depart from core 2
+6975.769396	pkt 318 depart from core 2
+6981.225315	pkt 5757 arrives at core 2 and inserted into queue
+6983.197514	pkt 5760 arrives at core 2 and inserted into queue
+6987.312265	pkt 5766 arrives at core 2 and inserted into queue
+6994.769396	pkt 331 depart from core 2
+7007.769396	pkt 339 depart from core 2
+7022.769396	pkt 350 depart from core 2
+7031.769396	pkt 357 depart from core 2
+7032.410431	pkt 5799 arrives at core 2 and inserted into queue
+7039.769396	pkt 367 depart from core 2
+7052.769396	pkt 383 depart from core 2
+7053.463336	pkt 5811 arrives at core 2 and inserted into queue
+7053.771961	pkt 5812 arrives at core 2 and inserted into queue
+7062.769396	pkt 387 depart from core 2
+7072.769396	pkt 389 depart from core 2
+7081.769396	pkt 403 depart from core 2
+7088.101368	pkt 5842 arrives at core 2 and inserted into queue
+7092.660867	pkt 5849 arrives at core 2 and inserted into queue
+7093.769396	pkt 405 depart from core 2
+7100.177046	pkt 5854 arrives at core 2 and inserted into queue
+7102.769396	pkt 419 depart from core 2
+7112.769396	pkt 442 depart from core 2
+7125.769396	pkt 443 depart from core 2
+7140.769396	pkt 469 depart from core 2
+7148.769396	pkt 476 depart from core 2
+7149.842434	pkt 5895 arrives at core 2 and inserted into queue
+7156.769396	pkt 484 depart from core 2
+7162.573432	pkt 5907 arrives at core 2 and inserted into queue
+7163.769396	pkt 489 depart from core 2
+7171.435692	pkt 5922 arrives at core 2 and inserted into queue
+7174.769396	pkt 493 depart from core 2
+7182.715869	pkt 5932 arrives at core 2 and inserted into queue
+7183.769396	pkt 506 depart from core 2
+7189.959416	pkt 5935 arrives at core 2 and inserted into queue
+7193.282718	pkt 5938 arrives at core 2 and inserted into queue
+7193.769396	pkt 512 depart from core 2
+7200.769396	pkt 523 depart from core 2
+7209.769396	pkt 530 depart from core 2
+7217.769396	pkt 546 depart from core 2
+7226.769396	pkt 547 depart from core 2
+7236.769396	pkt 593 depart from core 2
+7251.769396	pkt 599 depart from core 2
+7253.937730	pkt 5977 arrives at core 2 and inserted into queue
+7258.769396	pkt 608 depart from core 2
+7268.769396	pkt 647 depart from core 2
+7273.875173	pkt 5998 arrives at core 2 and inserted into queue
+7278.769396	pkt 673 depart from core 2
+7287.769396	pkt 675 depart from core 2
+7290.149702	pkt 6005 arrives at core 2 and inserted into queue
+7294.300939	pkt 6008 arrives at core 2 and inserted into queue
+7296.769396	pkt 698 depart from core 2
+7298.353115	pkt 6010 arrives at core 2 and inserted into queue
+7303.130504	pkt 6015 arrives at core 2 and inserted into queue
+7306.769396	pkt 704 depart from core 2
+7324.769396	pkt 706 depart from core 2
+7333.769396	pkt 717 depart from core 2
+7342.769396	pkt 746 depart from core 2
+7352.769396	pkt 748 depart from core 2
+7362.769396	pkt 757 depart from core 2
+7372.583789	pkt 6071 arrives at core 2 and inserted into queue
+7372.769396	pkt 780 depart from core 2
+7381.165020	pkt 6081 arrives at core 2 and inserted into queue
+7388.769396	pkt 785 depart from core 2
+7389.910057	pkt 6086 arrives at core 2 and inserted into queue
+7397.769396	pkt 791 depart from core 2
+7402.435381	pkt 6095 arrives at core 2 and inserted into queue
+7406.769396	pkt 794 depart from core 2
+7416.769396	pkt 804 depart from core 2
+7435.769396	pkt 861 depart from core 2
+7446.769396	pkt 923 depart from core 2
+7453.769396	pkt 927 depart from core 2
+7455.944384	pkt 6135 arrives at core 2 and inserted into queue
+7461.769396	pkt 941 depart from core 2
+7463.182973	pkt 6142 arrives at core 2 and inserted into queue
+7471.769396	pkt 944 depart from core 2
+7480.769396	pkt 945 depart from core 2
+7493.769396	pkt 959 depart from core 2
+7496.060692	pkt 6178 arrives at core 2 and inserted into queue
+7504.769396	pkt 1014 depart from core 2
+7506.324037	pkt 6185 arrives at core 2 and inserted into queue
+7514.362694	pkt 6187 arrives at core 2 and inserted into queue
+7514.532884	pkt 6188 arrives at core 2 and inserted into queue
+7518.769396	pkt 1024 depart from core 2
+7520.222357	pkt 6192 arrives at core 2 and inserted into queue
+7526.769396	pkt 1032 depart from core 2
+7528.872910	pkt 6201 arrives at core 2 and inserted into queue
+7535.769396	pkt 1042 depart from core 2
+7539.958635	pkt 6214 arrives at core 2 and inserted into queue
+7544.769396	pkt 1049 depart from core 2
+7553.769396	pkt 1065 depart from core 2
+7562.769396	pkt 1089 depart from core 2
+7571.512988	pkt 6244 arrives at core 2 and inserted into queue
+7571.769396	pkt 1099 depart from core 2
+7579.769396	pkt 1108 depart from core 2
+7583.633993	pkt 6259 arrives at core 2 and inserted into queue
+7587.769396	pkt 1119 depart from core 2
+7595.748070	pkt 6273 arrives at core 2 and inserted into queue
+7596.769396	pkt 1121 depart from core 2
+7609.769396	pkt 1160 depart from core 2
+7619.769396	pkt 1168 depart from core 2
+7631.876466	pkt 6298 arrives at core 2 and inserted into queue
+7632.769396	pkt 1175 depart from core 2
+7638.508049	pkt 6302 arrives at core 2 and inserted into queue
+7640.010429	pkt 6304 arrives at core 2 and inserted into queue
+7640.769396	pkt 1178 depart from core 2
+7647.915247	pkt 6312 arrives at core 2 and inserted into queue
+7648.766997	pkt 6314 arrives at core 2 and inserted into queue
+7656.769396	pkt 1187 depart from core 2
+7659.792760	pkt 6322 arrives at core 2 and inserted into queue
+7669.769396	pkt 1197 depart from core 2
+7678.769396	pkt 1203 depart from core 2
+7679.356302	pkt 6345 arrives at core 2 and inserted into queue
+7687.769396	pkt 1222 depart from core 2
+7696.769396	pkt 1226 depart from core 2
+7705.396272	pkt 6369 arrives at core 2 and inserted into queue
+7710.769396	pkt 1230 depart from core 2
+7724.769396	pkt 1249 depart from core 2
+7735.299379	pkt 6396 arrives at core 2 and inserted into queue
+7736.769396	pkt 1252 depart from core 2
+7746.769396	pkt 1256 depart from core 2
+7754.769396	pkt 1273 depart from core 2
+7765.769396	pkt 1301 depart from core 2
+7774.769396	pkt 1341 depart from core 2
+7778.097014	pkt 6441 arrives at core 2 and inserted into queue
+7787.769396	pkt 1344 depart from core 2
+7796.769396	pkt 1352 depart from core 2
+7806.769396	pkt 1366 depart from core 2
+7816.572252	pkt 6473 arrives at core 2 and inserted into queue
+7823.769396	pkt 1388 depart from core 2
+7824.565547	pkt 6476 arrives at core 2 and inserted into queue
+7828.821048	pkt 6482 arrives at core 2 and inserted into queue
+7836.985243	pkt 6493 arrives at core 2 and inserted into queue
+7838.769396	pkt 1392 depart from core 2
+7847.769396	pkt 1399 depart from core 2
+7857.769396	pkt 1414 depart from core 2
+7861.051175	pkt 6505 arrives at core 2 and inserted into queue
+7861.934576	pkt 6506 arrives at core 2 and inserted into queue
+7868.367912	pkt 6513 arrives at core 2 and inserted into queue
+7869.769396	pkt 1415 depart from core 2
+7875.420655	pkt 6521 arrives at core 2 and inserted into queue
+7877.769396	pkt 1429 depart from core 2
+7880.549488	pkt 6527 arrives at core 2 and inserted into queue
+7889.769396	pkt 1489 depart from core 2
+7899.769396	pkt 1491 depart from core 2
+7907.608430	pkt 6549 arrives at core 2 and inserted into queue
+7908.769396	pkt 1519 depart from core 2
+7916.524721	pkt 6553 arrives at core 2 and inserted into queue
+7916.769396	pkt 1534 depart from core 2
+7925.840912	pkt 6558 arrives at core 2 and inserted into queue
+7927.023969	pkt 6559 arrives at core 2 and inserted into queue
+7927.769396	pkt 1546 depart from core 2
+7936.769396	pkt 1576 depart from core 2
+7944.769396	pkt 1580 depart from core 2
+7949.954691	pkt 6572 arrives at core 2 and inserted into queue
+7953.769396	pkt 1604 depart from core 2
+7954.140456	pkt 6579 arrives at core 2 and inserted into queue
+7956.496854	pkt 6582 arrives at core 2 and inserted into queue
+7959.670989	pkt 6587 arrives at core 2 and inserted into queue
+7960.769396	pkt 1616 depart from core 2
+7970.769396	pkt 1621 depart from core 2
+7976.631868	pkt 6601 arrives at core 2 and inserted into queue
+7980.782903	pkt 6605 arrives at core 2 and inserted into queue
+7982.769396	pkt 1633 depart from core 2
+7984.869519	pkt 6608 arrives at core 2 and inserted into queue
+7990.769396	pkt 1636 depart from core 2
+8002.769396	pkt 1646 depart from core 2
+8003.255091	pkt 6623 arrives at core 2 and inserted into queue
+8013.769396	pkt 1664 depart from core 2
+8023.769396	pkt 1665 depart from core 2
+8026.063283	pkt 6636 arrives at core 2 and inserted into queue
+8029.524981	pkt 6640 arrives at core 2 and inserted into queue
+8032.769396	pkt 1682 depart from core 2
+8038.133143	pkt 6647 arrives at core 2 and inserted into queue
+8039.854480	pkt 6648 arrives at core 2 and inserted into queue
+8043.288763	pkt 6652 arrives at core 2 and inserted into queue
+8045.769396	pkt 1696 depart from core 2
+8054.769396	pkt 1717 depart from core 2
+8062.769396	pkt 1718 depart from core 2
+8064.598605	pkt 6669 arrives at core 2 and inserted into queue
+8070.769396	pkt 1720 depart from core 2
+8071.647841	pkt 6680 arrives at core 2 and inserted into queue
+8080.769396	pkt 1724 depart from core 2
+8089.769396	pkt 1747 depart from core 2
+8092.807509	pkt 6691 arrives at core 2 and inserted into queue
+8101.769396	pkt 1751 depart from core 2
+8103.733631	pkt 6694 arrives at core 2 and inserted into queue
+8110.769396	pkt 1757 depart from core 2
+8122.769396	pkt 1761 depart from core 2
+8133.769396	pkt 1774 depart from core 2
+8142.769396	pkt 1783 depart from core 2
+8151.769396	pkt 1787 depart from core 2
+8159.769396	pkt 1796 depart from core 2
+8163.870091	pkt 6738 arrives at core 2 and inserted into queue
+8170.769396	pkt 1831 depart from core 2
+8177.769396	pkt 1839 depart from core 2
+8190.769396	pkt 1891 depart from core 2
+8192.469598	pkt 6763 arrives at core 2 and inserted into queue
+8200.769396	pkt 1896 depart from core 2
+8202.859870	pkt 6775 arrives at core 2 and inserted into queue
+8209.769396	pkt 1914 depart from core 2
+8213.327363	pkt 6783 arrives at core 2 and inserted into queue
+8222.769396	pkt 1915 depart from core 2
+8224.178858	pkt 6795 arrives at core 2 and inserted into queue
+8231.769396	pkt 1918 depart from core 2
+8240.769396	pkt 1927 depart from core 2
+8249.769396	pkt 1929 depart from core 2
+8257.769396	pkt 1942 depart from core 2
+8270.769396	pkt 1944 depart from core 2
+8280.769396	pkt 1952 depart from core 2
+8291.769396	pkt 1963 depart from core 2
+8300.769396	pkt 1966 depart from core 2
+8311.769396	pkt 1976 depart from core 2
+8311.946365	pkt 6841 arrives at core 2 and inserted into queue
+8318.617976	pkt 6844 arrives at core 2 and inserted into queue
+8322.937148	pkt 6848 arrives at core 2 and inserted into queue
+8323.769396	pkt 1987 depart from core 2
+8330.793001	pkt 6854 arrives at core 2 and inserted into queue
+8332.769396	pkt 2005 depart from core 2
+8342.769396	pkt 2015 depart from core 2
+8346.611404	pkt 6869 arrives at core 2 and inserted into queue
+8349.340888	pkt 6873 arrives at core 2 and inserted into queue
+8353.769396	pkt 2034 depart from core 2
+8359.174872	pkt 6883 arrives at core 2 and inserted into queue
+8361.451709	pkt 6885 arrives at core 2 and inserted into queue
+8361.769396	pkt 2068 depart from core 2
+8370.573825	pkt 6895 arrives at core 2 and inserted into queue
+8371.769396	pkt 2080 depart from core 2
+8380.769396	pkt 2085 depart from core 2
+8383.033713	pkt 6906 arrives at core 2 and inserted into queue
+8386.951367	pkt 6911 arrives at core 2 and inserted into queue
+8389.769396	pkt 2093 depart from core 2
+8405.769396	pkt 2101 depart from core 2
+8418.769396	pkt 2104 depart from core 2
+8420.331421	pkt 6929 arrives at core 2 and inserted into queue
+8427.769396	pkt 2105 depart from core 2
+8428.643468	pkt 6935 arrives at core 2 and inserted into queue
+8438.769396	pkt 2115 depart from core 2
+8447.769396	pkt 2120 depart from core 2
+8452.322077	pkt 6955 arrives at core 2 and inserted into queue
+8454.769396	pkt 2132 depart from core 2
+8461.201355	pkt 6963 arrives at core 2 and inserted into queue
+8462.769396	pkt 2157 depart from core 2
+8471.769396	pkt 2161 depart from core 2
+8479.545472	pkt 6971 arrives at core 2 and inserted into queue
+8483.769396	pkt 2168 depart from core 2
+8492.769396	pkt 2203 depart from core 2
+8500.769396	pkt 2204 depart from core 2
+8505.787812	pkt 6988 arrives at core 2 and inserted into queue
+8509.769396	pkt 2213 depart from core 2
+8512.695786	pkt 6994 arrives at core 2 and inserted into queue
+8518.769396	pkt 2240 depart from core 2
+8529.769396	pkt 2244 depart from core 2
+8534.853937	pkt 7012 arrives at core 2 and inserted into queue
+8538.769396	pkt 2262 depart from core 2
+8547.769396	pkt 2265 depart from core 2
+8555.769396	pkt 2274 depart from core 2
+8564.769396	pkt 2279 depart from core 2
+8572.769396	pkt 2281 depart from core 2
+8583.557177	pkt 7048 arrives at core 2 and inserted into queue
+8584.769396	pkt 2289 depart from core 2
+8590.176522	pkt 7053 arrives at core 2 and inserted into queue
+8593.769396	pkt 2291 depart from core 2
+8596.355431	pkt 7061 arrives at core 2 and inserted into queue
+8602.769396	pkt 2301 depart from core 2
+8603.674888	pkt 7069 arrives at core 2 and inserted into queue
+8607.077925	pkt 7074 arrives at core 2 and inserted into queue
+8608.163743	pkt 7076 arrives at core 2 and inserted into queue
+8610.769396	pkt 2302 depart from core 2
+8629.161382	pkt 7092 arrives at core 2 and inserted into queue
+8630.769396	pkt 2308 depart from core 2
+8634.244639	pkt 7097 arrives at core 2 and inserted into queue
+8638.769396	pkt 2337 depart from core 2
+8648.769396	pkt 2339 depart from core 2
+8657.769396	pkt 2340 depart from core 2
+8665.135771	pkt 7124 arrives at core 2 and inserted into queue
+8666.769396	pkt 2344 depart from core 2
+8671.659403	pkt 7135 arrives at core 2 and inserted into queue
+8672.408843	pkt 7136 arrives at core 2 and inserted into queue
+8681.769396	pkt 2374 depart from core 2
+8695.769396	pkt 2400 depart from core 2
+8718.769396	pkt 2424 depart from core 2
+8735.769396	pkt 2427 depart from core 2
+8748.070323	pkt 7194 arrives at core 2 and inserted into queue
+8750.769396	pkt 2433 depart from core 2
+8755.731851	pkt 7199 arrives at core 2 and inserted into queue
+8760.769396	pkt 2481 depart from core 2
+8767.517568	pkt 7208 arrives at core 2 and inserted into queue
+8768.769396	pkt 2497 depart from core 2
+8778.769396	pkt 2499 depart from core 2
+8780.107953	pkt 7221 arrives at core 2 and inserted into queue
+8780.170777	pkt 7222 arrives at core 2 and inserted into queue
+8790.159042	pkt 7234 arrives at core 2 and inserted into queue
+8791.769396	pkt 2501 depart from core 2
+8796.923591	pkt 7240 arrives at core 2 and inserted into queue
+8797.232150	pkt 7241 arrives at core 2 and inserted into queue
+8803.769396	pkt 2508 depart from core 2
+8811.786518	pkt 7251 arrives at core 2 and inserted into queue
+8812.897204	pkt 7253 arrives at core 2 and inserted into queue
+8813.428590	pkt 7254 arrives at core 2 and inserted into queue
+8814.769396	pkt 2515 depart from core 2
+8820.243270	pkt 7260 arrives at core 2 and inserted into queue
+8825.769396	pkt 2516 depart from core 2
+8828.340018	pkt 7265 arrives at core 2 and inserted into queue
+8834.769396	pkt 2519 depart from core 2
+8844.769396	pkt 2526 depart from core 2
+8857.769396	pkt 2528 depart from core 2
+8867.769396	pkt 2530 depart from core 2
+8869.146524	pkt 7296 arrives at core 2 and inserted into queue
+8876.769396	pkt 2570 depart from core 2
+8884.179014	pkt 7307 arrives at core 2 and inserted into queue
+8885.769396	pkt 2577 depart from core 2
+8888.855581	pkt 7310 arrives at core 2 and inserted into queue
+8889.520995	pkt 7312 arrives at core 2 and inserted into queue
+8899.769396	pkt 2586 depart from core 2
+8907.439410	pkt 7328 arrives at core 2 and inserted into queue
+8910.769396	pkt 2603 depart from core 2
+8914.497411	pkt 7331 arrives at core 2 and inserted into queue
+8919.769396	pkt 2608 depart from core 2
+8925.331124	pkt 7340 arrives at core 2 and inserted into queue
+8926.620912	pkt 7342 arrives at core 2 and inserted into queue
+8929.769396	pkt 2616 depart from core 2
+8937.769396	pkt 2632 depart from core 2
+8946.769396	pkt 2638 depart from core 2
+8949.366619	pkt 7361 arrives at core 2 and inserted into queue
+8949.857710	pkt 7362 arrives at core 2 and inserted into queue
+8952.006212	pkt 7365 arrives at core 2 and inserted into queue
+8954.824164	pkt 7370 arrives at core 2 and inserted into queue
+8958.769396	pkt 2673 depart from core 2
+8961.549188	pkt 7376 arrives at core 2 and inserted into queue
+8965.420373	pkt 7380 arrives at core 2 and inserted into queue
+8967.769396	pkt 2677 depart from core 2
+8968.402376	pkt 7385 arrives at core 2 and inserted into queue
+8974.124913	pkt 7386 arrives at core 2 and inserted into queue
+8976.107038	pkt 7387 arrives at core 2 and inserted into queue
+8978.769396	pkt 2679 depart from core 2
+8982.742986	pkt 7393 arrives at core 2 and inserted into queue
+8986.769396	pkt 2691 depart from core 2
+8988.469607	pkt 7394 arrives at core 2 and inserted into queue
+8995.769396	pkt 2695 depart from core 2
+8997.246292	pkt 7398 arrives at core 2 and inserted into queue
+9004.769396	pkt 2750 depart from core 2
+9009.809030	pkt 7408 arrives at core 2 and inserted into queue
+9017.769396	pkt 2759 depart from core 2
+9026.769396	pkt 2762 depart from core 2
+9035.769396	pkt 2763 depart from core 2
+9043.769396	pkt 2764 depart from core 2
+9054.769396	pkt 2772 depart from core 2
+9056.780100	pkt 7446 arrives at core 2 and inserted into queue
+9063.769396	pkt 2798 depart from core 2
+9071.639494	pkt 7458 arrives at core 2 and inserted into queue
+9074.769396	pkt 2806 depart from core 2
+9076.458478	pkt 7463 arrives at core 2 and inserted into queue
+9084.769396	pkt 2811 depart from core 2
+9087.466791	pkt 7478 arrives at core 2 and inserted into queue
+9092.209947	pkt 7482 arrives at core 2 and inserted into queue
+9100.769396	pkt 2819 depart from core 2
+9109.234132	pkt 7494 arrives at core 2 and inserted into queue
+9109.769396	pkt 2836 depart from core 2
+9111.824326	pkt 7500 arrives at core 2 and inserted into queue
+9120.769396	pkt 2843 depart from core 2
+9130.769396	pkt 2867 depart from core 2
+9144.769396	pkt 2879 depart from core 2
+9153.769396	pkt 2885 depart from core 2
+9159.959210	pkt 7528 arrives at core 2 and inserted into queue
+9163.649512	pkt 7530 arrives at core 2 and inserted into queue
+9167.787282	pkt 7532 arrives at core 2 and inserted into queue
+9167.895142	pkt 7533 arrives at core 2 and inserted into queue
+9169.769396	pkt 2886 depart from core 2
+9178.420130	pkt 7541 arrives at core 2 and inserted into queue
+9180.769396	pkt 2897 depart from core 2
+9187.885990	pkt 7550 arrives at core 2 and inserted into queue
+9190.391214	pkt 7554 arrives at core 2 and inserted into queue
+9191.769396	pkt 2898 depart from core 2
+9194.120788	pkt 7556 arrives at core 2 and inserted into queue
+9205.769396	pkt 2930 depart from core 2
+9211.737592	pkt 7574 arrives at core 2 and inserted into queue
+9214.769396	pkt 2951 depart from core 2
+9223.769396	pkt 2958 depart from core 2
+9234.769396	pkt 2964 depart from core 2
+9239.819373	pkt 7597 arrives at core 2 and inserted into queue
+9243.769396	pkt 2986 depart from core 2
+9244.472702	pkt 7604 arrives at core 2 and inserted into queue
+9244.482471	pkt 7605 arrives at core 2 and inserted into queue
+9249.998009	pkt 7609 arrives at core 2 and inserted into queue
+9252.769396	pkt 2987 depart from core 2
+9257.856241	pkt 7616 arrives at core 2 and inserted into queue
+9261.769396	pkt 2997 depart from core 2
+9270.769396	pkt 3000 depart from core 2
+9282.568401	pkt 7638 arrives at core 2 and inserted into queue
+9282.769396	pkt 3020 depart from core 2
+9284.640262	pkt 7642 arrives at core 2 and inserted into queue
+9288.315936	pkt 7646 arrives at core 2 and inserted into queue
+9292.769396	pkt 3030 depart from core 2
+9295.469525	pkt 7654 arrives at core 2 and inserted into queue
+9301.769396	pkt 3034 depart from core 2
+9311.313252	pkt 7667 arrives at core 2 and inserted into queue
+9311.769396	pkt 3041 depart from core 2
+9319.769396	pkt 3046 depart from core 2
+9321.404252	pkt 7679 arrives at core 2 and inserted into queue
+9328.464513	pkt 7681 arrives at core 2 and inserted into queue
+9331.769396	pkt 3050 depart from core 2
+9332.452441	pkt 7685 arrives at core 2 and inserted into queue
+9340.769396	pkt 3051 depart from core 2
+9341.382456	pkt 7694 arrives at core 2 and inserted into queue
+9349.769396	pkt 3061 depart from core 2
+9359.769396	pkt 3081 depart from core 2
+9360.671656	pkt 7711 arrives at core 2 and inserted into queue
+9366.769396	pkt 3090 depart from core 2
+9381.011237	pkt 7729 arrives at core 2 and inserted into queue
+9382.769396	pkt 3106 depart from core 2
+9387.994396	pkt 7733 arrives at core 2 and inserted into queue
+9394.769396	pkt 3112 depart from core 2
+9401.923151	pkt 7744 arrives at core 2 and inserted into queue
+9402.769396	pkt 3123 depart from core 2
+9410.769396	pkt 3142 depart from core 2
+9415.831739	pkt 7758 arrives at core 2 and inserted into queue
+9419.769396	pkt 3145 depart from core 2
+9429.769396	pkt 3162 depart from core 2
+9437.769396	pkt 3174 depart from core 2
+9445.769396	pkt 3199 depart from core 2
+9446.388193	pkt 7781 arrives at core 2 and inserted into queue
+9457.769396	pkt 3219 depart from core 2
+9464.769396	pkt 3248 depart from core 2
+9473.769396	pkt 3249 depart from core 2
+9477.446540	pkt 7797 arrives at core 2 and inserted into queue
+9484.610745	pkt 7800 arrives at core 2 and inserted into queue
+9486.769396	pkt 3272 depart from core 2
+9488.458218	pkt 7802 arrives at core 2 and inserted into queue
+9501.769396	pkt 3279 depart from core 2
+9510.389710	pkt 7819 arrives at core 2 and inserted into queue
+9511.334386	pkt 7821 arrives at core 2 and inserted into queue
+9511.769396	pkt 3282 depart from core 2
+9519.769396	pkt 3283 depart from core 2
+9526.769396	pkt 3292 depart from core 2
+9535.769396	pkt 3296 depart from core 2
+9544.769396	pkt 3300 depart from core 2
+9554.769396	pkt 3320 depart from core 2
+9558.190045	pkt 7869 arrives at core 2 and inserted into queue
+9562.769396	pkt 3336 depart from core 2
+9572.769396	pkt 3371 depart from core 2
+9581.769396	pkt 3372 depart from core 2
+9584.310285	pkt 7885 arrives at core 2 and inserted into queue
+9586.037131	pkt 7886 arrives at core 2 and inserted into queue
+9590.769396	pkt 3386 depart from core 2
+9601.769396	pkt 3398 depart from core 2
+9603.154584	pkt 7899 arrives at core 2 and inserted into queue
+9610.769396	pkt 3400 depart from core 2
+9613.290979	pkt 7907 arrives at core 2 and inserted into queue
+9619.769396	pkt 3405 depart from core 2
+9623.003533	pkt 7917 arrives at core 2 and inserted into queue
+9626.647556	pkt 7921 arrives at core 2 and inserted into queue
+9629.769396	pkt 3421 depart from core 2
+9634.957466	pkt 7926 arrives at core 2 and inserted into queue
+9638.769396	pkt 3424 depart from core 2
+9647.044014	pkt 7943 arrives at core 2 and inserted into queue
+9647.769396	pkt 3435 depart from core 2
+9655.769396	pkt 3450 depart from core 2
+9664.769396	pkt 3452 depart from core 2
+9668.245802	pkt 7960 arrives at core 2 and inserted into queue
+9673.769396	pkt 3465 depart from core 2
+9682.769396	pkt 3478 depart from core 2
+9694.769396	pkt 3479 depart from core 2
+9703.769396	pkt 3491 depart from core 2
+9705.954431	pkt 7978 arrives at core 2 and inserted into queue
+9713.769396	pkt 3493 depart from core 2
+9718.926991	pkt 7985 arrives at core 2 and inserted into queue
+9722.769396	pkt 3513 depart from core 2
+9731.769396	pkt 3515 depart from core 2
+9732.673092	pkt 7997 arrives at core 2 and inserted into queue
+9733.668631	pkt 7999 arrives at core 2 and inserted into queue
+9736.197798	pkt 8002 arrives at core 2 and inserted into queue
+9739.537441	pkt 8008 arrives at core 2 and inserted into queue
+9740.769396	pkt 3526 depart from core 2
+9742.820104	pkt 8011 arrives at core 2 and inserted into queue
+9753.769396	pkt 3538 depart from core 2
+9755.981963	pkt 8024 arrives at core 2 and inserted into queue
+9760.769396	pkt 3547 depart from core 2
+9768.609707	pkt 8038 arrives at core 2 and inserted into queue
+9768.769396	pkt 3578 depart from core 2
+9771.650063	pkt 8042 arrives at core 2 and inserted into queue
+9777.310646	pkt 8046 arrives at core 2 and inserted into queue
+9778.769396	pkt 3580 depart from core 2
+9789.769396	pkt 3588 depart from core 2
+9794.918971	pkt 8059 arrives at core 2 and inserted into queue
+9796.769396	pkt 3613 depart from core 2
+9805.769396	pkt 3619 depart from core 2
+9818.769396	pkt 3638 depart from core 2
+9829.909088	pkt 8084 arrives at core 2 and inserted into queue
+9833.769396	pkt 3648 depart from core 2
+9839.687960	pkt 8094 arrives at core 2 and inserted into queue
+9847.769396	pkt 3667 depart from core 2
+9856.769396	pkt 3672 depart from core 2
+9864.769396	pkt 3678 depart from core 2
+9876.769396	pkt 3680 depart from core 2
+9883.660514	pkt 8130 arrives at core 2 and inserted into queue
+9883.769396	pkt 3687 depart from core 2
+9894.769396	pkt 3716 depart from core 2
+9895.793504	pkt 8142 arrives at core 2 and inserted into queue
+9903.769396	pkt 3722 depart from core 2
+9906.473242	pkt 8147 arrives at core 2 and inserted into queue
+9910.028756	pkt 8151 arrives at core 2 and inserted into queue
+9912.230315	pkt 8155 arrives at core 2 and inserted into queue
+9914.576383	pkt 8159 arrives at core 2 and inserted into queue
+9917.769396	pkt 3739 depart from core 2
+9926.769396	pkt 3741 depart from core 2
+9927.067628	pkt 8170 arrives at core 2 and inserted into queue
+9929.615951	pkt 8172 arrives at core 2 and inserted into queue
+9932.193369	pkt 8174 arrives at core 2 and inserted into queue
+9932.930564	pkt 8176 arrives at core 2 and inserted into queue
+9934.676847	pkt 8177 arrives at core 2 and inserted into queue
+9937.876667	pkt 8180 arrives at core 2 and inserted into queue
+9939.769396	pkt 3744 depart from core 2
+9944.682966	pkt 8186 arrives at core 2 and inserted into queue
+9949.625404	pkt 8190 arrives at core 2 and inserted into queue
+9950.769396	pkt 3745 depart from core 2
+9962.769396	pkt 3757 depart from core 2
+9971.769396	pkt 3768 depart from core 2
+9975.567771	pkt 8214 arrives at core 2 and inserted into queue
+9980.769396	pkt 3777 depart from core 2
+9987.201409	pkt 8223 arrives at core 2 and inserted into queue
+9987.769396	pkt 3778 depart from core 2
+9998.769396	pkt 3788 depart from core 2
+10007.769396	pkt 3801 depart from core 2
+10014.162577	pkt 8248 arrives at core 2 and inserted into queue
+10016.769396	pkt 3822 depart from core 2
+10027.938168	pkt 8261 arrives at core 2 and inserted into queue
+10033.051840	pkt 8263 arrives at core 2 and inserted into queue
+10034.769396	pkt 3866 depart from core 2
+10043.769396	pkt 3871 depart from core 2
+10055.769396	pkt 3872 depart from core 2
+10064.769396	pkt 3884 depart from core 2
+10073.769396	pkt 3921 depart from core 2
+10076.358295	pkt 8289 arrives at core 2 and inserted into queue
+10082.769396	pkt 3922 depart from core 2
+10083.541225	pkt 8302 arrives at core 2 and inserted into queue
+10087.034877	pkt 8304 arrives at core 2 and inserted into queue
+10094.769396	pkt 3923 depart from core 2
+10097.374738	pkt 8320 arrives at core 2 and inserted into queue
+10099.007054	pkt 8321 arrives at core 2 and inserted into queue
+10104.769396	pkt 3927 depart from core 2
+10112.769396	pkt 3931 depart from core 2
+10124.769396	pkt 3950 depart from core 2
+10140.769396	pkt 3964 depart from core 2
+10150.769396	pkt 3974 depart from core 2
+10155.725296	pkt 8356 arrives at core 2 and inserted into queue
+10159.769396	pkt 3976 depart from core 2
+10169.769396	pkt 3978 depart from core 2
+10179.769396	pkt 3992 depart from core 2
+10182.986506	pkt 8372 arrives at core 2 and inserted into queue
+10187.769396	pkt 3993 depart from core 2
+10200.769396	pkt 4012 depart from core 2
+10201.769396	pkt 4013 depart from core 2
+10210.769396	pkt 4038 depart from core 2
+10219.769396	pkt 4043 depart from core 2
+10224.230175	pkt 8400 arrives at core 2 and inserted into queue
+10225.720125	pkt 8401 arrives at core 2 and inserted into queue
+10229.769396	pkt 4050 depart from core 2
+10237.769396	pkt 4051 depart from core 2
+10237.864491	pkt 8414 arrives at core 2 and inserted into queue
+10241.972364	pkt 8418 arrives at core 2 and inserted into queue
+10244.220274	pkt 8421 arrives at core 2 and inserted into queue
+10245.952495	pkt 8423 arrives at core 2 and inserted into queue
+10246.769396	pkt 4082 depart from core 2
+10257.769396	pkt 4087 depart from core 2
+10267.387556	pkt 8445 arrives at core 2 and inserted into queue
+10269.769396	pkt 4097 depart from core 2
+10277.769396	pkt 4103 depart from core 2
+10286.769396	pkt 4118 depart from core 2
+10293.501168	pkt 8474 arrives at core 2 and inserted into queue
+10295.791040	pkt 8476 arrives at core 2 and inserted into queue
+10297.998139	pkt 8480 arrives at core 2 and inserted into queue
+10300.769396	pkt 4120 depart from core 2
+10303.088581	pkt 8484 arrives at core 2 and inserted into queue
+10308.769396	pkt 4168 depart from core 2
+10319.769396	pkt 4173 depart from core 2
+10324.696384	pkt 8498 arrives at core 2 and inserted into queue
+10333.769396	pkt 4210 depart from core 2
+10342.769396	pkt 4215 depart from core 2
+10351.769396	pkt 4237 depart from core 2
+10355.635197	pkt 8520 arrives at core 2 and inserted into queue
+10360.769396	pkt 4239 depart from core 2
+10368.769396	pkt 4250 depart from core 2
+10371.779745	pkt 8538 arrives at core 2 and inserted into queue
+10380.769396	pkt 4258 depart from core 2
+10388.769396	pkt 4260 depart from core 2
+10389.770012	pkt 8557 arrives at core 2 and inserted into queue
+10391.216818	pkt 8559 arrives at core 2 and inserted into queue
+10396.307985	pkt 8566 arrives at core 2 and inserted into queue
+10403.418991	pkt 8575 arrives at core 2 and inserted into queue
+10405.769396	pkt 4274 depart from core 2
+10414.769396	pkt 4284 depart from core 2
+10417.689198	pkt 8586 arrives at core 2 and inserted into queue
+10418.395536	pkt 8587 arrives at core 2 and inserted into queue
+10422.769396	pkt 4288 depart from core 2
+10428.710333	pkt 8598 arrives at core 2 and inserted into queue
+10432.769396	pkt 4294 depart from core 2
+10441.769396	pkt 4316 depart from core 2
+10455.669581	pkt 8621 arrives at core 2 and inserted into queue
+10455.769396	pkt 4324 depart from core 2
+10463.769396	pkt 4338 depart from core 2
+10463.969634	pkt 8632 arrives at core 2 and inserted into queue
+10472.769396	pkt 4355 depart from core 2
+10481.769396	pkt 4368 depart from core 2
+10484.963091	pkt 8650 arrives at core 2 and inserted into queue
+10493.769396	pkt 4369 depart from core 2
+10501.017414	pkt 8659 arrives at core 2 and inserted into queue
+10501.769396	pkt 4376 depart from core 2
+10506.104836	pkt 8664 arrives at core 2 and inserted into queue
+10508.769396	pkt 4377 depart from core 2
+10513.204736	pkt 8671 arrives at core 2 and inserted into queue
+10517.769396	pkt 4379 depart from core 2
+10522.250407	pkt 8679 arrives at core 2 and inserted into queue
+10526.769396	pkt 4390 depart from core 2
+10533.024490	pkt 8688 arrives at core 2 and inserted into queue
+10535.331766	pkt 8692 arrives at core 2 and inserted into queue
+10535.769396	pkt 4412 depart from core 2
+10543.769396	pkt 4435 depart from core 2
+10552.769396	pkt 4445 depart from core 2
+10558.371360	pkt 8716 arrives at core 2 and inserted into queue
+10561.769396	pkt 4448 depart from core 2
+10571.769396	pkt 4452 depart from core 2
+10576.279123	pkt 8728 arrives at core 2 and inserted into queue
+10580.769396	pkt 4459 depart from core 2
+10582.680204	pkt 8733 arrives at core 2 and inserted into queue
+10594.769396	pkt 4463 depart from core 2
+10595.463241	pkt 8745 arrives at core 2 and inserted into queue
+10604.769396	pkt 4472 depart from core 2
+10612.400369	pkt 8766 arrives at core 2 and inserted into queue
+10613.769396	pkt 4475 depart from core 2
+10623.769396	pkt 4480 depart from core 2
+10630.161323	pkt 8782 arrives at core 2 and inserted into queue
+10635.769396	pkt 4485 depart from core 2
+10645.769396	pkt 4488 depart from core 2
+10650.929755	pkt 8799 arrives at core 2 and inserted into queue
+10658.769396	pkt 4493 depart from core 2
+10668.769396	pkt 4522 depart from core 2
+10668.983178	pkt 8814 arrives at core 2 and inserted into queue
+10677.769396	pkt 4533 depart from core 2
+10686.769396	pkt 4556 depart from core 2
+10697.769396	pkt 4569 depart from core 2
+10708.646673	pkt 8850 arrives at core 2 and inserted into queue
+10710.769396	pkt 4585 depart from core 2
+10713.229145	pkt 8854 arrives at core 2 and inserted into queue
+10714.824914	pkt 8855 arrives at core 2 and inserted into queue
+10720.769396	pkt 4590 depart from core 2
+10728.840357	pkt 8866 arrives at core 2 and inserted into queue
+10733.769396	pkt 4591 depart from core 2
+10750.769396	pkt 4627 depart from core 2
+10752.667144	pkt 8884 arrives at core 2 and inserted into queue
+10754.293983	pkt 8886 arrives at core 2 and inserted into queue
+10755.071251	pkt 8888 arrives at core 2 and inserted into queue
+10758.315661	pkt 8891 arrives at core 2 and inserted into queue
+10760.769396	pkt 4641 depart from core 2
+10761.054331	pkt 8895 arrives at core 2 and inserted into queue
+10766.280494	pkt 8901 arrives at core 2 and inserted into queue
+10769.769396	pkt 4648 depart from core 2
+10778.769396	pkt 4654 depart from core 2
+10783.654418	pkt 8915 arrives at core 2 and inserted into queue
+10786.833514	pkt 8921 arrives at core 2 and inserted into queue
+10788.769396	pkt 4659 depart from core 2
+10792.288718	pkt 8927 arrives at core 2 and inserted into queue
+10797.665589	pkt 8936 arrives at core 2 and inserted into queue
+10798.769396	pkt 4670 depart from core 2
+10807.769396	pkt 4674 depart from core 2
+10815.757121	pkt 8946 arrives at core 2 and inserted into queue
+10815.769396	pkt 4689 depart from core 2
+10822.769396	pkt 4699 depart from core 2
+10833.769396	pkt 4720 depart from core 2
+10842.769396	pkt 4721 depart from core 2
+10843.983629	pkt 8968 arrives at core 2 and inserted into queue
+10846.756993	pkt 8973 arrives at core 2 and inserted into queue
+10851.769396	pkt 4724 depart from core 2
+10860.769396	pkt 4735 depart from core 2
+10868.080545	pkt 8992 arrives at core 2 and inserted into queue
+10879.742889	pkt 9001 arrives at core 2 and inserted into queue
+10879.769396	pkt 4742 depart from core 2
+10891.769396	pkt 4744 depart from core 2
+10893.906184	pkt 9015 arrives at core 2 and inserted into queue
+10898.059802	pkt 9017 arrives at core 2 and inserted into queue
+10898.539872	pkt 9018 arrives at core 2 and inserted into queue
+10900.769396	pkt 4752 depart from core 2
+10909.769396	pkt 4753 depart from core 2
+10922.769396	pkt 4754 depart from core 2
+10928.944679	pkt 9035 arrives at core 2 and inserted into queue
+10929.769396	pkt 4759 depart from core 2
+10933.315778	pkt 9038 arrives at core 2 and inserted into queue
+10938.769396	pkt 4772 depart from core 2
+10950.769396	pkt 4773 depart from core 2
+10958.033452	pkt 9054 arrives at core 2 and inserted into queue
+10958.439177	pkt 9055 arrives at core 2 and inserted into queue
+10958.769396	pkt 4795 depart from core 2
+10967.769396	pkt 4796 depart from core 2
+10972.802922	pkt 9070 arrives at core 2 and inserted into queue
+10977.769396	pkt 4859 depart from core 2
+10979.572205	pkt 9073 arrives at core 2 and inserted into queue
+10985.716246	pkt 9078 arrives at core 2 and inserted into queue
+10986.769396	pkt 4875 depart from core 2
+10995.769396	pkt 4909 depart from core 2
+11007.769396	pkt 4912 depart from core 2
+11016.768204	pkt 9109 arrives at core 2 and inserted into queue
+11016.769396	pkt 4917 depart from core 2
+11026.769396	pkt 4921 depart from core 2
+11032.579635	pkt 9122 arrives at core 2 and inserted into queue
+11036.769396	pkt 4961 depart from core 2
+11045.769396	pkt 4983 depart from core 2
+11055.769396	pkt 4998 depart from core 2
+11065.769396	pkt 5002 depart from core 2
+11074.769396	pkt 5016 depart from core 2
+11075.221144	pkt 9164 arrives at core 2 and inserted into queue
+11082.769396	pkt 5019 depart from core 2
+11086.510020	pkt 9176 arrives at core 2 and inserted into queue
+11091.769396	pkt 5041 depart from core 2
+11101.769396	pkt 5077 depart from core 2
+11103.800422	pkt 9189 arrives at core 2 and inserted into queue
+11109.769396	pkt 5082 depart from core 2
+11118.769396	pkt 5108 depart from core 2
+11128.769396	pkt 5146 depart from core 2
+11137.769396	pkt 5155 depart from core 2
+11156.769396	pkt 5186 depart from core 2
+11157.530510	pkt 9225 arrives at core 2 and inserted into queue
+11164.527461	pkt 9232 arrives at core 2 and inserted into queue
+11165.769396	pkt 5199 depart from core 2
+11176.769396	pkt 5203 depart from core 2
+11181.247188	pkt 9243 arrives at core 2 and inserted into queue
+11186.769396	pkt 5234 depart from core 2
+11195.711170	pkt 9253 arrives at core 2 and inserted into queue
+11196.769396	pkt 5258 depart from core 2
+11207.769396	pkt 5267 depart from core 2
+11216.769396	pkt 5288 depart from core 2
+11223.509065	pkt 9274 arrives at core 2 and inserted into queue
+11226.769396	pkt 5292 depart from core 2
+11237.769396	pkt 5305 depart from core 2
+11247.769396	pkt 5328 depart from core 2
+11254.450595	pkt 9298 arrives at core 2 and inserted into queue
+11255.769396	pkt 5330 depart from core 2
+11264.769396	pkt 5337 depart from core 2
+11273.065152	pkt 9311 arrives at core 2 and inserted into queue
+11277.769396	pkt 5340 depart from core 2
+11279.681012	pkt 9316 arrives at core 2 and inserted into queue
+11286.769396	pkt 5345 depart from core 2
+11297.769396	pkt 5348 depart from core 2
+11303.221746	pkt 9330 arrives at core 2 and inserted into queue
+11303.329616	pkt 9331 arrives at core 2 and inserted into queue
+11307.503513	pkt 9334 arrives at core 2 and inserted into queue
+11309.769396	pkt 5367 depart from core 2
+11319.769396	pkt 5372 depart from core 2
+11329.769396	pkt 5373 depart from core 2
+11338.769396	pkt 5377 depart from core 2
+11347.769396	pkt 5379 depart from core 2
+11352.259053	pkt 9358 arrives at core 2 and inserted into queue
+11356.769396	pkt 5396 depart from core 2
+11364.769396	pkt 5407 depart from core 2
+11373.769396	pkt 5413 depart from core 2
+11382.003185	pkt 9386 arrives at core 2 and inserted into queue
+11382.769396	pkt 5428 depart from core 2
+11393.438351	pkt 9401 arrives at core 2 and inserted into queue
+11394.769396	pkt 5431 depart from core 2
+11408.769396	pkt 5492 depart from core 2
+11410.009263	pkt 9413 arrives at core 2 and inserted into queue
+11420.769396	pkt 5499 depart from core 2
+11423.154408	pkt 9422 arrives at core 2 and inserted into queue
+11429.769396	pkt 5500 depart from core 2
+11438.769396	pkt 5506 depart from core 2
+11450.769396	pkt 5509 depart from core 2
+11456.073970	pkt 9444 arrives at core 2 and inserted into queue
+11457.769396	pkt 5522 depart from core 2
+11465.769396	pkt 5554 depart from core 2
+11465.993212	pkt 9450 arrives at core 2 and inserted into queue
+11471.343690	pkt 9458 arrives at core 2 and inserted into queue
+11471.410686	pkt 9459 arrives at core 2 and inserted into queue
+11475.769396	pkt 5568 depart from core 2
+11476.778800	pkt 9462 arrives at core 2 and inserted into queue
+11483.769396	pkt 5598 depart from core 2
+11488.629068	pkt 9472 arrives at core 2 and inserted into queue
+11491.769396	pkt 5607 depart from core 2
+11501.769396	pkt 5618 depart from core 2
+11508.769396	pkt 5626 depart from core 2
+11518.769396	pkt 5629 depart from core 2
+11527.306863	pkt 9496 arrives at core 2 and inserted into queue
+11530.769396	pkt 5635 depart from core 2
+11537.769396	pkt 5639 depart from core 2
+11542.395020	pkt 9503 arrives at core 2 and inserted into queue
+11545.769396	pkt 5675 depart from core 2
+11548.769396	pkt 5694 depart from core 2
+11557.769396	pkt 5708 depart from core 2
+11560.528991	pkt 9522 arrives at core 2 and inserted into queue
+11569.769396	pkt 5726 depart from core 2
+11579.618869	pkt 9541 arrives at core 2 and inserted into queue
+11579.875504	pkt 9542 arrives at core 2 and inserted into queue
+11583.769396	pkt 5733 depart from core 2
+11587.290365	pkt 9548 arrives at core 2 and inserted into queue
+11592.769396	pkt 5734 depart from core 2
+11593.240443	pkt 9555 arrives at core 2 and inserted into queue
+11604.769396	pkt 5740 depart from core 2
+11615.769396	pkt 5757 depart from core 2
+11626.769396	pkt 5760 depart from core 2
+11638.769396	pkt 5766 depart from core 2
+11647.769396	pkt 5799 depart from core 2
+11650.129917	pkt 9598 arrives at core 2 and inserted into queue
+11656.769396	pkt 5811 depart from core 2
+11657.965458	pkt 9605 arrives at core 2 and inserted into queue
+11666.769396	pkt 5812 depart from core 2
+11674.769396	pkt 5842 depart from core 2
+11683.769396	pkt 5849 depart from core 2
+11696.769396	pkt 5854 depart from core 2
+11704.044109	pkt 9642 arrives at core 2 and inserted into queue
+11707.769396	pkt 5895 depart from core 2
+11716.769396	pkt 5907 depart from core 2
+11718.589987	pkt 9657 arrives at core 2 and inserted into queue
+11722.769396	pkt 5922 depart from core 2
+11727.133885	pkt 9663 arrives at core 2 and inserted into queue
+11732.769396	pkt 5932 depart from core 2
+11741.769396	pkt 5935 depart from core 2
+11750.769396	pkt 5938 depart from core 2
+11763.769396	pkt 5977 depart from core 2
+11766.384040	pkt 9692 arrives at core 2 and inserted into queue
+11768.069852	pkt 9693 arrives at core 2 and inserted into queue
+11771.769396	pkt 5998 depart from core 2
+11782.769396	pkt 6005 depart from core 2
+11785.888157	pkt 9704 arrives at core 2 and inserted into queue
+11789.334163	pkt 9707 arrives at core 2 and inserted into queue
+11792.769396	pkt 6008 depart from core 2
+11797.473544	pkt 9711 arrives at core 2 and inserted into queue
+11801.769396	pkt 6010 depart from core 2
+11811.769396	pkt 6015 depart from core 2
+11820.769396	pkt 6071 depart from core 2
+11822.782935	pkt 9731 arrives at core 2 and inserted into queue
+11824.512529	pkt 9733 arrives at core 2 and inserted into queue
+11830.769396	pkt 6081 depart from core 2
+11841.769396	pkt 6086 depart from core 2
+11847.114407	pkt 9754 arrives at core 2 and inserted into queue
+11850.769396	pkt 6095 depart from core 2
+11858.769396	pkt 6135 depart from core 2
+11863.899029	pkt 9769 arrives at core 2 and inserted into queue
+11867.769396	pkt 6142 depart from core 2
+11885.769396	pkt 6178 depart from core 2
+11897.769396	pkt 6185 depart from core 2
+11905.769396	pkt 6187 depart from core 2
+11915.769396	pkt 6188 depart from core 2
+11923.769396	pkt 6192 depart from core 2
+11931.045839	pkt 9812 arrives at core 2 and inserted into queue
+11932.769396	pkt 6201 depart from core 2
+11946.769396	pkt 6214 depart from core 2
+11954.769396	pkt 6244 depart from core 2
+11958.775348	pkt 9839 arrives at core 2 and inserted into queue
+11959.956352	pkt 9843 arrives at core 2 and inserted into queue
+11963.769396	pkt 6259 depart from core 2
+11967.411209	pkt 9852 arrives at core 2 and inserted into queue
+11972.769396	pkt 6273 depart from core 2
+11972.779817	pkt 9858 arrives at core 2 and inserted into queue
+11974.766159	pkt 9860 arrives at core 2 and inserted into queue
+11977.471836	pkt 9862 arrives at core 2 and inserted into queue
+11981.769396	pkt 6298 depart from core 2
+11990.769396	pkt 6302 depart from core 2
+11993.642281	pkt 9874 arrives at core 2 and inserted into queue
+11996.963172	pkt 9879 arrives at core 2 and inserted into queue
+12000.769396	pkt 6304 depart from core 2
+12013.769396	pkt 6312 depart from core 2
+12017.346481	pkt 9896 arrives at core 2 and inserted into queue
+12021.769396	pkt 6314 depart from core 2
+12027.451060	pkt 9907 arrives at core 2 and inserted into queue
+12032.769396	pkt 6322 depart from core 2
+12035.196700	pkt 9912 arrives at core 2 and inserted into queue
+12040.769396	pkt 6345 depart from core 2
+12043.551807	pkt 9919 arrives at core 2 and inserted into queue
+12049.769396	pkt 6369 depart from core 2
+12060.769396	pkt 6396 depart from core 2
+12072.696287	pkt 9941 arrives at core 2 and inserted into queue
+12077.769396	pkt 6441 depart from core 2
+12081.136130	pkt 9948 arrives at core 2 and inserted into queue
+12086.769396	pkt 6473 depart from core 2
+12095.769396	pkt 6476 depart from core 2
+12104.769396	pkt 6482 depart from core 2
+12112.367045	pkt 9976 arrives at core 2 and inserted into queue
+12114.769396	pkt 6493 depart from core 2
+12117.493885	pkt 9981 arrives at core 2 and inserted into queue
+12123.769396	pkt 6505 depart from core 2
+12131.769396	pkt 6506 depart from core 2
+12139.769396	pkt 6513 depart from core 2
+12140.421640	pkt 9993 arrives at core 2 and inserted into queue
+12147.769396	pkt 6521 depart from core 2
