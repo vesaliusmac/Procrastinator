@@ -5,7 +5,7 @@
 #include <stdarg.h>
 #include "arrival.h"
 //----- Constants -------------------------------------------------------------
-#define PKT_limit 100000//0 // Simulation time
+#define PKT_limit 1000000 // Simulation time
 #define SIM_TIME  1000000000000
 #define quiet 1
 #define debug 0
@@ -173,8 +173,8 @@ int main(int argc, char **argv){
 	int DVFS_latency=100;
 	
 	int (*foo)(int, double, double);
-	// foo=&load_balance_none;
-	foo=&load_balance_random;
+	foo=&load_balance_none;
+	// foo=&load_balance_random;
 	// foo=&load_balance_min_lat;
 	// foo=&load_balance_max_f;
 	// foo=&load_balance_min_f;
@@ -794,6 +794,7 @@ int main(int argc, char **argv){
 		printf("total pkts processed %d\n",pkt_processed);
 		printf("total pkts in queue %d\n",pkt_in_queue);
 		printf("total pkts in servers %d\n",pkt_in_server);
+		printf("total pkts re-scheduled %d\n",rescheduled_pkt);
 	}
 	
 	double latency[server_count]={0};
@@ -1155,6 +1156,10 @@ int load_balance_random(int m, double service_tail, double cur_time){
 	int server_P_state;
 	int map[m];
 	int map_inx=0;
+	int original_assigned=rand_int(m);
+	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
+		return original_assigned;
+	}
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1169,9 +1174,12 @@ int load_balance_random(int m, double service_tail, double cur_time){
 		}
 	}
 	if(map_inx==0){
-		return rand_int(m);
+		return original_assigned;
 	}else{
-		return map[rand_int(map_inx)];
+		int new_assigned=map[rand_int(map_inx)];
+		if(new_assigned!=original_assigned)
+			rescheduled_pkt++;
+		return new_assigned;
 	}
 	
 
@@ -1183,6 +1191,10 @@ int load_balance_min_lat(int m, double service_tail, double cur_time){
 	double temp_lat=0;
 	double service_tail_dvfs=0;
 	int server_P_state;
+	int original_assigned=rand_int(m);
+	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
+		return original_assigned;
+	}
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1199,8 +1211,10 @@ int load_balance_min_lat(int m, double service_tail, double cur_time){
 		}
 	}
 	if(min_inx<0){
-		return rand_int(m);
+		return original_assigned;
 	}else{
+		if(min_inx!=original_assigned)
+			rescheduled_pkt++;
 		return min_inx;
 	}
 
@@ -1214,6 +1228,10 @@ int load_balance_max_f(int m, double service_tail, double cur_time){
 	double service_tail_dvfs=0;
 	int server_P_state;
 	double lat_array[m];
+	int original_assigned=rand_int(m);
+	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
+		return original_assigned;
+	}
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1246,8 +1264,10 @@ int load_balance_max_f(int m, double service_tail, double cur_time){
 		}
 	}
 	if(min_inx<0){
-		return rand_int(m);
+		return original_assigned;
 	}else{
+		if(min_inx!=original_assigned)
+			rescheduled_pkt++;
 		return min_inx;
 	}
 
@@ -1261,6 +1281,10 @@ int load_balance_min_f(int m, double service_tail, double cur_time){
 	double service_tail_dvfs=0;
 	int server_P_state;
 	double lat_array[m];
+	int original_assigned=rand_int(m);
+	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
+		return original_assigned;
+	}
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1293,8 +1317,11 @@ int load_balance_min_f(int m, double service_tail, double cur_time){
 		}
 	}
 	if(min_inx<0){
-		return rand_int(m);
+		
+		return original_assigned;
 	}else{
+		if(min_inx!=original_assigned)
+			rescheduled_pkt++;
 		return min_inx;
 	}
 
@@ -1308,6 +1335,10 @@ int load_balance_sleep(int m, double service_tail, double cur_time){
 	double service_tail_dvfs=0;
 	int server_P_state;
 	double lat_array[m];
+	int original_assigned=rand_int(m);
+	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
+		return original_assigned;
+	}
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1345,8 +1376,11 @@ int load_balance_sleep(int m, double service_tail, double cur_time){
 		}
 	}
 	if(min_inx<0){
-		return rand_int(m);
+		
+		return original_assigned;
 	}else{
+		if(min_inx!=original_assigned)
+			rescheduled_pkt++;
 		return min_inx;
 	}
 
