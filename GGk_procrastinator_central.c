@@ -59,6 +59,7 @@ typedef struct
 	int P_state;
 	int last_P_state;
 	double time_P_state;
+	double last_pkt_arrived;
 }Server;
 
 typedef struct
@@ -127,7 +128,7 @@ int queue_de_ptr[server_count]={0};
 int pkt_index=0;
 int queued_pkt[server_count]={0};
 double accu_arrival_time[server_count]={0};
-
+int rescheduled_pkt=0;
 int pick;
 // int map[server_count]={0};
 int check_package=0;
@@ -229,6 +230,7 @@ int main(int argc, char **argv){
 		server[i].P_state=0;
 		server[i].last_P_state=0;
 		server[i].time_P_state=-1;
+		server[i].last_pkt_arrived=-1;
 	}
 	package.time_arrived=-1;
 	package.time_finished=-1;
@@ -338,6 +340,7 @@ int main(int argc, char **argv){
 			pkt_index++;
 			queue_en_ptr[assigned_server]++;
 			queued_pkt[assigned_server]++;
+			server[assigned_server].last_pkt_arrived=time;
 			error("%10.6f\tpkt %d arrives at core %d and inserted into queue\n",time,pkt_index-1,assigned_server);				
 			
 			/*determin when the core need to wake up if it is idle*/
