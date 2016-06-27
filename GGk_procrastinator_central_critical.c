@@ -7,7 +7,7 @@
 //----- Constants -------------------------------------------------------------
 #define PKT_limit 1000000 // Simulation time
 #define SIM_TIME  1000000000000
-#define quiet 1
+#define quiet 0
 #define debug 0
 #define printdist 0
 // #define ivy
@@ -86,6 +86,7 @@ int load_balance_min_lat(int m, double service_tail, double cur_time);
 int load_balance_max_f(int m, double service_tail, double cur_time);
 int load_balance_min_f(int m, double service_tail, double cur_time);
 int load_balance_sleep(int m, double service_tail, double cur_time);
+int load_balance_min_cost(int m, double service_tail, double cur_time);
 void error( const char* format, ... ) {
     if(debug==1){
 		va_list args;
@@ -110,7 +111,10 @@ double* arrival_length;
 double* arrival_cdf;
 int service_count,arrival_count;
 
-
+double average_service_time;
+double wake_up_latency;
+double Pc;
+int DVFS_latency;
 
 double server_pkt_arrival_time[server_count]={0};
 double server_pkt_depart_time[server_count]={0};
@@ -170,16 +174,16 @@ int main(int argc, char **argv){
 	}
 	LC=atoi(argv[5]);  //latency constraint
 	// int DVFS_latency=atoi(argv[6]);
-	int DVFS_latency=100;
+	DVFS_latency=10;
 	
 	int (*foo)(int, double, double);
-	foo=&load_balance_none;
+	// foo=&load_balance_none;
 	// foo=&load_balance_random;
 	// foo=&load_balance_min_lat;
 	// foo=&load_balance_max_f;
 	// foo=&load_balance_min_f;
 	// foo=&load_balance_sleep;
-	
+	foo=&load_balance_min_cost;
 	
 	/****************/
 	/*initialization*/
@@ -245,7 +249,7 @@ int main(int argc, char **argv){
 	/***read trace***/
 	/****************/
 	
-	double average_service_time;
+	
 	read_dist(&average_service_time);
 	double Ta=average_service_time/(server_count*p);
 	int ret=read_and_scale_dist(Ta); // ret == -1 // use exponential
@@ -275,7 +279,7 @@ int main(int argc, char **argv){
 	double Pa = Pa_static*voltage[select_f]+Pa_dyn*voltage[select_f]*voltage[select_f]*freq[select_f]; // core power
 	C_state_power[0]=Pa;
 	double S = S_static*voltage[select_f]+S_dyn*voltage[select_f]*voltage[select_f]*freq[select_f];  // uncore power
-	double wake_up_latency;
+	
 	if(argc==6)
 		wake_up_latency=C_state_wakeup_latency[C_state];
 	else
@@ -291,13 +295,14 @@ int main(int argc, char **argv){
 	// }
 	
 	double residency=C_state_residency[C_state];
-	double Pc=C_state_power[C_state];
+	Pc=C_state_power[C_state];
 	
 	if(!quiet){
 		printf("system load %f\n",Ts_dvfs/Ta/m);
 		printf("# of core %d\n",m);
 		printf("selected frequency/voltage %f/%f\n",freq[select_f],voltage[select_f]);
 		printf("mean service time %f\nmean arrival time %f\n",Ts_dvfs*1000000,Ta*1000000);
+		printf("service time tail %f\n",service_tail);
 		printf("Pa %f, S %f\n",Pa,S);
 		printf("Pc %f\n",Pc);
 	}	
@@ -380,14 +385,14 @@ int main(int argc, char **argv){
 					
 				}
 				// sanity check
-				if(slack<0){
-					printf("slack time calculation error, less than 0\n");
-					return 0;
-				}
-				if(slack<wake_up_latency){
-					printf("slack time calculation error, less than wake_up_latency\n");
-					return 0;
-				}
+				// if(slack<0){
+					// printf("slack time calculation error, less than 0\n");
+					// return 0;
+				// }
+				// if(slack<wake_up_latency){
+					// printf("slack time calculation error, less than wake_up_latency\n");
+					// return 0;
+				// }
 				if(P_state_temp<0){
 					printf("P-state calculation error, less than 0\n");
 					return 0;
@@ -404,8 +409,13 @@ int main(int argc, char **argv){
 				}
 				error("%10.6f\tscheduled wake up time for core %d is %f\n",time,assigned_server,slack);
 				
-			}else{
+			}else{// assigned to a busy server
+				
 				if(queued_pkt[assigned_server]<1) printf("error\n");
+				// if(time-server[assigned_server].last_pkt_arrived<service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // critical request
+					// return original_assigned;
+				// }
+				
 			}
 			
 			// update events
@@ -678,7 +688,9 @@ int main(int argc, char **argv){
 		}
 		
 		total_P_state_ratio[i]=total_P_state_time[i]/time;
-		// printf("total_P_state_ratio: core%d %f\n",i,total_P_state_ratio[i]);
+		if(!quiet){
+			printf("total_P_state_ratio: core%d %f\n",i,total_P_state_ratio[i]);
+		}
 	}
 	
 	double per_P_state_time[freq_steps]={0};
@@ -708,7 +720,9 @@ int main(int argc, char **argv){
 		}else{
 			total_P_state_power[i]=total_P_state_energy[i]/total_P_state_time[i];
 		}
-		// printf("total_P_state_power %d %f\n",i,total_P_state_power[i]);
+		if(!quiet){
+			printf("total_P_state_power %d %f\n",i,total_P_state_power[i]);
+		}
 	}
 	double overall_P_state_power=0;
 	for(i=0;i<server_count;i++){
@@ -1158,6 +1172,7 @@ int load_balance_random(int m, double service_tail, double cur_time){
 	int map_inx=0;
 	int original_assigned=rand_int(m);
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
+		printf("%f\t%f\n",cur_time-server[original_assigned].last_pkt_arrived,service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha));
 		return original_assigned;
 	}
 	for(int i=0;i<m;i++){
@@ -1375,6 +1390,99 @@ int load_balance_sleep(int m, double service_tail, double cur_time){
 			}
 		}
 	}
+	if(min_inx<0){
+		
+		return original_assigned;
+	}else{
+		if(min_inx!=original_assigned)
+			rescheduled_pkt++;
+		return min_inx;
+	}
+
+}
+
+
+int load_balance_min_cost(int m, double service_tail, double cur_time){
+	double min_cost= 999999999;
+	int min_inx=-1;
+	double temp_accu_arrival_time;
+	double cost_array[m];
+	int original_assigned=rand_int(m);
+	// if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
+		// return original_assigned;
+	// }
+	for(int j=0;j<m;j++){
+		cost_array[j]=999999999;
+		if(server[j].state==0){ //core idle
+			double slack=-1,slack_temp,power_temp,power_min=999999999,P_state_temp=-1;
+			double Ts_nf_dvfs_temp,Ts_avg_dvfs_temp;
+			double idle_time_temp,busy_time_temp;
+			double Pa_temp;
+			double original_power;
+			
+			if(server[j].time_vacation_end>SIM_TIME){
+				original_power=0;
+			}else{
+				idle_time_temp=server[j].time_vacation_end-server[j].time_arrived;
+				busy_time_temp=queued_pkt[j]*average_service_time*freq[0]/freq[server[j].P_state]*alpha+average_service_time*(1-alpha);
+				original_power=((idle_time_temp-wake_up_latency)*Pc+(wake_up_latency+busy_time_temp)*(Pa_static*voltage[server[j].P_state]+Pa_dyn*voltage[server[j].P_state]*voltage[server[j].P_state]*freq[server[j].P_state]));
+			}
+			temp_accu_arrival_time=accu_arrival_time[j]+cur_time;
+			
+			
+			for(int i=0;i<freq_steps;i++){
+				Ts_avg_dvfs_temp=average_service_time*freq[0]/freq[i]*alpha+average_service_time*(1-alpha);
+				Ts_nf_dvfs_temp=service_tail*1e-6*freq[0]/freq[i]*alpha+service_tail*1e-6*(1-alpha);
+				Pa_temp = Pa_static*voltage[i]+Pa_dyn*voltage[i]*voltage[i]*freq[i]; // active power
+				if(server[j].P_state!=i)
+					slack_temp=LC-DVFS_latency-(queued_pkt[j]+1)*Ts_nf_dvfs_temp*1e6/2+temp_accu_arrival_time/(queued_pkt[j]+1);
+				else
+					slack_temp=LC-(queued_pkt[i]+1)*Ts_nf_dvfs_temp*1e6/2+temp_accu_arrival_time/(queued_pkt[i]+1);
+				idle_time_temp=slack_temp-server[j].time_arrived;
+				busy_time_temp=(queued_pkt[j]+1)*Ts_avg_dvfs_temp;
+				if(slack_temp-cur_time>100){
+					if(server[j].P_state!=i)
+						power_temp=((idle_time_temp-wake_up_latency-DVFS_latency)*Pc+(DVFS_latency+wake_up_latency+busy_time_temp)*Pa_temp);
+					else
+						power_temp=((idle_time_temp-wake_up_latency)*Pc+(wake_up_latency+busy_time_temp)*Pa_temp);
+					if(power_temp<power_min){
+						power_min=power_temp;
+						cost_array[j]=power_min-original_power;
+						slack=slack_temp;
+						P_state_temp=i;
+					}
+					
+				}
+			}
+			// if(cost_array[j]<0){
+				// printf("original/modified wakeup_time %f\t%f\n",server[j].time_vacation_end,slack);
+				// printf("original/modified pstate %f\t%f\n",server[j].P_state,P_state_temp);
+			// }
+				
+		}else{// assigned to a busy server
+			
+			double freq_min=freq[0]*(service_tail*1e-6*alpha*1e6)/(LC/(queued_pkt[j]+1)*1.0-(1-alpha)*service_tail);
+			int temp_P_state=0;
+			for(int i=0;i<freq_steps;i++){
+				if(freq[i]<freq_min){
+					temp_P_state=i-1;
+					break;
+				}
+			}
+			double original_power=(queued_pkt[j]*average_service_time*freq[0]/freq[server[j].P_state]*alpha+average_service_time*(1-alpha))*(Pa_static*voltage[server[j].P_state]+Pa_dyn*voltage[server[j].P_state]*voltage[server[j].P_state]*freq[server[j].P_state]);
+			cost_array[j]=((queued_pkt[j]+1)*average_service_time*freq[0]/freq[temp_P_state]*alpha+average_service_time*(1-alpha))*(Pa_static*voltage[temp_P_state]+Pa_dyn*voltage[temp_P_state]*voltage[temp_P_state]*freq[temp_P_state])-original_power;
+			
+		}
+	}
+	//find min cost
+	for(int i=0;i<m;i++){
+		// printf("%f\t",cost_array[i]);
+		if(cost_array[i]<min_cost){
+			min_cost=cost_array[i];
+			min_inx=i;
+		}
+	}
+	// printf("\n");
 	if(min_inx<0){
 		
 		return original_assigned;
