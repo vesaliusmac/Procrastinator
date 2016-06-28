@@ -4,15 +4,13 @@
 #include <time.h>
 #include <stdarg.h>
 #include "arrival.h"
-#include <string.h>
 //----- Constants -------------------------------------------------------------
 #define PKT_limit 1000000 // Simulation time
 #define SIM_TIME  1000000000000
-#define quiet 1
+#define quiet 0
 #define debug 0
 #define printdist 0
 // #define ivy
-#define critical
 //#define SIM_TIME 1000000 // Simulation time
 
 #define q_len 20000000
@@ -89,7 +87,6 @@ int load_balance_max_f(int m, double service_tail, double cur_time);
 int load_balance_min_f(int m, double service_tail, double cur_time);
 int load_balance_sleep(int m, double service_tail, double cur_time);
 int load_balance_min_cost(int m, double service_tail, double cur_time);
-int load_balance_max_lat(int m, double service_tail, double cur_time);
 void error( const char* format, ... ) {
     if(debug==1){
 		va_list args;
@@ -177,69 +174,18 @@ int main(int argc, char **argv){
 		return 0;
 	}
 	LC=atoi(argv[5]);  //latency constraint
-	
-	
-	int schedule_policy_index=0;
+	// int DVFS_latency=atoi(argv[6]);
 	DVFS_latency=10;
-	//*****Read Configuration from filelength
-	FILE *fp;
-	fp = fopen("configuration", "r");
-	char  line[255];
-	while (fgets(line, sizeof(line), fp) != NULL)
-    {
-        const char* val1 = strtok(line, " ");
-        const char* val2 = strtok(NULL, " ");
-		if (!strcmp(val1, "schedule_policy")){
-			schedule_policy_index=atoi(val2);
-			
-		}
-		if (!strcmp(val1, "DVFS_latency")){
-			DVFS_latency=atoi(val2);
-			
-		}
-		
-        
-    }
-	
-	
 	
 	int (*foo)(int, double, double);
-	switch(schedule_policy_index){
-		case 0:
-			foo=&load_balance_none;
-			if(!quiet) printf("no global reschedule\n");
-			break;
-		case 1:
-			foo=&load_balance_random;
-			if(!quiet) printf("Random reschedule\n");
-			break;
-		case 2:
-			foo=&load_balance_min_lat;
-			if(!quiet) printf("min_lat reschedule\n");
-			break;
-		case 3:
-			foo=&load_balance_max_f;
-			if(!quiet) printf("max_f reschedule\n");
-			break;
-		case 4:
-			foo=&load_balance_min_f;
-			if(!quiet) printf("min_f reschedule\n");
-			break;
-		case 5:
-			foo=&load_balance_sleep;
-			if(!quiet) printf("sleep reschedule\n");
-			break;
-		case 6:
-			foo=&load_balance_min_cost;
-			if(!quiet) printf("min_cost reschedule\n");
-			break;
-		case 7:
-			foo=&load_balance_max_lat;
-			if(!quiet) printf("max_lat reschedule\n");
-			break;
-		default:
-			break;
-	}
+	// foo=&load_balance_none;
+	// foo=&load_balance_random;
+	// foo=&load_balance_min_lat;
+	// foo=&load_balance_max_f;
+	// foo=&load_balance_min_f;
+	// foo=&load_balance_sleep;
+	foo=&load_balance_min_cost;
+	
 	/****************/
 	/*initialization*/
 	/****************/
@@ -548,8 +494,7 @@ int main(int argc, char **argv){
 						server_busy_P_state[pick][server_busy_P_state_counter[pick]]=time-server[pick].time_P_state;
 						server_busy_P_state_index[pick][server_busy_P_state_counter[pick]]=server[pick].P_state;
 						server_busy_P_state_counter[pick]++;
-						server_busy_DVFS_change[pick]++;
-						server[pick].time_P_state=time+DVFS_latency;
+						server[pick].time_P_state=time;
 						server[pick].P_state=temp_P_state;
 						server[pick].last_P_state=server[pick].P_state;
 					}
@@ -728,8 +673,8 @@ int main(int argc, char **argv){
 				P_state_time[j][server_busy_P_state_index[j][i]]+=server_busy_P_state[j][i];
 			} else{
 				if(i<server_busy_P_state_counter[j] && server_busy_P_state[j][i]<0){
-					error("something wrong with the P_state counter %d in %d\n",i,server_busy_P_state_counter[j]);
-					error("core %d, %d th busy period : %f\n",j,i,server_busy_P_state[j][i]);
+					printf("something wrong with the P_state counter\n");
+					printf("core %d, %d th busy period : %f\n",j,i,server_busy_P_state[j][i]);
 				}
 			}
 			
@@ -829,46 +774,31 @@ int main(int argc, char **argv){
 	
 	double busy_ratio[server_count]={0};
 	double idle_ratio[server_count]={0};
-	double total_time[server_count]={0};
 	double wakeup_ratio[server_count]={0};
-	double DVFS_change_ratio[server_count]={0};
-	double overall_busy=0,overall_idle=0,overall_wakeup=0,overall_wakeup_DVFS=0,overall_busy_DVFS=0;
-	double overall_busy_ratio=0,overall_idle_ratio=0,overall_wakeup_ratio=0,overall_wakeup_DVFS_ratio=0,overall_busy_DVFS_ratio=0;
-	// per-core power breakdown
-	double server_busy_power[server_count]={0};
-	double server_idle_power[server_count]={0};
-	double server_wakeup_transistion_power[server_count]={0};
-	double server_DVFS_transistion_power[server_count]={0};
-	double server_per_core_power[server_count]={0};
+	double wakeup_DVFS_ratio[server_count]={0};
+	double overall_busy=0,overall_idle=0,overall_wakeup=0,overall_wakeup_DVFS=0;
+	double overall_busy_ratio=0,overall_idle_ratio=0,overall_wakeup_ratio=0,overall_wakeup_DVFS_ratio=0;
 	
 	for(j=0;j<m;j++){
-		total_time[j]=avg_busy[j]+avg_idle[j]+server_busy_DVFS_change[j]*wake_up_latency;
-		busy_ratio[j]=avg_busy[j]/(total_time[j]);
-		wakeup_ratio[j]=server_wakeup_counter[j]*wake_up_latency/(total_time[j]);
-		DVFS_change_ratio[j]=(server_idle_P_state_counter[j]+server_busy_DVFS_change[j])*DVFS_latency/(total_time[j]);
+		busy_ratio[j]=avg_busy[j]/(avg_busy[j]+avg_idle[j]);
+		wakeup_ratio[j]=server_wakeup_counter[j]*wake_up_latency/(avg_busy[j]+avg_idle[j]);
+		wakeup_DVFS_ratio[j]=server_idle_P_state_counter[j]*DVFS_latency/(avg_busy[j]+avg_idle[j]);
 		// idle_ratio[j]=(avg_idle[j]-server_wakeup_counter[j]*wake_up_latency-server_idle_P_state_counter[j]*DVFS_latency)/(avg_busy[j]+avg_idle[j]);
-		idle_ratio[j]=(avg_idle[j])/(total_time[j])-DVFS_change_ratio[j]-wakeup_ratio[j];
-		// per-core power breakdown
-		server_busy_power[j]=total_P_state_power[j]*busy_ratio[j];
-		server_idle_power[j]=Pc*idle_ratio[j];
-		server_wakeup_transistion_power[j]=total_P_state_power[j]*wakeup_ratio[j];
-		server_DVFS_transistion_power[j]=total_P_state_power[j]*DVFS_change_ratio[j];
-		server_per_core_power[j]=server_busy_power[j]+server_idle_power[j]+server_wakeup_transistion_power[j]+server_DVFS_transistion_power[j];
-				
+		idle_ratio[j]=(avg_idle[j])/(avg_busy[j]+avg_idle[j])-wakeup_DVFS_ratio[j]-wakeup_ratio[j];
+		
+		
 		overall_busy+=avg_busy[j];
 		overall_idle+=(avg_idle[j]-server_wakeup_counter[j]*wake_up_latency-server_idle_P_state_counter[j]*DVFS_latency);
 		overall_wakeup+=server_wakeup_counter[j]*wake_up_latency;
 		overall_wakeup_DVFS+=server_idle_P_state_counter[j]*DVFS_latency;
-		overall_busy_DVFS+=server_busy_DVFS_change[j]*wake_up_latency;
 		
 		avg_busy[j]=avg_busy[j]/server_busy_counter[j];
 		avg_idle[j]=avg_idle[j]/server_idle_counter[j];
 	}
-	overall_busy_ratio=overall_busy/(overall_busy+overall_idle+overall_wakeup+overall_wakeup_DVFS+overall_busy_DVFS);
-	overall_idle_ratio=overall_idle/(overall_busy+overall_idle+overall_wakeup+overall_wakeup_DVFS+overall_busy_DVFS);
-	overall_wakeup_ratio=overall_wakeup/(overall_busy+overall_idle+overall_wakeup+overall_wakeup_DVFS+overall_busy_DVFS);
-	overall_wakeup_DVFS_ratio=overall_wakeup_DVFS/(overall_busy+overall_idle+overall_wakeup+overall_wakeup_DVFS+overall_busy_DVFS);
-	overall_busy_DVFS_ratio=overall_busy_DVFS/(overall_busy+overall_idle+overall_wakeup+overall_wakeup_DVFS+overall_busy_DVFS);
+	overall_busy_ratio=overall_busy/(overall_busy+overall_idle+overall_wakeup+overall_wakeup_DVFS);
+	overall_idle_ratio=overall_idle/(overall_busy+overall_idle+overall_wakeup+overall_wakeup_DVFS);
+	overall_wakeup_ratio=overall_wakeup/(overall_busy+overall_idle+overall_wakeup+overall_wakeup_DVFS);
+	overall_wakeup_DVFS_ratio=overall_wakeup_DVFS/(overall_busy+overall_idle+overall_wakeup+overall_wakeup_DVFS);
 	double overall_idle_power=total_idle_energy/(overall_idle+overall_wakeup);
 	int pkt_processed=0,pkt_in_server=0,pkt_in_queue=0;
 	for(j=0;j<m;j++){
@@ -920,34 +850,19 @@ int main(int argc, char **argv){
 		printf("average latency %f\n",overall_latency/pkt_processed);
 		printf("average busy ratio %f\n",overall_busy_ratio);
 		printf("average idle ratio %f\n",overall_idle_ratio);
-		printf("average wakeup transition ratio %f\n",overall_wakeup_ratio);
-		printf("average DVFS transition ratio %f\n",overall_wakeup_DVFS_ratio+overall_busy_DVFS_ratio);
+		printf("average wakeup ratio %f\n",overall_wakeup_ratio);
+		printf("average wakeup DVFS ratio %f\n",overall_wakeup_DVFS_ratio);
 		// printf("average wakeup count %f\n",avg_wakeup/m);
-		printf("average core power %f\n",(overall_P_state_power/m*(overall_busy_ratio+overall_wakeup_ratio+overall_wakeup_DVFS_ratio+overall_busy_DVFS_ratio)+Pc*overall_idle_ratio)); 
+		printf("average core power %f\n",(overall_P_state_power/m*(overall_busy_ratio+overall_wakeup_ratio+overall_wakeup_DVFS_ratio)+Pc*overall_idle_ratio)); 
 		// printf("average core power %f\n",overall_idle_power*(overall_idle_ratio+overall_wakeup_ratio)+overall_P_state_power/m*(overall_busy_ratio+overall_wakeup_DVFS_ratio)); 
 		printf("average active power %f\n",overall_P_state_power/m*overall_busy_ratio);
-		printf("average state transition power %f\n",overall_P_state_power/m*(overall_wakeup_ratio+overall_wakeup_DVFS_ratio+overall_busy_DVFS_ratio));
+		printf("average state transition power %f\n",overall_P_state_power/m*(overall_wakeup_ratio+overall_wakeup_DVFS_ratio));
 		printf("average idle power %f\n",Pc*overall_idle_ratio);
 		// printf("average idle power %f\n",overall_idle_power);
 		if(package_sleep > 0){ // package sleep enabled
 			printf("average package power %f\n",S*(1-overall_package_idle/time));
 			printf("average package transition power %f\n",S*(overall_package_transistion/time));
 		}
-	}
-	double avg_busy_all=0,avg_idle_all=0,avg_wakeup_transition_all=0,avg_DVFS_transition_all=0,avg_per_core_all=0;
-	for(j=0;j<m;j++){
-		avg_busy_all+=server_busy_power[j];
-		avg_idle_all+=server_idle_power[j];
-		avg_wakeup_transition_all+=server_wakeup_transistion_power[j];
-		avg_DVFS_transition_all+=server_DVFS_transistion_power[j];
-		avg_per_core_all+=server_per_core_power[j];
-	}
-	if(!quiet){
-		printf("average core power %f\n",avg_per_core_all/m); 
-		printf("average active power %f\n",avg_busy_all/m);
-		printf("average state transition power %f\n",(avg_wakeup_transition_all+avg_DVFS_transition_all)/m);
-		printf("average idle power %f\n",avg_idle_all/m);
-		
 	}
 		
 	if(!quiet){	
@@ -977,8 +892,7 @@ int main(int argc, char **argv){
 	hist(hist_array,pkts,&nfp,&nnp);
 	// printf("%d\t%.2f\t%f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,overall_package_idle/time,overall_package_idle/package_idle_counter,(Pa*(overall_busy_ratio+overall_wakeup_ratio)+Pc*overall_idle_ratio)+S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
 	// printf("%d\t%.2f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,overall_P_state_power*overall_wakeup_ratio+overall_P_state_power*overall_wakeup_DVFS_ratio+overall_P_state_power*overall_busy_ratio+Pc*overall_idle_ratio*m,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
-	// printf("%.2f\t%f\t%f\t%f\t%f\t%f\t%f\n",p,overall_P_state_power*overall_wakeup_ratio,overall_P_state_power*(overall_wakeup_DVFS_ratio+overall_busy_DVFS_ratio),overall_P_state_power*overall_busy_ratio,Pc*overall_idle_ratio*m,overall_P_state_power*overall_wakeup_ratio+overall_P_state_power*overall_wakeup_DVFS_ratio+overall_P_state_power*overall_busy_ratio+Pc*overall_idle_ratio*m,S*(1-overall_package_idle/time));
-	printf("%.2f\t%f\t%f\t%f\t%f\t%f\t%f\n",p,avg_wakeup_transition_all,avg_DVFS_transition_all,avg_busy_all,avg_idle_all,avg_per_core_all,S*(1-overall_package_idle/time));
+	printf("%.2f\t%f\t%f\t%f\t%f\t%f\t%f\n",p,overall_P_state_power*overall_wakeup_ratio,overall_P_state_power*overall_wakeup_DVFS_ratio,overall_P_state_power*overall_busy_ratio,Pc*overall_idle_ratio*m,overall_P_state_power*overall_wakeup_ratio+overall_P_state_power*overall_wakeup_DVFS_ratio+overall_P_state_power*overall_busy_ratio+Pc*overall_idle_ratio*m,S*(1-overall_package_idle/time));
 	// printf("%d\t%.2f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,(overall_idle_power*(overall_idle_ratio+overall_wakeup_ratio)+overall_P_state_power/m*(overall_busy_ratio+overall_wakeup_DVFS_ratio))*m,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
 	// for (j=0;j<latency_bound+1;j++)
 		// hist_array[j]=0;
@@ -1261,12 +1175,10 @@ int load_balance_random(int m, double service_tail, double cur_time){
 	int map[m];
 	int map_inx=0;
 	int original_assigned=rand_int(m);
-	#ifdef critical
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
-		// printf("%f\t%f\n",cur_time-server[original_assigned].last_pkt_arrived,service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha));
+		printf("%f\t%f\n",cur_time-server[original_assigned].last_pkt_arrived,service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha));
 		return original_assigned;
 	}
-	#endif
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1299,11 +1211,9 @@ int load_balance_min_lat(int m, double service_tail, double cur_time){
 	double service_tail_dvfs=0;
 	int server_P_state;
 	int original_assigned=rand_int(m);
-	#ifdef critical
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
 		return original_assigned;
 	}
-	#endif
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1338,11 +1248,9 @@ int load_balance_max_f(int m, double service_tail, double cur_time){
 	int server_P_state;
 	double lat_array[m];
 	int original_assigned=rand_int(m);
-	#ifdef critical
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
 		return original_assigned;
 	}
-	#endif
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1393,11 +1301,9 @@ int load_balance_min_f(int m, double service_tail, double cur_time){
 	int server_P_state;
 	double lat_array[m];
 	int original_assigned=rand_int(m);
-	#ifdef critical
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
 		return original_assigned;
 	}
-	#endif
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1449,11 +1355,9 @@ int load_balance_sleep(int m, double service_tail, double cur_time){
 	int server_P_state;
 	double lat_array[m];
 	int original_assigned=rand_int(m);
-	#ifdef critical
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
 		return original_assigned;
 	}
-	#endif
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1508,11 +1412,9 @@ int load_balance_min_cost(int m, double service_tail, double cur_time){
 	double temp_accu_arrival_time;
 	double cost_array[m];
 	int original_assigned=rand_int(m);
-	#ifdef critical
-	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
-		return original_assigned;
-	}
-	#endif
+	// if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
+		// return original_assigned;
+	// }
 	for(int j=0;j<m;j++){
 		cost_array[j]=999999999;
 		if(server[j].state==0){ //core idle
@@ -1587,43 +1489,6 @@ int load_balance_min_cost(int m, double service_tail, double cur_time){
 	// printf("\n");
 	if(min_inx<0){
 		
-		return original_assigned;
-	}else{
-		if(min_inx!=original_assigned)
-			rescheduled_pkt++;
-		return min_inx;
-	}
-
-}
-
-int load_balance_max_lat(int m, double service_tail, double cur_time){
-	double max_lat= 0;
-	int min_inx=-1;
-	double temp_lat=0;
-	double service_tail_dvfs=0;
-	int server_P_state;
-	int original_assigned=rand_int(m);
-	#ifdef critical
-	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
-		return original_assigned;
-	}
-	#endif
-	for(int i=0;i<m;i++){
-		server_P_state=server[i].P_state;
-		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
-		if(server[i].state==0){ //server idle
-			temp_lat=(queued_pkt[i]+1)*service_tail_dvfs+server[i].time_vacation_end-cur_time+C_state_wakeup_latency[C_state];			
-		}else{
-			temp_lat=(queued_pkt[i]+1)*service_tail_dvfs;
-		}
-		if(temp_lat<LC){
-			if(temp_lat>max_lat){
-				max_lat=temp_lat;
-				min_inx=i;
-			}
-		}
-	}
-	if(min_inx<0){
 		return original_assigned;
 	}else{
 		if(min_inx!=original_assigned)
