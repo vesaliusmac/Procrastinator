@@ -121,6 +121,7 @@ int DVFS_latency;
 
 double server_pkt_arrival_time[server_count]={0};
 double server_pkt_depart_time[server_count]={0};
+int server_busy_DVFS_recompute_needed[server_count]={0};
 
 int server_idle_counter[server_count]={0};
 int server_busy_counter[server_count]={0};
@@ -455,11 +456,14 @@ int main(int argc, char **argv){
 
 				server[assigned_server].P_state=P_state_temp;
 				if(server[assigned_server].time_vacation_end>slack){
-					if(slack-time>wake_up_latency)
+					// if(slack-time>wake_up_latency+DVFS_latency){
+					if(slack-time>wake_up_latency){
 						server[assigned_server].time_vacation_end=slack;
+					}
 					else{
-						if(server[assigned_server].time_vacation_end-time>wake_up_latency)
-							server[assigned_server].time_vacation_end=time+wake_up_latency;
+						if(server[assigned_server].time_vacation_end-time>wake_up_latency) // if not met, the core is already in the wakeup process
+							server[assigned_server].time_vacation_end=time+wake_up_latency;// wakeup immediately
+						// server[assigned_server].time_vacation_end=time+wake_up_latency+DVFS_latency;
 					}
 				}
 				error("%10.6f\tscheduled wake up time for core %d is %f\n",time,assigned_server,slack);
@@ -467,6 +471,11 @@ int main(int argc, char **argv){
 			}else{// assigned to a busy server
 				
 				if(queued_pkt[assigned_server]<1) printf("error\n");
+				double Ts_nf_dvfs_temp;
+				Ts_nf_dvfs_temp=service_tail*freq[0]/freq[server[assigned_server].P_state]*alpha+service_tail*(1-alpha);
+				if((queued_pkt[assigned_server])*Ts_nf_dvfs_temp>LC){
+					server_busy_DVFS_recompute_needed[assigned_server]=1;
+				}
 				// if(time-server[assigned_server].last_pkt_arrived<service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // critical request
 					// return original_assigned;
 				// }
@@ -527,34 +536,39 @@ int main(int argc, char **argv){
 				queue_de_ptr[pick]++;
 				// change freq during busy period
 				int DVFS_changed=0;
-				if(queued_pkt[pick]*(service_tail*1e-6*freq[0]/freq[server[pick].P_state]*alpha+service_tail*1e-6*(1-alpha))*1e6>LC){
-					double freq_min=freq[0]*(service_tail*1e-6*alpha*1e6)/(LC/queued_pkt[pick]*1.0-(1-alpha)*service_tail);
-					
-					int temp_P_state=0;
-					for(i=0;i<freq_steps;i++){
-						if(freq[i]<freq_min){
-							temp_P_state=i-1;
-							break;
-						}
+				if(server_busy_DVFS_recompute_needed[pick]==1){
+					if(queued_pkt[pick]*(service_tail*freq[0]/freq[server[pick].P_state]*alpha+service_tail*(1-alpha))>LC){
+						double freq_min=freq[0]*(service_tail*alpha)/(LC/queued_pkt[pick]*1.0-(1-alpha)*service_tail);
 						
+						int temp_P_state=0;
+						for(i=server[pick].P_state;i<freq_steps;i++){
+							if(freq[i]<freq_min){
+								temp_P_state=i-1;
+								break;
+							}
+							
+						}
+						if(temp_P_state<0) temp_P_state=0;
+						// if(temp_P_state>server[pick].P_state) printf("speed down~booooooo\n");
+						// else printf("speed up~YAAAAAA\n");
+						if(server[pick].P_state!=temp_P_state){
+							error("%10.6f\tcore %d: cur P_state %d\t change to %d\n",time,pick,server[pick].P_state,temp_P_state);
+							// printf("busy period: cur freq %f\t change to %f\n",freq[server[pick].P_state],freq_min);
+							DVFS_changed=1;
+											
+							server_busy_P_state[pick][server_busy_P_state_counter[pick]]=time-server[pick].time_P_state;
+							server_busy_P_state_index[pick][server_busy_P_state_counter[pick]]=server[pick].P_state;
+							server_busy_P_state_counter[pick]++;
+							server_busy_DVFS_change[pick]++;
+							server[pick].time_P_state=time+DVFS_latency;
+							server[pick].P_state=temp_P_state;
+							server[pick].last_P_state=server[pick].P_state;
+						}
+					}else{
+						printf("server dvfs recomputation request error\n");
+						return 0;
 					}
-					if(temp_P_state<0) temp_P_state=0;
-					
-					if(server[pick].P_state!=temp_P_state){
-						error("%10.6f\tcore %d: cur P_state %d\t change to %d\n",time,pick,server[pick].P_state,temp_P_state);
-						// printf("busy period: cur freq %f\t change to %f\n",freq[server[pick].P_state],freq_min);
-						DVFS_changed=1;
-										
-						server_busy_P_state[pick][server_busy_P_state_counter[pick]]=time-server[pick].time_P_state;
-						server_busy_P_state_index[pick][server_busy_P_state_counter[pick]]=server[pick].P_state;
-						server_busy_P_state_counter[pick]++;
-						server_busy_DVFS_change[pick]++;
-						server[pick].time_P_state=time+DVFS_latency;
-						server[pick].P_state=temp_P_state;
-						server[pick].last_P_state=server[pick].P_state;
-					}
-					
-					
+					server_busy_DVFS_recompute_needed[pick]=0;
 				}
 				// sanity check
 				if(server[pick].P_state<0){
@@ -842,12 +856,14 @@ int main(int argc, char **argv){
 	double server_per_core_power[server_count]={0};
 	
 	for(j=0;j<m;j++){
-		total_time[j]=avg_busy[j]+avg_idle[j]+server_busy_DVFS_change[j]*wake_up_latency;
+		total_time[j]=avg_busy[j]+avg_idle[j]+server_busy_DVFS_change[j]*DVFS_latency;
 		busy_ratio[j]=avg_busy[j]/(total_time[j]);
 		wakeup_ratio[j]=server_wakeup_counter[j]*wake_up_latency/(total_time[j]);
-		DVFS_change_ratio[j]=(server_idle_P_state_counter[j]+server_busy_DVFS_change[j])*DVFS_latency/(total_time[j]);
+		// DVFS_change_ratio[j]=(server_idle_P_state_counter[j]+server_busy_DVFS_change[j])*DVFS_latency/(total_time[j]);
+		DVFS_change_ratio[j]=(server_busy_DVFS_change[j])*DVFS_latency/(total_time[j]);
 		// idle_ratio[j]=(avg_idle[j]-server_wakeup_counter[j]*wake_up_latency-server_idle_P_state_counter[j]*DVFS_latency)/(avg_busy[j]+avg_idle[j]);
-		idle_ratio[j]=(avg_idle[j])/(total_time[j])-DVFS_change_ratio[j]-wakeup_ratio[j];
+		// idle_ratio[j]=(avg_idle[j])/(total_time[j])-(server_idle_P_state_counter[j])*DVFS_latency/(total_time[j])-wakeup_ratio[j];
+		idle_ratio[j]=(avg_idle[j])/(total_time[j])-wakeup_ratio[j];
 		// per-core power breakdown
 		server_busy_power[j]=total_P_state_power[j]*busy_ratio[j];
 		server_idle_power[j]=Pc*idle_ratio[j];
