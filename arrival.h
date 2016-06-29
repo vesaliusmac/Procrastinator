@@ -12,3 +12,5 @@
 // #define FILE_ARRIVAL 0
 // #define FILE_SERVICE "/home/chou/datacenter/trace/masstree_service_cdf.log"
 // #define FILE_ARRIVAL 0
+
+char req_trace_path[]="/home/chou/procrastinator_req_trace/memcached";

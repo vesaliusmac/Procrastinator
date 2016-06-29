@@ -11,8 +11,9 @@
 #define quiet 1
 #define debug 0
 #define printdist 0
+#define read_req_trace
 // #define ivy
-#define critical
+// #define critical
 //#define SIM_TIME 1000000 // Simulation time
 
 #define q_len 20000000
@@ -82,14 +83,14 @@ void read_dist(double* avg_service_time);
 int rand_int(int b);
 void hist(int* hist_array, Pkt* pkts, int* nfp, int* nnp);
 int pdf_to_tail(double* input, int length);
-int load_balance_none(int m, double service_tail, double cur_time);
-int load_balance_random(int m, double service_tail, double cur_time);
-int load_balance_min_lat(int m, double service_tail, double cur_time);
-int load_balance_max_f(int m, double service_tail, double cur_time);
-int load_balance_min_f(int m, double service_tail, double cur_time);
-int load_balance_sleep(int m, double service_tail, double cur_time);
-int load_balance_min_cost(int m, double service_tail, double cur_time);
-int load_balance_max_lat(int m, double service_tail, double cur_time);
+int load_balance_none(int m, double service_tail, double cur_time,int original_assigned_core);
+int load_balance_random(int m, double service_tail, double cur_time,int original_assigned_core);
+int load_balance_min_lat(int m, double service_tail, double cur_time,int original_assigned_core);
+int load_balance_max_f(int m, double service_tail, double cur_time,int original_assigned_core);
+int load_balance_min_f(int m, double service_tail, double cur_time,int original_assigned_core);
+int load_balance_sleep(int m, double service_tail, double cur_time,int original_assigned_core);
+int load_balance_min_cost(int m, double service_tail, double cur_time,int original_assigned_core);
+int load_balance_max_lat(int m, double service_tail, double cur_time,int original_assigned_core);
 void error( const char* format, ... ) {
     if(debug==1){
 		va_list args;
@@ -100,6 +101,12 @@ void error( const char* format, ... ) {
 		// fprintf( stderr, "\n" );
 	}
 }
+#ifdef read_req_trace
+int req_assigned_core[PKT_limit];
+double req_arrival_time[PKT_limit];
+double req_service_time[PKT_limit];
+
+#endif
 
 
 
@@ -204,7 +211,7 @@ int main(int argc, char **argv){
 	
 	
 	
-	int (*foo)(int, double, double);
+	int (*foo)(int, double, double, int);
 	switch(schedule_policy_index){
 		case 0:
 			foo=&load_balance_none;
@@ -241,6 +248,8 @@ int main(int argc, char **argv){
 		default:
 			break;
 	}
+	
+	
 	/****************/
 	/*initialization*/
 	/****************/
@@ -305,6 +314,28 @@ int main(int argc, char **argv){
 	/***read trace***/
 	/****************/
 	
+#ifdef read_req_trace
+	FILE *req_trace_file;
+	char trace_file_location[100];
+	char trace_file_name[10];
+	int read_counter=0;
+	sprintf(trace_file_name, "/%.1f", p);
+	strcpy(trace_file_location, req_trace_path);
+	strcat(trace_file_location, trace_file_name);
+	// printf("%s\n",trace_file_location);
+	req_trace_file = fopen(trace_file_location, "r");
+	
+	while (fscanf(req_trace_file, "%d%lf%lf", &req_assigned_core[read_counter]
+		,&req_arrival_time[read_counter],&req_service_time[read_counter]) != EOF) {
+		// printf("%d\t%f\t%f\n",req_assigned_core[read_counter],req_arrival_time[read_counter],req_service_time[read_counter]);
+		read_counter++;
+		if(read_counter>PKT_limit)
+			break;
+		
+	}
+	fclose(req_trace_file);
+#endif
+
 	
 	read_dist(&average_service_time);
 	double Ta=average_service_time/(server_count*p);
@@ -387,14 +418,19 @@ int main(int argc, char **argv){
 		}
 		if (next_event == event[0]){ // *** Event #1 (arrival)
 			time = event[0]; 
-			// find out which core handle this arrival
-			// int assigned_server=rand_int(m); // randomly assign one core to handle the request
-			int assigned_server=foo(m,service_tail,time);
-			// insert pkt into queue
-			pkts[pkt_index].time_arrived=time;
+			// find out which core handle this arrival and the request service time
+			
+#ifdef read_req_trace // read from trace
+			int assigned_server=foo(m,service_tail,time,req_assigned_core[pkt_index]);
+			pkt_service_time=req_service_time[pkt_index];
+#else	// randomly generated
+			int assigned_server=foo(m,service_tail,time,-1);
 			pkt_service_time=service_length[generate_iat(service_count,service_cdf)]*1000000;
+#endif
 			pkts[pkt_index].service_time=pkt_service_time*freq[0]/freq[select_f]*alpha+pkt_service_time*(1-alpha);
 			if(pkts[pkt_index].service_time==0) printf("pkt service time 0!!!\n");
+			// insert pkt into queue
+			pkts[pkt_index].time_arrived=time;
 			pkts[pkt_index].time_finished=-1;
 			pkts[pkt_index].handled=assigned_server;
 			queue[assigned_server][queue_en_ptr[assigned_server]]=pkt_index;
@@ -403,7 +439,7 @@ int main(int argc, char **argv){
 			queued_pkt[assigned_server]++;
 			server[assigned_server].last_pkt_arrived=time;
 			error("%10.6f\tpkt %d arrives at core %d and inserted into queue\n",time,pkt_index-1,assigned_server);				
-			
+			// printf("%d\t%f\t%f\n",assigned_server,time,pkt_service_time);
 			/*determin when the core need to wake up if it is idle*/
 			if(server[assigned_server].state==0){ //core idle
 				accu_arrival_time[assigned_server]+=time;
@@ -486,7 +522,11 @@ int main(int argc, char **argv){
 			if(ret==0)
 				event[0] = time + arrival_length[generate_iat(arrival_count,arrival_cdf)]*1000000; // next pkt arrival time
 			else
+#ifdef read_req_trace
+				event[0] = req_arrival_time[pkt_index]; // read from trace
+#else
 				event[0] = time + expntl(Ta)*1000000; // next pkt arrival time
+#endif
 			
 			event[1] = SIM_TIME+1;
 			for(i=0;i<m;i++){
@@ -1261,14 +1301,16 @@ int pdf_to_tail(double* input, int length){
 
 }
 
-int load_balance_none(int m, double service_tail, double cur_time){
-	
+int load_balance_none(int m, double service_tail, double cur_time, int original_assigned_core){
+#ifdef read_req_trace
+	return original_assigned_core;
+#endif
 	return rand_int(m);
 	
 
 }
 
-int load_balance_random(int m, double service_tail, double cur_time){
+int load_balance_random(int m, double service_tail, double cur_time, int original_assigned_core){
 	
 	int min_inx=-1;
 	double temp_lat=0;
@@ -1276,13 +1318,17 @@ int load_balance_random(int m, double service_tail, double cur_time){
 	int server_P_state;
 	int map[m];
 	int map_inx=0;
+#ifdef read_req_trace
+	int original_assigned=original_assigned_core;
+#else
 	int original_assigned=rand_int(m);
-	#ifdef critical
+#endif
+#ifdef critical
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
 		// printf("%f\t%f\n",cur_time-server[original_assigned].last_pkt_arrived,service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha));
 		return original_assigned;
 	}
-	#endif
+#endif
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1308,18 +1354,22 @@ int load_balance_random(int m, double service_tail, double cur_time){
 
 }
 
-int load_balance_min_lat(int m, double service_tail, double cur_time){
+int load_balance_min_lat(int m, double service_tail, double cur_time, int original_assigned_core){
 	double min_lat= 999999;
 	int min_inx=-1;
 	double temp_lat=0;
 	double service_tail_dvfs=0;
 	int server_P_state;
+#ifdef read_req_trace
+	int original_assigned=original_assigned_core;
+#else
 	int original_assigned=rand_int(m);
-	#ifdef critical
+#endif
+#ifdef critical
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
 		return original_assigned;
 	}
-	#endif
+#endif
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1345,7 +1395,7 @@ int load_balance_min_lat(int m, double service_tail, double cur_time){
 
 }
 
-int load_balance_max_f(int m, double service_tail, double cur_time){
+int load_balance_max_f(int m, double service_tail, double cur_time, int original_assigned_core){
 	double max_f= 0;
 	int min_inx=-1;
 	double temp_lat=0;
@@ -1353,12 +1403,16 @@ int load_balance_max_f(int m, double service_tail, double cur_time){
 	double service_tail_dvfs=0;
 	int server_P_state;
 	double lat_array[m];
+#ifdef read_req_trace
+	int original_assigned=original_assigned_core;
+#else
 	int original_assigned=rand_int(m);
-	#ifdef critical
+#endif
+#ifdef critical
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
 		return original_assigned;
 	}
-	#endif
+#endif
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1400,7 +1454,7 @@ int load_balance_max_f(int m, double service_tail, double cur_time){
 
 }
 
-int load_balance_min_f(int m, double service_tail, double cur_time){
+int load_balance_min_f(int m, double service_tail, double cur_time, int original_assigned_core){
 	double min_f= 10;
 	int min_inx=-1;
 	double temp_lat=0;
@@ -1408,12 +1462,16 @@ int load_balance_min_f(int m, double service_tail, double cur_time){
 	double service_tail_dvfs=0;
 	int server_P_state;
 	double lat_array[m];
+#ifdef read_req_trace
+	int original_assigned=original_assigned_core;
+#else
 	int original_assigned=rand_int(m);
-	#ifdef critical
+#endif
+#ifdef critical
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
 		return original_assigned;
 	}
-	#endif
+#endif
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1456,7 +1514,7 @@ int load_balance_min_f(int m, double service_tail, double cur_time){
 
 }
 
-int load_balance_sleep(int m, double service_tail, double cur_time){
+int load_balance_sleep(int m, double service_tail, double cur_time, int original_assigned_core){
 	double min_lat= 99999;
 	int min_inx=-1;
 	double temp_lat=0;
@@ -1464,12 +1522,16 @@ int load_balance_sleep(int m, double service_tail, double cur_time){
 	double service_tail_dvfs=0;
 	int server_P_state;
 	double lat_array[m];
+#ifdef read_req_trace
+	int original_assigned=original_assigned_core;
+#else
 	int original_assigned=rand_int(m);
-	#ifdef critical
+#endif
+#ifdef critical
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
 		return original_assigned;
 	}
-	#endif
+#endif
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
@@ -1518,17 +1580,21 @@ int load_balance_sleep(int m, double service_tail, double cur_time){
 }
 
 
-int load_balance_min_cost(int m, double service_tail, double cur_time){
+int load_balance_min_cost(int m, double service_tail, double cur_time, int original_assigned_core){
 	double min_cost= 999999999;
 	int min_inx=-1;
 	double temp_accu_arrival_time;
 	double cost_array[m];
+#ifdef read_req_trace
+	int original_assigned=original_assigned_core;
+#else
 	int original_assigned=rand_int(m);
-	#ifdef critical
+#endif
+#ifdef critical
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
 		return original_assigned;
 	}
-	#endif
+#endif
 	for(int j=0;j<m;j++){
 		cost_array[j]=999999999;
 		if(server[j].state==0){ //core idle
@@ -1612,18 +1678,22 @@ int load_balance_min_cost(int m, double service_tail, double cur_time){
 
 }
 
-int load_balance_max_lat(int m, double service_tail, double cur_time){
+int load_balance_max_lat(int m, double service_tail, double cur_time, int original_assigned_core){
 	double max_lat= 0;
 	int min_inx=-1;
 	double temp_lat=0;
 	double service_tail_dvfs=0;
 	int server_P_state;
+#ifdef read_req_trace
+	int original_assigned=original_assigned_core;
+#else
 	int original_assigned=rand_int(m);
-	#ifdef critical
+#endif
+#ifdef critical
 	if(cur_time-server[original_assigned].last_pkt_arrived>=service_tail*freq[0]/freq[server[original_assigned].P_state]*alpha+service_tail*(1-alpha)){ // non critical
 		return original_assigned;
 	}
-	#endif
+#endif
 	for(int i=0;i<m;i++){
 		server_P_state=server[i].P_state;
 		service_tail_dvfs=service_tail*freq[0]/freq[server_P_state]*alpha+service_tail*(1-alpha);
