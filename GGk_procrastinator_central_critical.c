@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #include "arrival.h"
 #include <string.h>
+
 //----- Constants -------------------------------------------------------------
 #define PKT_limit 1000000 // Simulation time
 #define SIM_TIME  1000000000000
@@ -13,8 +14,7 @@
 #define printdist 0
 #define read_req_trace
 // #define ivy
-// #define critical
-//#define SIM_TIME 1000000 // Simulation time
+#define critical
 
 #define q_len 20000000
 #define event_count 3
@@ -167,7 +167,7 @@ int main(int argc, char **argv){
 	/****************/
 		
 	if(argc<6) {
-		printf("use: [freq] [load] [core count] [C-state] [latency constraint] [(opt)DVFS latency]\n");
+		printf("use: [freq] [load] [core count] [C-state] [latency constraint]\n");
 		return 0;
 	}
 	
@@ -701,8 +701,11 @@ int main(int argc, char **argv){
 				if(server[pick].P_state!=server[pick].last_P_state){
 					server_idle_P_state_counter[pick]++;
 					server[pick].last_P_state=server[pick].P_state;
+					server[pick].time_finished=time+DVFS_latency+pkts[server[pick].cur_pkt_index].service_time*freq[0]/freq[server[pick].P_state]*alpha+pkts[server[pick].cur_pkt_index].service_time*(1-alpha);
+				}else{
+					server[pick].time_finished=time+pkts[server[pick].cur_pkt_index].service_time*freq[0]/freq[server[pick].P_state]*alpha+pkts[server[pick].cur_pkt_index].service_time*(1-alpha);
 				}
-				server[pick].time_finished=time+pkts[server[pick].cur_pkt_index].service_time*freq[0]/freq[server[pick].P_state]*alpha+pkts[server[pick].cur_pkt_index].service_time*(1-alpha);
+				
 				// if(pkts[server[pick].cur_pkt_index].service_time==0) printf("pkt serviec time 0\n");
 				server[pick].time_vacation_end=-1;
 				queued_pkt[pick]--;
@@ -885,7 +888,8 @@ int main(int argc, char **argv){
 	double idle_ratio[server_count]={0};
 	double total_time[server_count]={0};
 	double wakeup_ratio[server_count]={0};
-	double DVFS_change_ratio[server_count]={0};
+	double busy_DVFS_change_ratio[server_count]={0};
+	double idle_DVFS_change_ratio[server_count]={0};
 	double overall_busy=0,overall_idle=0,overall_wakeup=0,overall_wakeup_DVFS=0,overall_busy_DVFS=0;
 	double overall_busy_ratio=0,overall_idle_ratio=0,overall_wakeup_ratio=0,overall_wakeup_DVFS_ratio=0,overall_busy_DVFS_ratio=0;
 	// per-core power breakdown
@@ -894,21 +898,30 @@ int main(int argc, char **argv){
 	double server_wakeup_transistion_power[server_count]={0};
 	double server_DVFS_transistion_power[server_count]={0};
 	double server_per_core_power[server_count]={0};
-	
+	/*****************************/
+	/******power computation******/
+	/*****************************/
+	// The Idle time record the actual idle time + enter/exit C-state time
+	// The Busy time record the actual busy(processing) time + DVFS change during busy,
+	//	    + DVFS change after wakeup(only happen when the waking up frequency is different
+	// 		from the frequency before sleep)
 	for(j=0;j<m;j++){
-		total_time[j]=avg_busy[j]+avg_idle[j]+server_busy_DVFS_change[j]*DVFS_latency;
-		busy_ratio[j]=avg_busy[j]/(total_time[j]);
+		total_time[j]=avg_busy[j]+avg_idle[j];
 		wakeup_ratio[j]=server_wakeup_counter[j]*wake_up_latency/(total_time[j]);
+		busy_DVFS_change_ratio[j]=(server_busy_DVFS_change[j])*DVFS_latency/(total_time[j]);
+		idle_DVFS_change_ratio[j]=(server_idle_P_state_counter[j])*DVFS_latency/(total_time[j]);
+		busy_ratio[j]=avg_busy[j]/(total_time[j]);
+		idle_ratio[j]=(avg_idle[j])/(total_time[j])-wakeup_ratio[j];
 		// DVFS_change_ratio[j]=(server_idle_P_state_counter[j]+server_busy_DVFS_change[j])*DVFS_latency/(total_time[j]);
-		DVFS_change_ratio[j]=(server_busy_DVFS_change[j])*DVFS_latency/(total_time[j]);
+		
 		// idle_ratio[j]=(avg_idle[j]-server_wakeup_counter[j]*wake_up_latency-server_idle_P_state_counter[j]*DVFS_latency)/(avg_busy[j]+avg_idle[j]);
 		// idle_ratio[j]=(avg_idle[j])/(total_time[j])-(server_idle_P_state_counter[j])*DVFS_latency/(total_time[j])-wakeup_ratio[j];
-		idle_ratio[j]=(avg_idle[j])/(total_time[j])-wakeup_ratio[j];
+		
 		// per-core power breakdown
-		server_busy_power[j]=total_P_state_power[j]*busy_ratio[j];
-		server_idle_power[j]=Pc*idle_ratio[j];
+		server_busy_power[j]=total_P_state_power[j]*(busy_ratio[j]-busy_DVFS_change_ratio[j]-idle_DVFS_change_ratio[j]);
+		server_idle_power[j]=Pc*(idle_ratio[j]-wakeup_ratio[j]);
 		server_wakeup_transistion_power[j]=total_P_state_power[j]*wakeup_ratio[j];
-		server_DVFS_transistion_power[j]=total_P_state_power[j]*DVFS_change_ratio[j];
+		server_DVFS_transistion_power[j]=total_P_state_power[j]*(busy_DVFS_change_ratio[j]+idle_DVFS_change_ratio[j]);
 		server_per_core_power[j]=server_busy_power[j]+server_idle_power[j]+server_wakeup_transistion_power[j]+server_DVFS_transistion_power[j];
 				
 		overall_busy+=avg_busy[j];
@@ -1618,16 +1631,16 @@ int load_balance_min_cost(int m, double service_tail, double cur_time, int origi
 				Ts_avg_dvfs_temp=average_service_time*freq[0]/freq[i]*alpha+average_service_time*(1-alpha);
 				Ts_nf_dvfs_temp=service_tail*1e-6*freq[0]/freq[i]*alpha+service_tail*1e-6*(1-alpha);
 				Pa_temp = Pa_static*voltage[i]+Pa_dyn*voltage[i]*voltage[i]*freq[i]; // active power
-				if(server[j].P_state!=i)
-					slack_temp=LC-DVFS_latency-(queued_pkt[j]+1)*Ts_nf_dvfs_temp*1e6/2+temp_accu_arrival_time/(queued_pkt[j]+1);
-				else
+				// if(server[j].P_state!=i)
+					// slack_temp=LC-DVFS_latency-(queued_pkt[j]+1)*Ts_nf_dvfs_temp*1e6/2+temp_accu_arrival_time/(queued_pkt[j]+1);
+				// else
 					slack_temp=LC-(queued_pkt[i]+1)*Ts_nf_dvfs_temp*1e6/2+temp_accu_arrival_time/(queued_pkt[i]+1);
 				idle_time_temp=slack_temp-server[j].time_arrived;
 				busy_time_temp=(queued_pkt[j]+1)*Ts_avg_dvfs_temp;
 				if(slack_temp-cur_time>100){
-					if(server[j].P_state!=i)
-						power_temp=((idle_time_temp-wake_up_latency-DVFS_latency)*Pc+(DVFS_latency+wake_up_latency+busy_time_temp)*Pa_temp);
-					else
+					// if(server[j].P_state!=i)
+						// power_temp=((idle_time_temp-wake_up_latency-DVFS_latency)*Pc+(DVFS_latency+wake_up_latency+busy_time_temp)*Pa_temp);
+					// else
 						power_temp=((idle_time_temp-wake_up_latency)*Pc+(wake_up_latency+busy_time_temp)*Pa_temp);
 					if(power_temp<power_min){
 						power_min=power_temp;

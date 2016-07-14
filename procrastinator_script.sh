@@ -1,10 +1,11 @@
+rm configuration;
 for n in {0..7..1};
 do
 	load_step=0.1;
 	load=0.1;
 	loadbound=1.0;
 	printf 'schedule_policy %d\n' $n >> configuration;
-	printf 'DVFS_latency 100\n' >> configuration;
+	printf 'DVFS_latency 10\n' >> configuration;
 	while [ "$(echo "${load} < ${loadbound}" | bc)" -eq 1 ];
 	do
 		./GGk_procrastinator_central_critical 0 $load 12 3 $1;
