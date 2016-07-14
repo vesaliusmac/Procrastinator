@@ -4,15 +4,21 @@
 #include <time.h>
 #include <stdarg.h>
 #include "arrival.h"
+#include <string.h>
 //----- Constants -------------------------------------------------------------
 #define PKT_limit 1000000 // Simulation time
 #define SIM_TIME  1000000000000
 #define quiet 1
 #define debug 0
 #define printdist 0
+#define read_req_trace
 // #define ivy
 //#define SIM_TIME 1000000 // Simulation time
-#define server_count 1 //no of servers
+#ifdef ivy
+#define server_count 4 //no of servers
+#else
+#define server_count 12 //no of servers
+#endif
 #define q_len PKT_limit
 #define event_count 3
 #define latency_bound 200000
@@ -47,6 +53,12 @@ typedef struct
 	int state; // 0 idle 1 busy
 }Package;
 
+#ifdef read_req_trace
+int req_assigned_core[PKT_limit];
+double req_arrival_time[PKT_limit];
+double req_service_time[PKT_limit];
+
+#endif
 
 //----- Function prototypes ---------------------------------------------------
 double expntl(double x); // Generate exponential RV with mean x
@@ -124,7 +136,7 @@ int main(int argc, char **argv){
 	/****************/
 	/*initialization*/
 	/****************/
-	int i,j,kk,jj,ret;
+	int i,j,kk,jj;
 	Pkt *pkts = malloc(server_count*PKT_limit * sizeof(Pkt));
 	for(kk=0;kk<server_count*PKT_limit;kk++){
 		pkts[kk].time_arrived=0;
@@ -161,7 +173,7 @@ int main(int argc, char **argv){
 	/****************/
 		
 	if(argc<6) {
-		printf("use: [freq] [load] [core count] [C-state] [latency constraint] [package wakeup(pot)]\n");
+		printf("use: [freq] [load] [core count] [C-state] [latency constraint] [package wakeup(optional)]\n");
 		return 0;
 	}
 	
@@ -170,13 +182,16 @@ int main(int argc, char **argv){
 		printf("choose P-state between P0 ~ P14\n");
 		return 0;
 	}
-	int m=server_count; // do not use core parking
-	int C_state = atoi(argv[2]); // which C-state a core will enter during idle (C1,C2,C3 -> C1,C3,C6)
+	double p=atof(argv[2]);  // traffic load
+	int m=atoi(argv[3]);    // how many active cores
+	m=server_count; // do not use core parking
+	int C_state = atoi(argv[4]); // which C-state a core will enter during idle (C1,C2,C3 -> C1,C3,C6)
 	if(C_state<1 || C_state>3) {
 		printf("choose C-state between C1 ~ C3\n");
 		return 0;
 	}
-	int current_core = atoi(argv[3]);
+	int LC=atoi(argv[5]);  //epoch length (usec)
+	
 	//printf("start main loop\n");
 		
 	double time = 0.0; // Simulation time stamp
@@ -186,17 +201,17 @@ int main(int argc, char **argv){
 	/****************/
 	/***read trace***/
 	/****************/
-	// read request trace
+#ifdef read_req_trace
 	FILE *req_trace_file;
 	char trace_file_location[100];
 	char trace_file_name[10];
 	int read_counter=0;
-	sprintf(trace_file_name, "sleep_scale_trace");
+	sprintf(trace_file_name, "/%.1f", p);
+	strcpy(trace_file_location, req_trace_path);
+	strcat(trace_file_location, trace_file_name);
 	// printf("%s\n",trace_file_location);
 	req_trace_file = fopen(trace_file_location, "r");
-	int req_assigned_core[PKT_limit];
-	double req_arrival_time[PKT_limit];
-	double req_service_time[PKT_limit];
+	
 	while (fscanf(req_trace_file, "%d%lf%lf", &req_assigned_core[read_counter]
 		,&req_arrival_time[read_counter],&req_service_time[read_counter]) != EOF) {
 		// printf("%d\t%f\t%f\n",req_assigned_core[read_counter],req_arrival_time[read_counter],req_service_time[read_counter]);
@@ -206,23 +221,24 @@ int main(int argc, char **argv){
 		
 	}
 	fclose(req_trace_file);
-	int current_pkt_count=0;
-	double cur_req_arrival_time[PKT_limit];
-	double cur_req_service_time[PKT_limit];
-	for(i=0;i<read_counter;i++){
-		if(req_assigned_core[i]==current_core){
-			cur_req_arrival_time[current_pkt_count]=req_arrival_time[i];
-			cur_req_service_time[current_pkt_count]=req_service_time[i];
-			current_pkt_count++;
-		}
+#endif
+	double average_service_time;
+	read_dist(&average_service_time);
+	double Ta=average_service_time/(server_count*p);
+	int ret=read_and_scale_dist(Ta); // ret == -1 // use exponential
+	
+	
+	double Ts_dvfs=average_service_time*freq[0]/freq[select_f]*alpha+average_service_time*(1-alpha);
+	double Ts_nf_dvfs=0.000015*freq[0]/freq[select_f]*alpha+0.000015*(1-alpha);
+	if(Ts_dvfs/Ta/m>1){
+		printf("the selected P-state will overload the server\n");
+		return 0;
 	}
-	for(i=0;i<current_pkt_count;i++){
-		cur_req_arrival_time[i]=cur_req_arrival_time[i]-cur_req_arrival_time[0];
-	}
-
+	
 	
 	double Pa = Pa_static*voltage[select_f]+Pa_dyn*voltage[select_f]*voltage[select_f]*freq[select_f]; // core power
 	C_state_power[0]=Pa;
+	double Pmax=Pa_static*voltage[0]+Pa_dyn*voltage[0]*voltage[0]*freq[0]; // core power
 	double S = S_static*voltage[select_f]+S_dyn*voltage[select_f]*voltage[select_f]*freq[select_f];  // uncore power
 	double wake_up_latency=C_state_wakeup_latency[C_state];
 	double Pc=C_state_power[C_state];
@@ -234,14 +250,14 @@ int main(int argc, char **argv){
 		package_wakeup_latency=atof(argv[6]);
 		Pc=C_state_power[3];
 	}
-	// if(!quiet){
-		// printf("system load %f\n",Ts_dvfs/Ta/m);
-		// printf("# of core %d\n",m);
-		// printf("selected frequency/voltage %f/%f\n",freq[select_f],voltage[select_f]);
-		// printf("mean service time %f\nmean arrival time %f\n",Ts_dvfs*1000000,Ta*1000000);
-		// printf("Pa %f, S %f\n",Pa,S);
-		// printf("Pc %f\n",Pc);
-	// }	
+	if(!quiet){
+		printf("system load %f\n",Ts_dvfs/Ta/m);
+		printf("# of core %d\n",m);
+		printf("selected frequency/voltage %f/%f\n",freq[select_f],voltage[select_f]);
+		printf("mean service time %f\nmean arrival time %f\n",Ts_dvfs*1000000,Ta*1000000);
+		printf("Pa %f, S %f\n",Pa,S);
+		printf("Pc %f\n",Pc);
+	}	
 	
 	for(i=0;i<m;i++){
 		server[i].index=i;
@@ -261,8 +277,9 @@ int main(int argc, char **argv){
 	/**********************/
 	/*Main simulation loop*/
 	/**********************/
-	
-	while (pkt_index < current_pkt_count){
+	while (pkt_index < PKT_limit){
+		
+
 		// find the next event
 		next_event=SIM_TIME+1;
 		next_event_index=-1;
@@ -281,11 +298,19 @@ int main(int argc, char **argv){
 		if (next_event == event[0]){ // *** Event #1 (arrival)
 			time = event[0]; 
 			// find out which core handle this arrival
+#ifdef read_req_trace // read from trace
+			int assigned_server=req_assigned_core[pkt_index];
+#else
 			int assigned_server=rand_int(m); // randomly assign one core to handle the request
+#endif
 			
 			// insert pkt into queue
 			pkts[pkt_index].time_arrived=time;
-			pkt_service_time=cur_req_service_time[pkt_index];
+#ifdef read_req_trace // read from trace
+			pkt_service_time=req_service_time[pkt_index];
+#else
+			pkt_service_time=service_length[generate_iat(service_count,service_cdf)]*1000000;
+#endif
 			pkts[pkt_index].service_time=pkt_service_time*freq[0]/freq[select_f]*alpha+pkt_service_time*(1-alpha);
 			if(pkts[pkt_index].service_time==0) printf("pkt serviec time 0!!!\n");
 			pkts[pkt_index].time_finished=-1;
@@ -326,9 +351,14 @@ int main(int argc, char **argv){
 			}
 			
 			// update events
-			
-			event[0] = cur_req_arrival_time[pkt_index]; // next pkt arrival time
-			
+#ifdef read_req_trace // read from trace
+			event[0] = req_arrival_time[pkt_index]; // read from trace
+#else
+			if(ret==0)
+				event[0] = time + arrival_length[generate_iat(arrival_count,arrival_cdf)]*1000000; // next pkt arrival time
+			else
+				event[0] = time + expntl(Ta)*1000000; // next pkt arrival time
+#endif		
 			event[1] = SIM_TIME+1;
 			for(i=0;i<m;i++){
 				if(server[i].time_finished<event[1] && server[i].time_finished>0)
@@ -650,7 +680,7 @@ int main(int argc, char **argv){
 	int nfp,nnp;
 	hist(hist_array,pkts,&nfp,&nnp);
 	// printf("%d\t%.2f\t%f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,overall_package_idle/time,overall_package_idle/package_idle_counter,(Pa*(overall_busy_ratio+overall_wakeup_ratio)+Pc*overall_idle_ratio)+S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
-	printf("%f\t%f\t%f\t%d\t%d\tC%d\n",(Pa*(overall_busy_ratio+overall_wakeup_ratio)+Pc*overall_idle_ratio)*server_count,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,C_state);
+	printf("%d\t%.2f\t%f\t%f\t%f\t%d\t%d\n",m,p,(Pa*(overall_busy_ratio)+Pmax*overall_wakeup_ratio+Pc*overall_idle_ratio)*server_count,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp);
 	// for (j=0;j<latency_bound+1;j++)
 		// hist_array[j]=0;
 	// hist_double(hist_array, server_idle_time[0], &nfp,&nnp);

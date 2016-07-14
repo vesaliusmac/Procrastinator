@@ -7,7 +7,7 @@
 //----- Constants -------------------------------------------------------------
 #define PKT_limit 100000//0 // Simulation time
 #define SIM_TIME  1000000000000
-#define quiet 0
+#define quiet 1
 #define debug 0
 #define printdist 0
 // #define ivy

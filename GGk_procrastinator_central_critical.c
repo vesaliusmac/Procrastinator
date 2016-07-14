@@ -439,6 +439,7 @@ int main(int argc, char **argv){
 			queued_pkt[assigned_server]++;
 			server[assigned_server].last_pkt_arrived=time;
 			error("%10.6f\tpkt %d arrives at core %d and inserted into queue\n",time,pkt_index-1,assigned_server);				
+			//print the req arrival service log
 			// printf("%d\t%f\t%f\n",assigned_server,time,pkt_service_time);
 			/*determin when the core need to wake up if it is idle*/
 			if(server[assigned_server].state==0){ //core idle
@@ -519,12 +520,12 @@ int main(int argc, char **argv){
 			}
 			
 			// update events
-			if(ret==0)
-				event[0] = time + arrival_length[generate_iat(arrival_count,arrival_cdf)]*1000000; // next pkt arrival time
-			else
 #ifdef read_req_trace
 				event[0] = req_arrival_time[pkt_index]; // read from trace
 #else
+			if(ret==0)
+				event[0] = time + arrival_length[generate_iat(arrival_count,arrival_cdf)]*1000000; // next pkt arrival time
+			else
 				event[0] = time + expntl(Ta)*1000000; // next pkt arrival time
 #endif
 			
@@ -1047,6 +1048,7 @@ int main(int argc, char **argv){
 	// printf("%d\t%.2f\t%f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,overall_package_idle/time,overall_package_idle/package_idle_counter,(Pa*(overall_busy_ratio+overall_wakeup_ratio)+Pc*overall_idle_ratio)+S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
 	// printf("%d\t%.2f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,overall_P_state_power*overall_wakeup_ratio+overall_P_state_power*overall_wakeup_DVFS_ratio+overall_P_state_power*overall_busy_ratio+Pc*overall_idle_ratio*m,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
 	// printf("%.2f\t%f\t%f\t%f\t%f\t%f\t%f\n",p,overall_P_state_power*overall_wakeup_ratio,overall_P_state_power*(overall_wakeup_DVFS_ratio+overall_busy_DVFS_ratio),overall_P_state_power*overall_busy_ratio,Pc*overall_idle_ratio*m,overall_P_state_power*overall_wakeup_ratio+overall_P_state_power*overall_wakeup_DVFS_ratio+overall_P_state_power*overall_busy_ratio+Pc*overall_idle_ratio*m,S*(1-overall_package_idle/time));
+	// print power breakdown
 	printf("%.2f\t%f\t%f\t%f\t%f\t%f\t%f\n",p,avg_wakeup_transition_all,avg_DVFS_transition_all,avg_busy_all,avg_idle_all,avg_per_core_all,S*(1-overall_package_idle/time));
 	// printf("%d\t%.2f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,(overall_idle_power*(overall_idle_ratio+overall_wakeup_ratio)+overall_P_state_power/m*(overall_busy_ratio+overall_wakeup_DVFS_ratio))*m,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
 	// for (j=0;j<latency_bound+1;j++)
