@@ -8,7 +8,7 @@ do
 	printf 'DVFS_latency 10\n' >> configuration;
 	while [ "$(echo "${load} < ${loadbound}" | bc)" -eq 1 ];
 	do
-		./GGk_procrastinator_central_critical 0 $load 12 3 $1;
+		/home/chou/HPCA2017/GGk_procrastinator_central_critical 0 $load 12 3 $1;
 		load=$(echo "$load+$load_step" | bc);
 	done
 	

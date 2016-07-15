@@ -4,12 +4,14 @@
 #include <time.h>
 #include <stdarg.h>
 #include "arrival.h"
+#include <string.h>
 //----- Constants -------------------------------------------------------------
 #define PKT_limit 100000 // Simulation time
 #define SIM_TIME  1000000000000
 #define quiet 1
 #define debug 0
 #define printdist 0
+#define read_req_trace
 // #define ivy
 //#define SIM_TIME 1000000 // Simulation time
 #ifdef ivy
@@ -21,8 +23,8 @@
 #define event_count 3
 #define latency_bound 200000
 #define alpha 1.0
-#define package_sleep 1
-
+#define package_sleep 0
+#define idle_history 8
 typedef struct
 {
     double time_arrived;
@@ -40,6 +42,7 @@ typedef struct
 	double time_finished;
 	double time_vacation_end;
 	int state; // 0 idle 1 busy
+	int sleep_state; //-1:busy 0-2 C-state 1-3
 	int P_state;
 	double time_P_state;
 }Server;
@@ -53,6 +56,12 @@ typedef struct
 	int state; // 0 idle 1 busy
 }Package;
 
+#ifdef read_req_trace
+int req_assigned_core[PKT_limit];
+double req_arrival_time[PKT_limit];
+double req_service_time[PKT_limit];
+
+#endif
 
 //----- Function prototypes ---------------------------------------------------
 double expntl(double x); // Generate exponential RV with mean x
@@ -96,7 +105,7 @@ double S_dyn=4.8233, S_static=2.6099;
 
 int C_state_wakeup_latency[4]={0,1,59,89};
 int C_state_exit_latency[4]={0,1,20,22};
-int C_state_residency[4]={0,1,156,300};
+int C_state_EBT[4]={0,1,156,300};
 double C_state_power[4]={0,1.2,0.13,0};
 
 
@@ -124,6 +133,9 @@ int queue_en_ptr[server_count]={0};
 int queue_de_ptr[server_count]={0};
 int pkt_index=0;
 int queued_pkt[server_count]={0};
+// for menu governor
+double **past_idle; 
+int past_idle_ptr[server_count]={0};
 // double accu_arrival_time[server_count]={0};
 
 int pick;
@@ -135,6 +147,32 @@ Server server[server_count];
 Package package;
 /********************** Main program******************************/
 int main(int argc, char **argv){
+	srand(time(NULL));
+	/****************/
+	/*input argument*/
+	/****************/
+		
+	if(argc<5) {
+		printf("use: [freq] [load] [core count] [latency constraint] [DVFS latency]\n");
+		return 0;
+	}
+	
+	int select_f=atoi(argv[1]); // selected frequency
+	if(select_f<0 || select_f>15) {
+		printf("choose P-state between P0 ~ P14\n");
+		return 0;
+	}
+	double p=atof(argv[2]);  // traffic load
+	int m=atoi(argv[3]);    // how many active cores
+	m=server_count; // do not use core parking
+	
+	int LC=atoi(argv[4]);  //latency constraint
+	int DVFS_latency;
+	if(argc==5)
+		DVFS_latency=10;
+	else
+		DVFS_latency=atoi(argv[6]);
+	
 	/****************/
 	/*initialization*/
 	/****************/
@@ -170,42 +208,40 @@ int main(int argc, char **argv){
 		}
 	}
 	
+	// for menu governor
+	double ***server_per_state_idle_time = malloc(server_count * sizeof **server_per_state_idle_time);
+	for(kk=0;kk<server_count;kk++){
+		server_per_state_idle_time[kk]=malloc(3 * sizeof **server_per_state_idle_time[kk]);
+			for(jj=0;jj<3;jj++){
+				server_per_state_idle_time[kk][jj]= malloc(q_len * sizeof *server_per_state_idle_time[kk][jj]);
+				for(i=0;i<q_len;i++){
+					server_per_state_idle_time[kk][jj][i]=-1;
+				}
+			}
+	}
+	int **server_per_state_idle_counter = malloc(server_count * sizeof *server_per_state_idle_counter);
+	for(kk=0;kk<server_count;kk++){
+		server_per_state_idle_counter[kk]=malloc(3 * sizeof *server_per_state_idle_counter[kk]);
+		for(jj=0;jj<3;jj++){
+			server_per_state_idle_counter[kk][jj]= 0;
+		}
+	}
+	
+	past_idle = malloc(server_count * sizeof *past_idle);
+	for(kk=0;kk<server_count;kk++){
+		past_idle[kk] = malloc(idle_history * sizeof *past_idle[kk]);
+		for(jj=0;jj<idle_history;jj++){
+			past_idle[kk][jj] = 0;
+		}
+	}
+	
 	double *package_idle_time = malloc(q_len * sizeof(double));
 	for(jj=0;jj<q_len;jj++){
 			package_idle_time[jj]=-1;
 	}
 	
 	
-	srand(time(NULL));
-	/****************/
-	/*input argument*/
-	/****************/
-		
-	if(argc<6) {
-		printf("use: [freq] [load] [core count] [C-state] [latency constraint] [DVFS latency]\n");
-		return 0;
-	}
 	
-	int select_f=atoi(argv[1]); // selected frequency
-	if(select_f<0 || select_f>15) {
-		printf("choose P-state between P0 ~ P14\n");
-		return 0;
-	}
-	double p=atof(argv[2]);  // traffic load
-	int m=atoi(argv[3]);    // how many active cores
-	m=server_count; // do not use core parking
-	int C_state = atoi(argv[4]); // which C-state a core will enter during idle (C1,C2,C3 -> C1,C3,C6)
-	if(C_state<1 || C_state>3) {
-		printf("choose C-state between C1 ~ C3\n");
-		return 0;
-	}
-	// C_state=1;// rubik does not consider different C_state;
-	int LC=atoi(argv[5]);  //latency constraint
-	int DVFS_latency;
-	if(argc==6)
-		DVFS_latency=10;
-	else
-		DVFS_latency=atoi(argv[6]);
 	//printf("start main loop\n");
 		
 	double time = 0.0; // Simulation time stamp
@@ -215,7 +251,27 @@ int main(int argc, char **argv){
 	/****************/
 	/***read trace***/
 	/****************/
+#ifdef read_req_trace
+	FILE *req_trace_file;
+	char trace_file_location[100];
+	char trace_file_name[10];
+	int read_counter=0;
+	sprintf(trace_file_name, "/%.1f", p);
+	strcpy(trace_file_location, req_trace_path);
+	strcat(trace_file_location, trace_file_name);
+	// printf("%s\n",trace_file_location);
+	req_trace_file = fopen(trace_file_location, "r");
 	
+	while (fscanf(req_trace_file, "%d%lf%lf", &req_assigned_core[read_counter]
+		,&req_arrival_time[read_counter],&req_service_time[read_counter]) != EOF) {
+		// printf("%d\t%f\t%f\n",req_assigned_core[read_counter],req_arrival_time[read_counter],req_service_time[read_counter]);
+		read_counter++;
+		if(read_counter>PKT_limit)
+			break;
+		
+	}
+	fclose(req_trace_file);
+#endif	
 	double average_service_time;
 	read_dist(&average_service_time);
 	double Ta=average_service_time/(server_count*p);
@@ -233,10 +289,10 @@ int main(int argc, char **argv){
 	
 	
 	double Pa = Pa_static*voltage[select_f]+Pa_dyn*voltage[select_f]*voltage[select_f]*freq[select_f]; // core power
+	double Pmax = Pa_static*voltage[0]+Pa_dyn*voltage[0]*voltage[0]*freq[0]; // C-state transition power
 	C_state_power[0]=Pa;
 	double S = S_static*voltage[select_f]+S_dyn*voltage[select_f]*voltage[select_f]*freq[select_f];  // uncore power
-	double wake_up_latency=C_state_wakeup_latency[C_state];
-	double Pc=C_state_power[C_state];
+	
 	double package_wakeup_latency;
 	if(argc==6){
 		package_wakeup_latency=100;
@@ -251,7 +307,6 @@ int main(int argc, char **argv){
 		printf("selected frequency/voltage %f/%f\n",freq[select_f],voltage[select_f]);
 		printf("mean service time %f\nmean arrival time %f\n",Ts_dvfs*1000000,Ta*1000000);
 		printf("Pa %f, S %f\n",Pa,S);
-		printf("Pc %f\n",Pc);
 	}	
 	
 	for(i=0;i<m;i++){
@@ -260,6 +315,7 @@ int main(int argc, char **argv){
 		server[i].time_arrived=0;
 		server[i].time_finished=-1;
 		server[i].state=0;
+		server[i].sleep_state=0;
 		server[i].time_vacation_end=-1;
 		server[i].P_state=0;
 		server[i].time_P_state=-1;
@@ -294,11 +350,18 @@ int main(int argc, char **argv){
 		if (next_event == event[0]){ // *** Event #1 (arrival)
 			time = event[0]; 
 			// find out which core handle this arrival
+#ifdef read_req_trace // read from trace
+			int assigned_server=req_assigned_core[pkt_index];
+#else
 			int assigned_server=rand_int(m); // randomly assign one core to handle the request
-			
+#endif			
 			// insert pkt into queue
 			pkts[pkt_index].time_arrived=time;
+#ifdef read_req_trace // read from trace
+			pkt_service_time=req_service_time[pkt_index];
+#else
 			pkt_service_time=service_length[generate_iat(service_count,service_cdf)]*1000000;
+#endif
 			pkts[pkt_index].service_time=pkt_service_time*freq[0]/freq[select_f]*alpha+pkt_service_time*(1-alpha);
 			if(pkts[pkt_index].service_time==0) printf("pkt serviec time 0!!!\n");
 			pkts[pkt_index].time_finished=-1;
@@ -310,14 +373,20 @@ int main(int argc, char **argv){
 						
 			/*determin when the core need to wake up*/
 			if(server[assigned_server].state==0){ //core idle
+				//sanity check
+				if(server[assigned_server].sleep_state<0 || server[assigned_server].sleep_state>2){
+					printf("server sleep state error\n");
+					return 0;
+				}
+				int server_c_state=server[assigned_server].sleep_state+1;
 				if(server[assigned_server].time_vacation_end==-1){
-					if(time-server[assigned_server].time_arrived>=(C_state_wakeup_latency[C_state]-C_state_exit_latency[C_state])){
+					if(time-server[assigned_server].time_arrived>=(C_state_wakeup_latency[server_c_state]-C_state_exit_latency[server_c_state])){
 						//transit into sleep state done
-						server[assigned_server].time_vacation_end=time+C_state_exit_latency[C_state];
+						server[assigned_server].time_vacation_end=time+C_state_exit_latency[server_c_state];
 					} else {
 						//transit into sleep state not done
 						error("req arrives before entering sleep state %d %f\n",assigned_server,time-server[assigned_server].time_arrived);
-						server[assigned_server].time_vacation_end=server[assigned_server].time_arrived+C_state_wakeup_latency[C_state];
+						server[assigned_server].time_vacation_end=server[assigned_server].time_arrived+C_state_wakeup_latency[server_c_state];
 					}
 				}
 				
@@ -400,11 +469,14 @@ int main(int argc, char **argv){
 			}
 			
 			// update events
+#ifdef read_req_trace // read from trace
+			event[0] = req_arrival_time[pkt_index]; // read from trace
+#else
 			if(ret==0)
 				event[0] = time + arrival_length[generate_iat(arrival_count,arrival_cdf)]*1000000; // next pkt arrival time
 			else
 				event[0] = time + expntl(Ta)*1000000; // next pkt arrival time
-			
+#endif		
 			event[1] = SIM_TIME+1;
 			for(i=0;i<m;i++){
 				if(server[i].time_finished<event[1] && server[i].time_finished>0)
@@ -514,7 +586,24 @@ int main(int argc, char **argv){
 				server[pick].time_arrived=time;
 				server[pick].time_finished=-1;
 				server[pick].time_vacation_end=-1;
-				
+				// predict the idle period and select corresponding C-state
+				double temp_idle=0;
+				int temp_idle_count=0;
+				for(i=0;i<8;i++){
+					if(past_idle[pick][i]>0){
+						temp_idle+=past_idle[pick][i];
+						temp_idle_count++;
+					}
+				}
+				temp_idle=temp_idle/temp_idle_count;
+				server[pick].sleep_state=0;
+				for(i=3;i>0;i--){
+					if(temp_idle>C_state_EBT[i]){
+						server[pick].sleep_state=i-1;
+						break;
+					}
+						
+				}
 				server_busy_P_state[pick][server_busy_P_state_counter[pick]]=time-server[pick].time_P_state;
 				server_busy_P_state_index[pick][server_busy_P_state_counter[pick]]=server[pick].P_state;
 				server_busy_P_state_counter[pick]++;
@@ -562,6 +651,12 @@ int main(int argc, char **argv){
 			
 			//printf("server %d wakeup at time %f\n",pick,time);
 			server_idle_time[pick][server_idle_counter[pick]]=time-server[pick].time_arrived;
+			// per-sleep-state statistic
+			server_per_state_idle_time[pick][server[pick].sleep_state][server_per_state_idle_counter[pick][server[pick].sleep_state]]=time-server[pick].time_arrived;
+			server_per_state_idle_counter[pick][server[pick].sleep_state]++;
+			// menu governor
+			past_idle[pick][past_idle_ptr[pick]]=time-server[pick].time_arrived;
+			past_idle_ptr[pick]=(past_idle_ptr[pick]+1)%idle_history;
 			server_idle_counter[pick]++;
 			server_wakeup_counter[pick]++;
 			
@@ -661,6 +756,8 @@ int main(int argc, char **argv){
 		if(server[i].state==0){
 			server_idle_time[i][server_idle_counter[i]]=time-server[i].time_arrived;
 			server_idle_counter[i]++;
+			server_per_state_idle_time[i][server[i].sleep_state][server_per_state_idle_counter[i][server[i].sleep_state]]=time-server[i].time_arrived;
+			server_per_state_idle_counter[i][server[i].sleep_state]++;
 		}else{
 			server_busy_time[i][server_busy_counter[i]]=time-server[i].time_arrived;
 			server_busy_counter[i]++;
@@ -749,45 +846,57 @@ int main(int argc, char **argv){
 	double idle_period_energy[4]={0};
 	double avg_busy[server_count]={0};
 	double avg_idle[server_count]={0};
-	
+	double **avg_idle_per_state = malloc(server_count * sizeof *avg_idle_per_state);
+	for(kk=0;kk<server_count;kk++){
+		avg_idle_per_state[kk]=malloc(3 * sizeof *avg_idle_per_state[kk]);
+		for(jj=0;jj<3;jj++){
+			avg_idle_per_state[kk][jj]= 0;
+		}
+	}
+	double avg_wakeup[server_count]={0};
 	for(i=0;i<q_len;i++){
 		for(j=0;j<m;j++){
 			//printf("server %d, %d th busy period : %f\n",j,i,server_busy_time[j][i]);
 			if(i<server_busy_counter[j] && server_busy_time[j][i]>0) {
 				//printf("server %d, %d th busy period : %f\n",j,i,server_busy_time[j][i]);
 				avg_busy[j]=avg_busy[j]+server_busy_time[j][i];
-				
-				if(server_busy_time[j][i]<C_state_residency[1]){// enter C0 in this idle
-					idle_period_energy[0]+=(server_busy_time[j][i]*Pa);
-				}else if(server_busy_time[j][i]<C_state_residency[2]){//enter C1
-					idle_period_energy[1]+=(C_state_wakeup_latency[1]*Pa+(server_busy_time[j][i]-C_state_wakeup_latency[1])*C_state_power[1]);
-				}else if(server_busy_time[j][i]<C_state_residency[3]){//enter C3
-					idle_period_energy[2]+=(C_state_wakeup_latency[2]*Pa+(server_busy_time[j][i]-C_state_wakeup_latency[2])*C_state_power[2]);
-				}else {//enter C3
-					idle_period_energy[3]+=(C_state_wakeup_latency[3]*Pa+(server_busy_time[j][i]-C_state_wakeup_latency[3])*C_state_power[3]);
-				}
-				
-				
 			} else{
 				if(i<server_busy_counter[j] && server_busy_time[j][i]<0){
 					printf("something wrong with the busy period counter\n");
 					printf("core %d, %d th busy period : %f\n",j,i,server_busy_time[j][i]);
 				}
 			}
-			if(i<server_idle_counter[j] && server_idle_time[j][i]>0){
-				
-				avg_idle[j]=avg_idle[j]+server_idle_time[j][i];
-			} else{
-				if(i<server_idle_counter[j] && server_idle_time[j][i]<0)
-					printf("something wrong with the idle period counter\n");
-			}
 			
 		}
 		
 	}
-	double total_idle_energy=0;
-	for(i=0;i<4;i++){
-		total_idle_energy+=idle_period_energy[i];
+	for(j=0;j<m;j++){
+		for(kk=0;kk<3;kk++){
+			for(i=0;i<q_len;i++){
+				if(i<server_per_state_idle_counter[j][kk] && server_per_state_idle_time[j][kk][i]>0){
+					if(server_per_state_idle_time[j][kk][i]-C_state_wakeup_latency[kk+1]*1.0<-0.0001 && i<server_per_state_idle_counter[j][kk]-1){
+						printf("idle period error %d\t%d\t%f\t%d\n",i,server_per_state_idle_counter[j][kk],server_per_state_idle_time[j][kk][i],C_state_wakeup_latency[kk+1]);
+						// return 0;
+					}
+					avg_idle_per_state[j][kk]=avg_idle_per_state[j][kk]+server_per_state_idle_time[j][kk][i]-C_state_wakeup_latency[kk+1];
+					avg_wakeup[j]+=C_state_wakeup_latency[kk+1];
+				}else{
+					if(i<server_per_state_idle_counter[j][kk] && server_per_state_idle_time[j][kk][i]<0)
+						printf("something wrong with the idle period counter\n");
+				}
+			}
+		}
+	}
+	double Pidle[server_count]={0};
+	for(j=0;j<m;j++){
+		for(kk=0;kk<3;kk++){
+			avg_idle[j]+=avg_idle_per_state[j][kk];
+			Pidle[j]+=avg_idle_per_state[j][kk]*C_state_power[kk+1];
+		}
+		if(avg_idle[j]==0)
+			Pidle[j]=0;
+		else
+			Pidle[j]=Pidle[j]/avg_idle[j];
 	}
 	
 	double busy_ratio[server_count]={0};
@@ -795,14 +904,16 @@ int main(int argc, char **argv){
 	double wakeup_ratio[server_count]={0};
 	double overall_busy=0,overall_idle=0,overall_wakeup=0;
 	double overall_busy_ratio=0,overall_idle_ratio=0,overall_wakeup_ratio=0;
+	double overall_idle_power=0;
 	
 	for(j=0;j<m;j++){
-		busy_ratio[j]=avg_busy[j]/(avg_busy[j]+avg_idle[j]);
-		idle_ratio[j]=(avg_idle[j]-server_wakeup_counter[j]*wake_up_latency)/(avg_busy[j]+avg_idle[j]);
-		wakeup_ratio[j]=server_wakeup_counter[j]*wake_up_latency/(avg_busy[j]+avg_idle[j]);
+		busy_ratio[j]=avg_busy[j]/(avg_busy[j]+avg_idle[j]+avg_wakeup[j]);
+		idle_ratio[j]=avg_idle[j]/(avg_busy[j]+avg_idle[j]+avg_wakeup[j]);
+		wakeup_ratio[j]=avg_wakeup[j]/(avg_busy[j]+avg_idle[j]+avg_wakeup[j]);
 		overall_busy+=avg_busy[j];
-		overall_idle+=(avg_idle[j]-server_wakeup_counter[j]*wake_up_latency);
-		overall_wakeup+=server_wakeup_counter[j]*wake_up_latency;
+		overall_idle+=avg_idle[j];
+		overall_wakeup+=avg_wakeup[j];
+		overall_idle_power+=Pidle[j]*avg_idle[j];
 		
 		avg_busy[j]=avg_busy[j]/server_busy_counter[j];
 		avg_idle[j]=avg_idle[j]/server_idle_counter[j];
@@ -810,7 +921,7 @@ int main(int argc, char **argv){
 	overall_busy_ratio=overall_busy/(overall_busy+overall_idle+overall_wakeup);
 	overall_idle_ratio=overall_idle/(overall_busy+overall_idle+overall_wakeup);
 	overall_wakeup_ratio=overall_wakeup/(overall_busy+overall_idle+overall_wakeup);
-	double overall_idle_power=total_idle_energy/(overall_idle+overall_wakeup);
+	overall_idle_power=overall_idle_power/overall_idle;
 	int pkt_processed=0,pkt_in_server=0,pkt_in_queue=0;
 	for(j=0;j<m;j++){
 		pkt_processed+=server_pkts_counter[j];
@@ -827,7 +938,7 @@ int main(int argc, char **argv){
 	
 	double latency[server_count]={0};
 	double overall_latency=0;
-	double avg_wakeup=0;
+	double avg_wakeup_count=0;
 	for(j=0;j<pkt_index;j++){
 		if(pkts[j].time_finished>0){
 			if(pkts[j].time_finished-pkts[j].time_arrived<0)
@@ -837,7 +948,7 @@ int main(int argc, char **argv){
 		}
 	}
 	for(j=0;j<m;j++){
-		avg_wakeup+=server_wakeup_counter[j];
+		avg_wakeup_count+=server_wakeup_counter[j];
 		overall_latency+=latency[j];
 		latency[j]=latency[j]/server_pkts_counter[j];
 	}
@@ -861,13 +972,11 @@ int main(int argc, char **argv){
 		printf("average busy ratio %f\n",overall_busy_ratio);
 		printf("average idle ratio %f\n",overall_idle_ratio);
 		printf("average wakeup ratio %f\n",overall_wakeup_ratio);
-		printf("average wakeup count %f\n",avg_wakeup/m);
-		// printf("average core power %f\n",Pa*overall_wakeup_ratio+overall_P_state_power/m*overall_busy_ratio+Pc*overall_idle_ratio); 
-		printf("average core power %f\n",overall_idle_power*(overall_idle_ratio+overall_wakeup_ratio)+overall_P_state_power/m*overall_busy_ratio); 
-		printf("average active power %f\n",overall_P_state_power/m);
-		// printf("average state transition power %f\n",Pa*overall_wakeup_ratio);
-		// printf("average idle power %f\n",Pc*overall_idle_ratio);
-		printf("average idle power %f\n",overall_idle_power);
+		printf("average wakeup count %f\n",avg_wakeup_count/m);
+		printf("average core power %f\n",overall_idle_power*overall_idle_ratio+Pmax*overall_wakeup_ratio+overall_P_state_power/m*overall_busy_ratio); 
+		printf("average active power %f\n",overall_P_state_power/m*overall_busy_ratio);
+		printf("average state transition power %f\n",Pmax*overall_wakeup_ratio);
+		printf("average idle power %f\n",overall_idle_power*overall_idle_ratio);
 		if(package_sleep > 0){ // package sleep enabled
 			printf("average package power %f\n",S*(1-overall_package_idle/time));
 			printf("average package transition power %f\n",S*(overall_package_transistion/time));
@@ -901,7 +1010,7 @@ int main(int argc, char **argv){
 	hist(hist_array,pkts,&nfp,&nnp);
 	// printf("%d\t%.2f\t%f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,overall_package_idle/time,overall_package_idle/package_idle_counter,(Pa*(overall_busy_ratio+overall_wakeup_ratio)+Pc*overall_idle_ratio)+S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
 	// printf("%d\t%.2f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,Pa*overall_wakeup_ratio*m+overall_P_state_power*overall_busy_ratio+Pc*overall_idle_ratio*m,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
-	printf("%d\t%.2f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,(overall_idle_power*(overall_idle_ratio+overall_wakeup_ratio)+overall_P_state_power/m*overall_busy_ratio)*m,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
+	printf("%d\t%.2f\t%f\t%f\t%f\t%d\t%d\t%d\n",m,p,(overall_idle_power*overall_idle_ratio+Pmax*overall_wakeup_ratio+overall_P_state_power/m*overall_busy_ratio)*m,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC);
 	// for (j=0;j<latency_bound+1;j++)
 		// hist_array[j]=0;
 	// hist_double(hist_array, server_idle_time[0], &nfp,&nnp);
