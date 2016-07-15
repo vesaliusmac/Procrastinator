@@ -1,5 +1,5 @@
 # Procrastinator
-<<<<<<< HEAD
+
 for GGK_procrastinator_critical
 use: [freq] [load] [core count] [C-state] [latency constraint] [(opt)DVFS latency]
 there are several other features can be defined in the c file
