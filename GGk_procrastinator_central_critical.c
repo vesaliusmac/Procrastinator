@@ -14,7 +14,7 @@
 #define printdist 0
 #define read_req_trace
 // #define ivy
-#define critical
+// #define critical
 
 #define q_len 20000000
 #define event_count 3
