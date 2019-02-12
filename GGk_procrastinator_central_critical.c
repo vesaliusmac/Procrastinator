@@ -1,18 +1,20 @@
 #include <stdio.h> 
 #include <stdlib.h> // Needed for rand() and RAND_MAX
+#include <ctype.h>
 #include <math.h> // Needed for log()
 #include <time.h>
 #include <stdarg.h>
 #include "arrival.h"
 #include <string.h>
+#include <getopt.h>
+#include <stdbool.h>
 
 //----- Constants -------------------------------------------------------------
 #define PKT_limit 1000000 // Simulation time
 #define SIM_TIME  1000000000000
-#define quiet 1
 #define debug 0
 #define printdist 0
-#define read_req_trace
+//#define read_req_trace
 // #define ivy
 // #define critical
 
@@ -79,7 +81,7 @@ typedef struct
 double expntl(double x); // Generate exponential RV with mean x
 int generate_iat(int count, double* cdf);
 int read_and_scale_dist(double target_mean);
-void read_dist(double* avg_service_time);
+bool read_service_dist(double* avg_service_time);
 int rand_int(int b);
 void hist(int* hist_array, Pkt* pkts, int* nfp, int* nnp);
 int pdf_to_tail(double* input, int length);
@@ -149,110 +151,129 @@ int pick;
 // int map[server_count]={0};
 int check_package=0;
 //Pkt pkts[server_count*SIM_TIME];
-
+int quiet=0;
 Server server[server_count];
 Package package;
 
 //input argument
-int select_f;
-double p;
-int m;
-int C_state ;
-int LC;
+int select_f=0;
+double p=0.1;
+int m=server_count;
+int C_state=1;
+int LC=500;
 /********************** Main program******************************/
 int main(int argc, char **argv){
 	srand(time(NULL));
 	/****************/
 	/*input argument*/
 	/****************/
+	int c;
+	while ((c = getopt (argc, argv, "f:p:m:c:l:q")) != -1)
+		switch (c){
+		case 'f': // set cpu frequency
+			select_f=atoi(optarg); // selected frequency
+			if(select_f<0 || select_f>14) {
+				printf("choose P-state between P0 ~ P14\n");
+			return 0;
+			}
+        	break;
+		case 'p': // set system load
+			p=atof(optarg);  // traffic load
+			if(p<0 || p>1) {
+				printf("choose system load between 0 ~ 1 \n");
+			return 0;
+			}
+        	break;
+	        case 'm':
+			m=atoi(optarg);    // how many active cores
+			if(m<1 || m>server_count) {
+				printf("choose active cores between 1 ~ %d \n", server_count);
+			return 0;
+			}
+        	break;
+		case 'c':
+			C_state = atoi(optarg); // which C-state a core will enter during idle (C1,C2,C3 -> C1,C3,C6)
+			if(C_state<1 || C_state>3) {
+				printf("choose C-state between C1 ~ C3\n");
+				return 0;
+			}	
+			
+		break;
+		case 'l':
+			LC=atoi(argv[5]);  //latency constraint
+		break;
+		case 'q':
+			quiet=1; // quiet
+		break;
+      		default:
+	       		printf("-f : select P-state\n");
+      	}
 		
-	if(argc<6) {
-		printf("use: [freq] [load] [core count] [C-state] [latency constraint]\n");
-		return 0;
-	}
-	
-	select_f=atoi(argv[1]); // selected frequency
-	if(select_f<0 || select_f>14) {
-		printf("choose P-state between P0 ~ P14\n");
-		return 0;
-	}
-	p=atof(argv[2]);  // traffic load
-	m=atoi(argv[3]);    // how many active cores
-	m=server_count; // do not use core parking
-	C_state = atoi(argv[4]); // which C-state a core will enter during idle (C1,C2,C3 -> C1,C3,C6)
-	if(C_state<1 || C_state>3) {
-		printf("choose C-state between C1 ~ C3\n");
-		return 0;
-	}
-	LC=atoi(argv[5]);  //latency constraint
-	
 	
 	int schedule_policy_index=0;
 	DVFS_latency=10;
 	//*****Read Configuration from filelength
 	FILE *fp;
 	fp = fopen("configuration", "r");
+	if (fp == NULL){
+		printf("Did not find the configuration file\n");
+   	} else {
 	char  line[255];
-	while (fgets(line, sizeof(line), fp) != NULL)
-    {
-        const char* val1 = strtok(line, " ");
-        const char* val2 = strtok(NULL, " ");
-		if (!strcmp(val1, "schedule_policy")){
-			schedule_policy_index=atoi(val2);
+		while (fgets(line, sizeof(line), fp) != NULL){
+		const char* val1 = strtok(line, " ");
+		const char* val2 = strtok(NULL, " ");
+			if (!strcmp(val1, "schedule_policy"))
+				schedule_policy_index=atoi(val2);
 			
+			if (!strcmp(val1, "DVFS_latency"))
+				DVFS_latency=atoi(val2);
 		}
-		if (!strcmp(val1, "DVFS_latency")){
-			DVFS_latency=atoi(val2);
-			
-		}
-		
-        
-    }
-	
+	}
 	
 	
 	int (*foo)(int, double, double, int);
+	
+	char policy_name[10];
 	switch(schedule_policy_index){
 		case 0:
 			foo=&load_balance_none;
-			if(!quiet) printf("no global reschedule\n");
+			sprintf(policy_name, "None");
 			break;
 		case 1:
 			foo=&load_balance_random;
-			if(!quiet) printf("Random reschedule\n");
+			sprintf(policy_name, "Random");
 			break;
 		case 2:
 			foo=&load_balance_min_lat;
-			if(!quiet) printf("min_lat reschedule\n");
+			sprintf(policy_name, "Min_lat");
 			break;
 		case 3:
 			foo=&load_balance_max_f;
-			if(!quiet) printf("max_f reschedule\n");
+			sprintf(policy_name, "Max_f");
 			break;
 		case 4:
 			foo=&load_balance_min_f;
-			if(!quiet) printf("min_f reschedule\n");
+			sprintf(policy_name, "Min_f");
 			break;
 		case 5:
 			foo=&load_balance_sleep;
-			if(!quiet) printf("sleep reschedule\n");
+			sprintf(policy_name, "Sleep");
 			break;
 		case 6:
 			foo=&load_balance_min_cost;
-			if(!quiet) printf("min_cost reschedule\n");
+			sprintf(policy_name, "Min_cost");
 			break;
 		case 7:
 			foo=&load_balance_max_lat;
-			if(!quiet) printf("max_lat reschedule\n");
+			sprintf(policy_name, "Max_lat");
 			break;
 		default:
 			break;
 	}
-	
-	
 	/****************/
 	/*initialization*/
 	/****************/
+	if (!quiet) printf("Initializing memory\n");
 	int i,j,kk,jj;
 	Pkt *pkts = malloc(server_count*PKT_limit * sizeof(Pkt));
 	for(kk=0;kk<server_count*PKT_limit;kk++){
@@ -304,6 +325,8 @@ int main(int argc, char **argv){
 	package.time_arrived=-1;
 	package.time_finished=-1;
 	
+	
+	if (!quiet) printf("Initializing simulation parameter\n");
 	int next_event_index=-1;
 	double pkt_service_time=0;	
 	double time = 0.0; // Simulation time stamp
@@ -315,6 +338,7 @@ int main(int argc, char **argv){
 	/****************/
 	
 #ifdef read_req_trace
+	// read request trace
 	FILE *req_trace_file;
 	char trace_file_location[100];
 	char trace_file_name[10];
@@ -322,24 +346,32 @@ int main(int argc, char **argv){
 	sprintf(trace_file_name, "/%.1f", p);
 	strcpy(trace_file_location, req_trace_path);
 	strcat(trace_file_location, trace_file_name);
-	// printf("%s\n",trace_file_location);
+	error("%s\n",trace_file_location);
 	req_trace_file = fopen(trace_file_location, "r");
-	
-	while (fscanf(req_trace_file, "%d%lf%lf", &req_assigned_core[read_counter]
-		,&req_arrival_time[read_counter],&req_service_time[read_counter]) != EOF) {
-		// printf("%d\t%f\t%f\n",req_assigned_core[read_counter],req_arrival_time[read_counter],req_service_time[read_counter]);
-		read_counter++;
-		if(read_counter>PKT_limit)
-			break;
+	if (req_trace_file == NULL){
+		if (!quiet) printf("Request traces does not exist at %s\n", trace_file_location);
+	} else {
+		while (fscanf(req_trace_file, "%d%lf%lf", &req_assigned_core[read_counter]
+			,&req_arrival_time[read_counter],&req_service_time[read_counter]) != EOF) {
+			error("%d\t%f\t%f\n",req_assigned_core[read_counter],req_arrival_time[read_counter],req_service_time[read_counter]);
+			read_counter++;
+			if(read_counter>PKT_limit)
+				break;
+			
+		}
 		
+		fclose(req_trace_file);
 	}
-	fclose(req_trace_file);
 #endif
-
-	
-	read_dist(&average_service_time);
+	// read service trace
+	int no_service_dist_loaded=0;
+	if(read_service_dist(&average_service_time)){
+		
+	} else {
+		no_service_dist_loaded=1;
+	}
 	double Ta=average_service_time/(server_count*p);
-	int ret=read_and_scale_dist(Ta); // ret == -1 // use exponential
+	int ret=read_and_scale_dist(Ta); // ret == -1 use exponential
 	
 	
 	double Ts_dvfs=average_service_time*freq[0]/freq[select_f]*alpha+average_service_time*(1-alpha);
@@ -367,10 +399,10 @@ int main(int argc, char **argv){
 	C_state_power[0]=Pa;
 	double S = S_static*voltage[select_f]+S_dyn*voltage[select_f]*voltage[select_f]*freq[select_f];  // uncore power
 	
-	if(argc==6)
+	//if(argc==6)
 		wake_up_latency=C_state_wakeup_latency[C_state];
-	else
-		wake_up_latency=atof(argv[6]);
+	//else
+	//	wake_up_latency=atof(argv[6]);
 	
 	double package_wakeup_latency=100;
 	// if(argc==6 || argc == 7){
@@ -384,14 +416,29 @@ int main(int argc, char **argv){
 	double residency=C_state_residency[C_state];
 	Pc=C_state_power[C_state];
 	
+	// print simulation setting
+	
 	if(!quiet){
-		printf("system load %f\n",Ts_dvfs/Ta/m);
-		printf("# of core %d\n",m);
-		printf("selected frequency/voltage %f/%f\n",freq[select_f],voltage[select_f]);
-		printf("mean service time %f\nmean arrival time %f\n",Ts_dvfs*1000000,Ta*1000000);
-		printf("service time tail %f\n",service_tail);
-		printf("Pa %f, S %f\n",Pa,S);
-		printf("Pc %f\n",Pc);
+		int width=25;
+		printf("+----------------------------------------+\n");
+		printf("+-----------Simulation setting-----------+\n");
+		printf("+----------------------------------------+\n");
+
+		printf("| %-*s | %-10.0f |\n",width,"system load",p*100);
+		printf("| %-*s | %-10d |\n",width,"# of core",m);
+		printf("| %-*s | %-10f |\n",width,"selected frequency",freq[select_f]);
+		printf("| %-*s | %-10f |\n",width,"selected voltage",voltage[select_f]);
+		printf("| %-*s | %-10d |\n",width,"sleep state when idle",C_state);
+		printf("| %-*s | %-10d |\n",width,"Tail latency constraint", LC);
+		printf("| %-*s | %-10d |\n",width,"DVFS transition latency", DVFS_latency);
+		printf("| %-*s | %-10s |\n",width,"reschedule policy",policy_name);
+		printf("| %-*s | %-10f |\n",width,"mean service time",Ts_dvfs*1000000);
+		printf("| %-*s | %-10f |\n",width,"mean arrival time",Ta*1000000);
+		printf("| %-*s | %-10f |\n",width,"service time tail",Ts_nf_dvfs*1000000);
+		printf("| %-*s | %-10f |\n",width,"Active Power",Pa);
+		printf("| %-*s | %-10f |\n",width,"Package Static Power",S);
+		printf("| %-*s | %-10f |\n",width,"Idle Power",Pc);
+		printf("+----------------------------------------+\n\n");
 	}	
 	
 	
@@ -425,10 +472,16 @@ int main(int argc, char **argv){
 			pkt_service_time=req_service_time[pkt_index];
 #else	// randomly generated
 			int assigned_server=foo(m,service_tail,time,-1);
-			pkt_service_time=service_length[generate_iat(service_count,service_cdf)]*1000000;
-#endif
+			if(no_service_dist_loaded==0) // service time is loaded from a file
+				pkt_service_time=service_length[generate_iat(service_count,service_cdf)]*1000000;
+			else 
+				pkt_service_time=expntl(Ts_dvfs)*1000000;
+#endif	
 			pkts[pkt_index].service_time=pkt_service_time*freq[0]/freq[select_f]*alpha+pkt_service_time*(1-alpha);
-			if(pkts[pkt_index].service_time==0) printf("pkt service time 0!!!\n");
+			if(pkts[pkt_index].service_time==0) {
+				printf("pkt service time 0!!!\n");
+				return 0;
+			}
 			// insert pkt into queue
 			pkts[pkt_index].time_arrived=time;
 			pkts[pkt_index].time_finished=-1;
@@ -440,7 +493,7 @@ int main(int argc, char **argv){
 			server[assigned_server].last_pkt_arrived=time;
 			error("%10.6f\tpkt %d arrives at core %d and inserted into queue\n",time,pkt_index-1,assigned_server);				
 			//print the req arrival service log
-			// printf("%d\t%f\t%f\n",assigned_server,time,pkt_service_time);
+			error("%d\t%f\t%f\n",assigned_server,time,pkt_service_time);
 			/*determin when the core need to wake up if it is idle*/
 			if(server[assigned_server].state==0){ //core idle
 				accu_arrival_time[assigned_server]+=time;
@@ -794,6 +847,8 @@ int main(int argc, char **argv){
 		}
 		
 	}
+
+	// per core P state total time
 	double total_P_state_time[server_count]={0};
 	double total_P_state_ratio[server_count]={0};
 	for(i=0;i<server_count;i++){
@@ -802,29 +857,44 @@ int main(int argc, char **argv){
 		}
 		
 		total_P_state_ratio[i]=total_P_state_time[i]/time;
-		if(!quiet){
-			printf("total_P_state_ratio: core%d %f\n",i,total_P_state_ratio[i]);
-		}
+		/*if(!quiet){
+			printf("| total_P_state_ratio | core %02d | %f |\n",i,total_P_state_ratio[i]);
+		}*/
 	}
 	
+	// Calculate P state breakdown
 	double per_P_state_time[freq_steps]={0};
+	double overall_P_state_time=0;
 	for(i=0;i<server_count;i++){
 		for(j=0;j<freq_steps;j++){
 			per_P_state_time[j]+=P_state_time[i][j];
+			overall_P_state_time+=P_state_time[i][j];
 		}
-	}
-	double overall_P_state_time=0;
-	for(j=0;j<freq_steps;j++){
-		if(!quiet){
-			printf("P_state %d\t%f\t%f\n",j,per_P_state_time[j]/time/m,(Pa_static*voltage[j]+Pa_dyn*voltage[j]*voltage[j]*freq[j])*per_P_state_time[j]);
-		}
-		overall_P_state_time+=per_P_state_time[j];
 	}
 	if(!quiet){
-		printf("total P_state\t%f\n",overall_P_state_time/time/m);
+		printf("+---------------------------------+\n");
+		printf("+--------P_state breakdown--------+\n");
+		printf("+---------------------------------+\n");
 	}
+	for(j=0;j<freq_steps;j++){
+		if(!quiet){
+			//printf("| P_state %02d | %f | %f |\n",j,per_P_state_time[j]/time/m,(Pa_static*voltage[j]+Pa_dyn*voltage[j]*voltage[j]*freq[j])*per_P_state_time[j]/time/m);
+			printf("| P_state %02d | %6.2f%% | %f |\n",j,per_P_state_time[j]/overall_P_state_time*100,(Pa_static*voltage[j]+Pa_dyn*voltage[j]*voltage[j]*freq[j])*per_P_state_time[j]/time/m);
+		}
+	}
+	if(!quiet){
+		//printf("| total P_state | %f |\n",overall_P_state_time/time/m);
+		printf("+---------------------------------+\n\n");
+	}
+	
+	// Calculate per core active power
 	double total_P_state_energy[server_count]={0};
 	double total_P_state_power[server_count]={0};
+	if(!quiet){
+		printf("+---------------------+\n");
+		printf("+Per Core Active Power+\n");
+		printf("+---------------------+\n");
+	}
 	for(i=0;i<server_count;i++){
 		for(j=0;j<freq_steps;j++){
 			total_P_state_energy[i]+=(Pa_static*voltage[j]+Pa_dyn*voltage[j]*voltage[j]*freq[j])*P_state_time[i][j];
@@ -835,9 +905,14 @@ int main(int argc, char **argv){
 			total_P_state_power[i]=total_P_state_energy[i]/total_P_state_time[i];
 		}
 		if(!quiet){
-			printf("total_P_state_power %d %f\n",i,total_P_state_power[i]);
+			printf("| Core %02d | %f  |\n",i,total_P_state_power[i]);
 		}
 	}
+	if(!quiet){
+		printf("+---------------------+\n\n");
+	}
+	
+
 	double overall_P_state_power=0;
 	for(i=0;i<server_count;i++){
 		overall_P_state_power+=total_P_state_power[i];
@@ -939,20 +1014,13 @@ int main(int argc, char **argv){
 	overall_wakeup_ratio=overall_wakeup/(overall_busy+overall_idle+overall_wakeup+overall_wakeup_DVFS+overall_busy_DVFS);
 	overall_wakeup_DVFS_ratio=overall_wakeup_DVFS/(overall_busy+overall_idle+overall_wakeup+overall_wakeup_DVFS+overall_busy_DVFS);
 	overall_busy_DVFS_ratio=overall_busy_DVFS/(overall_busy+overall_idle+overall_wakeup+overall_wakeup_DVFS+overall_busy_DVFS);
+	
 	double overall_idle_power=total_idle_energy/(overall_idle+overall_wakeup);
 	int pkt_processed=0,pkt_in_server=0,pkt_in_queue=0;
 	for(j=0;j<m;j++){
 		pkt_processed+=server_pkts_counter[j];
 		pkt_in_queue+=queued_pkt[j];
 		pkt_in_server+=server[j].state;
-	}
-	if(!quiet){
-		printf("\n*********Result*********\n\n");
-		printf("total pkts arrived %d\n",pkt_index);
-		printf("total pkts processed %d\n",pkt_processed);
-		printf("total pkts in queue %d\n",pkt_in_queue);
-		printf("total pkts in servers %d\n",pkt_in_server);
-		printf("total pkts re-scheduled %d\n",rescheduled_pkt);
 	}
 	
 	double latency[server_count]={0};
@@ -985,25 +1053,6 @@ int main(int argc, char **argv){
 		}
 	}
 	//printf("package idle ratio %f\n",overall_package_idle/time);
-	if(!quiet){
-		printf("total time %f\n",time);
-		printf("average latency %f\n",overall_latency/pkt_processed);
-		printf("average busy ratio %f\n",overall_busy_ratio);
-		printf("average idle ratio %f\n",overall_idle_ratio);
-		printf("average wakeup transition ratio %f\n",overall_wakeup_ratio);
-		printf("average DVFS transition ratio %f\n",overall_wakeup_DVFS_ratio+overall_busy_DVFS_ratio);
-		// printf("average wakeup count %f\n",avg_wakeup/m);
-		printf("average core power %f\n",(overall_P_state_power/m*(overall_busy_ratio+overall_wakeup_ratio+overall_wakeup_DVFS_ratio+overall_busy_DVFS_ratio)+Pc*overall_idle_ratio)); 
-		// printf("average core power %f\n",overall_idle_power*(overall_idle_ratio+overall_wakeup_ratio)+overall_P_state_power/m*(overall_busy_ratio+overall_wakeup_DVFS_ratio)); 
-		printf("average active power %f\n",overall_P_state_power/m*overall_busy_ratio);
-		printf("average state transition power %f\n",overall_P_state_power/m*(overall_wakeup_ratio+overall_wakeup_DVFS_ratio+overall_busy_DVFS_ratio));
-		printf("average idle power %f\n",Pc*overall_idle_ratio);
-		// printf("average idle power %f\n",overall_idle_power);
-		if(package_sleep > 0){ // package sleep enabled
-			printf("average package power %f\n",S*(1-overall_package_idle/time));
-			printf("average package transition power %f\n",S*(overall_package_transistion/time));
-		}
-	}
 	double avg_busy_all=0,avg_idle_all=0,avg_wakeup_transition_all=0,avg_DVFS_transition_all=0,avg_per_core_all=0;
 	for(j=0;j<m;j++){
 		avg_busy_all+=server_busy_power[j];
@@ -1012,30 +1061,45 @@ int main(int argc, char **argv){
 		avg_DVFS_transition_all+=server_DVFS_transistion_power[j];
 		avg_per_core_all+=server_per_core_power[j];
 	}
+	//print overall result
 	if(!quiet){
-		printf("average core power %f\n",avg_per_core_all/m); 
-		printf("average active power %f\n",avg_busy_all/m);
-		printf("average state transition power %f\n",(avg_wakeup_transition_all+avg_DVFS_transition_all)/m);
-		printf("average idle power %f\n",avg_idle_all/m);
-		
+		int width=36;
+		printf("+-------------------------------------------------------+\n");
+		printf("+---------------------Overall Result--------------------+\n");
+		printf("+-------------------------------------------------------+\n");
+		printf("| %-*s | %-14d |\n",width,"total pkts arrived",pkt_index);
+		printf("| %-*s | %-14d |\n",width,"total pkts processed",pkt_processed);
+		printf("| %-*s | %-14d |\n",width,"total pkts in queue",pkt_in_queue);
+		printf("| %-*s | %-14d |\n",width,"total pkts in servers",pkt_in_server);
+		printf("| %-*s | %-14d |\n",width,"total pkts re-scheduled",rescheduled_pkt);
+		printf("| %-*s | %-14f |\n",width,"total time (s)",time/1e6);
+		printf("+-------------------------------------------------------+\n");
+		printf("| %-*s | %-14f |\n",width,"average latency (us)",overall_latency/pkt_processed);
+		printf("| %-*s | %-14.2f |\n",width,"average busy ratio (%)",overall_busy_ratio*100);
+		printf("| %-*s | %-14.2f |\n",width,"average idle ratio (%)",overall_idle_ratio*100);
+		printf("| %-*s | %-14.2f |\n",width,"average wakeup transition ratio (%)",overall_wakeup_ratio*100);
+		printf("| %-*s | %-14.2f |\n",width,"average DVFS transition ratio (%)",(overall_wakeup_DVFS_ratio+overall_busy_DVFS_ratio)*100);
+		printf("+-------------------------------------------------------+\n");
+		printf("| %-*s | %-14.2f |\n",width,"average core power (W)",(overall_P_state_power/m*(overall_busy_ratio+overall_wakeup_ratio+overall_wakeup_DVFS_ratio+overall_busy_DVFS_ratio)+Pc*overall_idle_ratio)); 
+		printf("| %-*s | %-14.2f |\n",width,"average active power (W)",overall_P_state_power/m*overall_busy_ratio);
+		printf("| %-*s | %-14.2f |\n",width,"average state transition power (W)",overall_P_state_power/m*(overall_wakeup_ratio+overall_wakeup_DVFS_ratio+overall_busy_DVFS_ratio));
+		printf("| %-*s | %-14.2f |\n",width,"average idle power (W)",Pc*overall_idle_ratio);
+		if(package_sleep > 0){ // package sleep enabled
+			printf("| %-*s | %-14.2f |\n",width,"average package power (W)",S*(1-overall_package_idle/time));
+			printf("| %-*s | %-14.2f |\n",width,"average package transition power (W)",S*(overall_package_transistion/time));
+		}
+		printf("+-------------------------------------------------------+\n\n");
 	}
-		
+	// print per core result	
 	if(!quiet){	
-		printf("\n************per core***********\n\n");
-		printf("busy period count\t");
+		printf("+------------------------------------------------------------------------------------------------+\n");
+		printf("+---------------------------------------per core resuelt-----------------------------------------+\n");
+		printf("+------------------------------------------------------------------------------------------------+\n");
+		printf("| %-4s | %-12s | %-12s | %-12s | %-12s | %-12s | %-12s |\n","core","pkt count","# of cycle","busy ratio","idle ratio", "wakeup ratio","avg latency");
 		for(j=0;j<m;j++){
-			printf("%d\t",server_busy_counter[j]);
+			printf("| %-4d | %-12d | %-12d | %-12f | %-12f | %-12f | %-12f |\n",j,server_pkts_counter[j],server_busy_counter[j],busy_ratio[j],idle_ratio[j],wakeup_ratio[j],latency[j]);
 		}
-		printf("\n");
-		printf("wake up count\t");
-		for(j=0;j<m;j++){
-			printf("%d\t",server_wakeup_counter[j]);
-		}
-		printf("\n");
-		for(j=0;j<m;j++){
-			printf("core %d: pkts : %d\t busy ratio: %f\t idle ratio: %f\t wakeup ratio: %f\tavg latency : %f\n",j,server_pkts_counter[j],busy_ratio[j],idle_ratio[j],wakeup_ratio[j],latency[j]);
-			//printf("server %d: pkts : %d\tavg busy : %f\t avg idle : %f\t avg latency : %f\n",j,server_pkts_counter[j],avg_busy[j],avg_idle[j],latency[j]);
-		}
+		printf("+------------------------------------------------------------------------------------------------+\n\n");
 	}
 	
 	// latency dist
@@ -1049,8 +1113,9 @@ int main(int argc, char **argv){
 	// printf("%d\t%.2f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,overall_P_state_power*overall_wakeup_ratio+overall_P_state_power*overall_wakeup_DVFS_ratio+overall_P_state_power*overall_busy_ratio+Pc*overall_idle_ratio*m,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
 	// printf("%.2f\t%f\t%f\t%f\t%f\t%f\t%f\n",p,overall_P_state_power*overall_wakeup_ratio,overall_P_state_power*(overall_wakeup_DVFS_ratio+overall_busy_DVFS_ratio),overall_P_state_power*overall_busy_ratio,Pc*overall_idle_ratio*m,overall_P_state_power*overall_wakeup_ratio+overall_P_state_power*overall_wakeup_DVFS_ratio+overall_P_state_power*overall_busy_ratio+Pc*overall_idle_ratio*m,S*(1-overall_package_idle/time));
 	// print power breakdown
-	printf("%.2f\t%f\t%f\t%f\t%f\t%f\t%f\n",p,avg_wakeup_transition_all,avg_DVFS_transition_all,avg_busy_all,avg_idle_all,avg_per_core_all,S*(1-overall_package_idle/time));
-	// printf("%d\t%.2f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,(overall_idle_power*(overall_idle_ratio+overall_wakeup_ratio)+overall_P_state_power/m*(overall_busy_ratio+overall_wakeup_DVFS_ratio))*m,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
+	printf("| %-4s | %-18s | %-18s | %-12s | %-12s | %-16s | %-14s | %-12s | %-18s | %-18s |\n","load","sleep trans power","DVFS trans power","busy power","idle power", "Avg Core Power", "package power","Avg Latency","95th tail latency","99th tail latency");
+	printf("| %-4.2f | %-18f | %-18f | %-12f | %-12f | %-16f | %-14f | %-12f | %-18d | %-18d |\n",p,avg_wakeup_transition_all,avg_DVFS_transition_all,avg_busy_all,avg_idle_all,avg_per_core_all,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp);
+	//printf("%d\t%.2f\t%f\t%f\t%f\t%d\t%d\t%d\tC%d\n",m,p,(overall_idle_power*(overall_idle_ratio+overall_wakeup_ratio)+overall_P_state_power/m*(overall_busy_ratio+overall_wakeup_DVFS_ratio))*m,S*(1-overall_package_idle/time),overall_latency/pkt_processed,nfp,nnp,LC,C_state);
 	// for (j=0;j<latency_bound+1;j++)
 		// hist_array[j]=0;
 	// hist_double(hist_array, server_idle_time[0], &nfp,&nnp);
@@ -1064,24 +1129,20 @@ Function to generate exponentially distributed RVs
 Input: x (mean value of distribution) 
 Output: Returns with exponential RV 
 *************************************************************************/
-double expntl(double x)
-{
-double z; // Uniform random number from 0 to 1
+double expntl(double x) {
+	double z; // Uniform random number from 0 to 1
 
+	// Pull a uniform RV (0 < z < 1)
+	do {
+		z = ((double) rand() / RAND_MAX);
+	}
+	while ((z == 0) || (z == 1));
 
-// Pull a uniform RV (0 < z < 1)
-do
-{
-z = ((double) rand() / RAND_MAX);
-}
-while ((z == 0) || (z == 1));
-
-return(-x * log(z));
+	return(-x * log(z));
 }
 
 
-int rand_int(int b)
-{
+int rand_int(int b){
     //The basic function here is like (rand() % range)+ Lower_bound
 
         return((rand() % (b)));
@@ -1099,18 +1160,29 @@ int generate_iat(int count, double* cdf){
 	return count;
 }
 
-void read_dist(double* avg_service_time){
+// read service time distribution file, return true abd the average service time
+// return false if file does not exist
+bool read_service_dist(double* avg_service_time){
 	FILE *trace_file;
-	
-	trace_file = fopen(FILE_SERVICE, "r");
-	// printf("fopend\n");
 	int line_count=0;
 	double unit;
-	fscanf(trace_file, "%d%lf", &line_count, &unit);
-	// printf("%d\t%f\n",line_count,unit);
+	
+	trace_file = fopen(FILE_SERVICE, "r");
+	if (trace_file == NULL){
+		*avg_service_time=0.00001;
+		service_tail=log(1-0.95)/(-(1/ *avg_service_time))*1e6;
+		if(!quiet) {
+			printf("Service trace does not exist at %s\n",FILE_SERVICE);
+			printf("use fix average service time %f us\n", *avg_service_time*1000000);
+			printf("service tail %f us\n", service_tail);
+		}
+		// generate service cdf and service count
+		return false;
+		
+	} else {
+		fscanf(trace_file, "%d%lf", &line_count, &unit);
+	}
 	service_count=line_count;
-	// double* service_length;
-// double* service_cdf;
 	service_length = malloc(line_count*sizeof(double));
 	service_cdf = malloc(line_count*sizeof(double));
 	double *pdf = malloc(line_count*sizeof(double));
@@ -1120,12 +1192,10 @@ void read_dist(double* avg_service_time){
 	while (fscanf(trace_file, "%lf%lf", &a,&b) != EOF) {
 		service_length[read_counter]=a;
 		service_cdf[read_counter]=b;
-		// printf("%f\t%f\n",service_length[read_counter],service_cdf[read_counter]);
 		read_counter++;
 		
 	}
 	fclose(trace_file);
-	
 	double average=0;
 	double check=0;
 	for(int i=0;i<line_count;i++){
@@ -1139,10 +1209,11 @@ void read_dist(double* avg_service_time){
 	}
 	*avg_service_time=average;
 	service_tail=pdf_to_tail(pdf,line_count)*1e6*unit;
-	
+	return true;
 }
 
-
+// read the PKT arrival distribution from file, scale to the target mean interarrival time
+// return -1 if no arrival distribution file found
 int read_and_scale_dist(double target_mean){
 	if(FILE_ARRIVAL==0){// use exponential{
 		return -1;
