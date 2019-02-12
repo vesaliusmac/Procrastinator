@@ -22,13 +22,13 @@ GGk_sleepscale: sleepscale_bruteforce.c GGk_sleepscale.c arrival.h
 GGk_default: GGk_default.c arrival.h
 	gcc -std=c99 -o GGk_default GGk_default.c -lm
 clean:
-	rm GGk_dyn_sleep
-	rm GGk_powernap
-	rm GGk_dreamweaver
-	rm GGk_rubik
-	rm GGk_dyn_sleep_dvfs
-	rm GGk_procrastinator_central
-	rm GGk_procrastinator_central_critical
-	rm sleepscale_per_config
-	rm GGk_sleepscale
-	rm GGk_default
+	rm -f GGk_dyn_sleep
+	rm -f GGk_powernap
+	rm -f GGk_dreamweaver
+	rm -f GGk_rubik
+	rm -f GGk_dyn_sleep_dvfs
+	rm -f GGk_procrastinator_central
+	rm -f GGk_procrastinator_central_critical
+	rm -f sleepscale_per_config
+	rm -f GGk_sleepscale
+	rm -f GGk_default
